@@ -22,7 +22,7 @@ public class Datum implements Comparable<Datum> {
 		this.setJaar(datumNu.getYear());
 		this.setMaand(datumNu.getMonth());
 		this.setDag(datumNu.getDay());
-	} // end ctor Datum
+	} // end constructor Datum
 
 	// constructor met datum parameter
 	public Datum(Datum d) {
