@@ -33,18 +33,9 @@ public class Datum2 implements Comparable<Datum2>
 	{
 		this();
 		
-		//Splits string dd/mm/yyyy into array[3]{dd, mm, yyyy}
-		String[] datumAlsArrayS = datum.split("/"); 
-		
-		//Converts String array into Integer array
-		int[] datumAlsArrayI = new int[datumAlsArrayS.length]; 			
-		for (int i = 0; i < datumAlsArrayI.length; i++) 
-		{
-			datumAlsArrayI[i] = Integer.parseInt(datumAlsArrayS[i]);
-		}
-		calendar.set(setJaar(datumAlsArrayI[2]), 
-				setMaand(datumAlsArrayI[1]), 
-				setDag(datumAlsArrayI[0])); 
+		this.calendar.set(setJaar(Integer.parseInt(datum.split("/")[2])), 
+				setMaand(Integer.parseInt(datum.split("/")[1])), 
+				setDag(Integer.parseInt(datum.split("/")[0]))); 
 
 	}
 	private int setDag(int dag) throws IllegalArgumentException
