@@ -258,8 +258,8 @@ public class Datum implements Comparable<Datum> {
 		return Math.abs(verschilMaanden);
 	} // end verschilInMaanden
 
-	public int verschilInDagen(Datum d) {
-
-		return 0;
-	}
+	// public int verschilInDagen(Datum d) {
+	//
+	// return 0;
+	// }
 }// end class Datum
