@@ -26,39 +26,35 @@ public class Datum2 implements Comparable<Datum2>
 	public Datum2(int dag, int maand, int jaar)
 	{
 		this();
-		this.calendar.set(setJaar(jaar), setMaand(maand), setDag(dag));
+		this.setDatum(dag, maand, jaar);
 	}
 	
 	public Datum2(String datum)
 	{
 		this();
 		
-		//Splits string dd/mm/yyyy into array[3]{dd, mm, yyyy}
-		String[] datumAlsArrayS = datum.split("/"); 
-		
-		//Converts String array into Integer array
-		int[] datumAlsArrayI = new int[datumAlsArrayS.length]; 			
-		for (int i = 0; i < datumAlsArrayI.length; i++) 
-		{
-			datumAlsArrayI[i] = Integer.parseInt(datumAlsArrayS[i]);
-		}
-		calendar.set(setJaar(datumAlsArrayI[2]), 
-				setMaand(datumAlsArrayI[1]), 
-				setDag(datumAlsArrayI[0])); 
+		this.setDatum(Integer.parseInt(datum.split("/")[0]),
+					Integer.parseInt(datum.split("/")[1]),
+					Integer.parseInt(datum.split("/")[2])); 
 
 	}
 	private int setDag(int dag) throws IllegalArgumentException
 	{
-		if (dag > 0 || dag <= DAGEN_PER_MAAND[this.getMaand()])	return dag;
-		if (this.getMaand() == 2 && dag == 29 && this.calendar.isLeapYear(this.getJaar()) ) return dag;
-		
-		throw new IllegalArgumentException ("fout dag");
+		if (dag > 0 && dag <= DAGEN_PER_MAAND[this.getMaand()])	
+			{
+			return dag;
+			}
+		else if (dag == 29 && this.getMaand() == 2 && this.calendar.isLeapYear(this.getJaar())) 
+			{
+			return dag;
+			}
+		else throw new IllegalArgumentException ("fout dag");
 	}
 
 	private int setMaand(int maand) throws IllegalArgumentException 
 	{
-		if (maand <0 || maand > 11) throw new IllegalArgumentException ("fout maand");
-		return maand;
+		if (maand <= 0 || maand > 12) throw new IllegalArgumentException ("fout maand");
+		return maand - 1;
 	}
 
 	private int setJaar(int jaar) throws IllegalArgumentException
@@ -70,7 +66,9 @@ public class Datum2 implements Comparable<Datum2>
 	(indien ongeldige dag of maand Exception werpen) */
 	public boolean setDatum(int dag, int maand, int jaar)
 	{
-		this.calendar.set(setJaar(jaar), setMaand(maand), setDag(dag));
+		this.calendar.set(Calendar.YEAR, setJaar(jaar));
+		this.calendar.set(Calendar.MONTH, setMaand(maand));
+		this.calendar.set(Calendar.DAY_OF_MONTH, setDag(dag));
 		return true;
 	}
 	public int getJaar()
@@ -186,13 +184,17 @@ public class Datum2 implements Comparable<Datum2>
 	{
 		try
 		{
-			Datum2 d = new Datum2("18/04/1962");
-			Datum2 b = new Datum2(3, 1, 2011);
-			System.out.print(d);
-			System.out.println();
-			System.out.print(b);
-			System.out.println();
-			System.out.println(d.kleinerDan(b));
+			Datum2 c = new Datum2();
+			System.out.println(c);
+			Datum2 d = new Datum2("28/3/1963");
+			System.out.println(d.getMaand());
+			System.out.println(d);
+			Datum2 b = new Datum2(31, 12, 2014);
+			System.out.println(b);
+			System.out.println(b.getMaand());
+			Datum2 a = new Datum2(b);
+			System.out.println(a.veranderedDatum(3));
+			System.out.println(b.kleinerDan(d));
 			System.out.println();
 
 		}
