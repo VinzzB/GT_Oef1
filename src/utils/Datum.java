@@ -233,5 +233,33 @@ public class Datum implements Comparable<Datum> {
 			return true;
 		}
 		return false;
+	} // end kleinerDan
+
+	public int verschilInJaren(Datum d) {
+		int verschil = 0;
+		verschil = verschilInMaanden(d) / 12;
+		return Math.abs(verschil);
+	} // end verschilInJaren
+
+	public int verschilInMaanden(Datum d) {
+		int maandenDatum1;
+		int maandenDatum2;
+		int verschilMaanden;
+		maandenDatum1 = this.jaar * 12;
+		maandenDatum1 += this.maand;
+		maandenDatum2 = d.jaar * 12;
+		maandenDatum2 += d.maand;
+		if (kleinerDan(d) == true) {
+			verschilMaanden = maandenDatum2 - maandenDatum1;
+
+		} else {
+			verschilMaanden = maandenDatum1 - maandenDatum2;
+		}
+		return Math.abs(verschilMaanden);
+	} // end verschilInMaanden
+
+	public int verschilInDagen(Datum d) {
+
+		return 0;
 	}
 }// end class Datum
