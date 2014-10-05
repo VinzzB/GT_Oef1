@@ -1,5 +1,5 @@
 package utils;
-// Test123
+
 import java.util.Date;
 
 public class Datum implements Comparable<Datum> {
@@ -12,10 +12,8 @@ public class Datum implements Comparable<Datum> {
 	private int jaar;
 
 	/**
-	 *
-	 * Constructors
+	 * Constructor zonder parameters
 	 */
-	// constructor zonder parameters
 	@SuppressWarnings("deprecation")
 	public Datum() {
 		Date datumNu = new Date();
@@ -24,21 +22,32 @@ public class Datum implements Comparable<Datum> {
 		this.setDag(datumNu.getDay());
 	} // end constructor Datum
 
-	// constructor met datum parameter
+	/**
+	 * Constructor met datum parameter
+	 * @param d
+	 */
 	public Datum(Datum d) {
 		this.setJaar(d.jaar);
 		this.setMaand(d.maand);
 		this.setDag(d.dag);
 	}
 
-	// constructor met 3 gehele getallen
+	/**
+	 * constructor met 3 gehele getallen
+	 * @param dag
+	 * @param maand
+	 * @param jaar
+	 */
 	public Datum(int dag, int maand, int jaar) {
 		this.setJaar(jaar);
 		this.setMaand(maand);
 		this.setDag(dag);
 	}
 
-	// constructor met String
+	/**
+	 * constructor met String
+	 * @param datumTekst
+	 */
 	public Datum(String datumTekst) {
 		this.setJaar(Integer.parseInt(datumTekst.split("/")[2]));
 		this.setMaand(Integer.parseInt(datumTekst.split("/")[1]));
@@ -53,6 +62,10 @@ public class Datum implements Comparable<Datum> {
 		return dag;
 	}// end method getDag
 
+	/**
+	 * 
+	 * @param dag
+	 */
 	private void setDag(int dag) {
 		if (dag >= 1 && dag <= 31) // test of dag tussen 1 en 31 ligt
 		{ // begin if
