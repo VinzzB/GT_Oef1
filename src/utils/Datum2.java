@@ -54,7 +54,7 @@ public class Datum2 implements Comparable<Datum2>
 	private int setMaand(int maand) throws IllegalArgumentException 
 	{
 		if (maand <= 0 || maand > 12) throw new IllegalArgumentException ("fout maand");
-		return maand - 1;
+		return maand;
 	}
 
 	private int setJaar(int jaar) throws IllegalArgumentException
@@ -78,7 +78,7 @@ public class Datum2 implements Comparable<Datum2>
 	
 	public int getMaand()
 	{
-		return this.calendar.get(Calendar.MONTH);
+		return this.calendar.get(Calendar.MONTH) + 1;
 	}
 	
 	public int getDag()
@@ -94,13 +94,13 @@ public class Datum2 implements Comparable<Datum2>
 	/** geeft een datum in Amerikaans formaat terug (vb 2009/2/4)*/
 	public String getDatumInAmerikaansFormaat()
 	{
-		return String.format("%d/%d/%d", this.getJaar(), this.getMaand() + 1, this.getDag());
+		return String.format("%d/%d/%d", this.getJaar(), this.getMaand(), this.getDag());
 	}
 	
 	/**geeft een datum in Europees formaat terug   (vb 4/2/2009)*/
 	public String getDatumInEuropeesFormaat()
 	{
-		return String.format("%d/%d/%d", this.getDag(), this.getMaand() + 1, this.getJaar());
+		return String.format("%d/%d/%d", this.getDag(), this.getMaand(), this.getJaar());
 	}
 	
 	/**geeft datum object terug als volgt: 4 februari 2009*/
@@ -114,7 +114,8 @@ public class Datum2 implements Comparable<Datum2>
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
-	public int hashCode() {
+	public int hashCode() 
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
@@ -126,14 +127,18 @@ public class Datum2 implements Comparable<Datum2>
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object obj) 
+	{
+		if (this == obj) 
+		{
 			return true;
 		}
-		if (obj == null) {
+		if (obj == null) 
+		{
 			return false;
 		}
-		if (!(obj instanceof Datum2)) {
+		if (!(obj instanceof Datum2)) 
+		{
 			return false;
 		}
 		Datum2 other = (Datum2) obj;
@@ -223,7 +228,7 @@ public class Datum2 implements Comparable<Datum2>
 		{
 			Datum2 c = new Datum2();
 			System.out.println(c);
-			Datum2 d = new Datum2("28/3/1963");
+			Datum2 d = new Datum2("29/2/1964");
 			System.out.println(d.getMaand());
 			System.out.println(d);
 			Datum2 b = new Datum2(31, 12, 2014);
