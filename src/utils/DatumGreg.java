@@ -16,12 +16,13 @@ public class DatumGreg {
 	private int jaar;
 	private String sDate;
 	private Date dDatum;
-	
+	 
 	
 //Constructor----------------------------------------------------
 	
 	public DatumGreg()
 	{		
+		
 	}
 	
 	public DatumGreg(Date date)
