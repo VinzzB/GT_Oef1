@@ -17,9 +17,6 @@ public class VeranderDate {
 		month = date1.getMonth();
 		year = date1.getYear();
 		if (aantalDagen > 0) {
-			// day = date.getDay();
-			// month = Mindate.getMonth();
-			// year = Mindate.getYear();
 
 			for (int i = 1; i <= aantalDagen; i++) {
 				if (day < NormalDate.getDagenInMaand(month, year)) {
