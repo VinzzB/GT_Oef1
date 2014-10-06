@@ -86,6 +86,11 @@ public class Datum2 implements Comparable<Datum2>
 		return this.calendar.get(Calendar.DAY_OF_MONTH);
 	}
 	
+	public GregorianCalendar getCalendar()
+	{
+		return this.calendar;
+	}
+	
 	/** geeft een datum in Amerikaans formaat terug (vb 2009/2/4)*/
 	public String getDatumInAmerikaansFormaat()
 	{
@@ -105,26 +110,58 @@ public class Datum2 implements Comparable<Datum2>
 		return String.format("%d %s % d", this.getDag(), MAANDEN[this.getMaand()], this.getJaar());
 	}
 	
-	public boolean equals(Object datum)
-	{
-		return this.calendar.equals(datum);
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((calendar == null) ? 0 : calendar.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Datum2)) {
+			return false;
+		}
+		Datum2 other = (Datum2) obj;
+		if (calendar == null) {
+			if (other.getCalendar() != null) {
+				return false;
+			}
+		} else if (!calendar.equals(other.getCalendar())) {
+			return false;
+		}
+		return true;
 	}
 	
 	public int compareTo(Datum2 datum) 
 	{
-		return this.calendar.compareTo(datum.calendar);
+		return this.calendar.compareTo(datum.getCalendar());
 	}
 	
 	/**bepaalt of een datum d kleiner is dan huidig datumobject*/
 	public boolean kleinerDan(Datum2 datum)
 	{
-		return this.calendar.after(datum.calendar);
+		return this.calendar.after(datum.getCalendar());
 	}
 	
 	/**bepaalt of een datum d groter is dan huidig datumobject*/
 	public boolean groterDan(Datum2 datum)
 	{
-		return this.calendar.before(datum.calendar);
+		return this.calendar.before(datum.getCalendar());
 	}
 	
 	/**bepaalt het verschil in volledige jaren tussen datum d en huidig datumobject  

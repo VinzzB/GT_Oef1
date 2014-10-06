@@ -12,33 +12,42 @@ public class Datum implements Comparable<Datum> {
 	private int jaar;
 
 	/**
-	 *
-	 * Constructors
+	 * Constructor zonder parameters
 	 */
-	// constructor zonder parameters
 	@SuppressWarnings("deprecation")
 	public Datum() {
 		Date datumNu = new Date();
 		this.setJaar(datumNu.getYear());
 		this.setMaand(datumNu.getMonth());
 		this.setDag(datumNu.getDay());
-	} // end constructor Datum
+	}
 
-	// constructor met datum parameter
+	/**
+	 * Constructor met Datum object parameter
+	 * @param d
+	 */
 	public Datum(Datum d) {
 		this.setJaar(d.jaar);
 		this.setMaand(d.maand);
 		this.setDag(d.dag);
 	}
 
-	// constructor met 3 gehele getallen
+	/**
+	 * Constructor met datum parameters: 3 gehele getallen
+	 * @param dag
+	 * @param maand
+	 * @param jaar
+	 */
 	public Datum(int dag, int maand, int jaar) {
 		this.setJaar(jaar);
 		this.setMaand(maand);
 		this.setDag(dag);
 	}
 
-	// constructor met String
+	/**
+	 * constructor met String in de vorm van 15/05/2014
+	 * @param datumTekst
+	 */
 	public Datum(String datumTekst) {
 		this.setJaar(Integer.parseInt(datumTekst.split("/")[2]));
 		this.setMaand(Integer.parseInt(datumTekst.split("/")[1]));
@@ -51,11 +60,16 @@ public class Datum implements Comparable<Datum> {
 	 */
 	public int getDag() {
 		return dag;
-	}// end method getDag
+	}
 
+	/**
+	 * 
+	 * @param dag
+	 */
 	private void setDag(int dag) {
+		
 		if (dag >= 1 && dag <= 31) // test of dag tussen 1 en 31 ligt
-		{ // begin if
+		{
 			switch (maand) {
 			case 2:
 				if (dag > 29) // februari: maximum 29
@@ -86,6 +100,7 @@ public class Datum implements Comparable<Datum> {
 
 				}
 				break;
+				
 			case 4:
 			case 6:
 			case 9:
@@ -97,20 +112,21 @@ public class Datum implements Comparable<Datum> {
 					this.dag = dag;
 				}
 				break;
+				
 			default:
 				this.dag = dag;
 				break;
-			} // end switch
-		} // end if
+			}
+		}
 		else { // dag groter dan 31
 			throw new IllegalArgumentException("dag moet tussen 1 en 31 liggen");
-		} // end else
+		}
 
-	}// end method setDag
+	}
 
 	public int getMaand() {
 		return maand;
-	}// end method getMaand
+	}
 
 	private void setMaand(int maand) {
 		// test of maand tussen 1 en 12 ligt
@@ -120,11 +136,11 @@ public class Datum implements Comparable<Datum> {
 			throw new IllegalArgumentException("maand moet tussen 1 en 12 liggen");
 		}
 
-	}// end method setMaand
+	}
 
 	public int getJaar() {
 		return jaar;
-	}// end method getJaar
+	}
 
 	private void setJaar(int jaar) {
 		// test of jaar groter of gelijk aan 0 is
@@ -133,7 +149,7 @@ public class Datum implements Comparable<Datum> {
 		} else {
 			throw new IllegalArgumentException("ongeldige waarde voor jaar");
 		}
-	}// end method setJaar
+	}
 
 	public String getDatumInAmerikaansFormaat() {
 		return this.jaar + "/" + this.maand + "/" + this.dag;
@@ -185,7 +201,7 @@ public class Datum implements Comparable<Datum> {
 			break;
 		}
 		return "" + this.dag + " " + maandTekst + " " + this.jaar;
-	} // end ToString
+	}
 
 	@Override
 	public int hashCode() {
@@ -215,7 +231,7 @@ public class Datum implements Comparable<Datum> {
 			return false;
 		}
 		return true;
-	} // end equals
+	}
 
 	@Override
 	public int compareTo(Datum d) {
@@ -226,20 +242,20 @@ public class Datum implements Comparable<Datum> {
 			return -1;
 		}
 		return 0;
-	} // end compareTo
+	}
 
 	public boolean kleinerDan(Datum d) {
 		if (this.compareTo(d) == 1) {
 			return true;
 		}
 		return false;
-	} // end kleinerDan
+	}
 
 	public int verschilInJaren(Datum d) {
 		int verschil = 0;
 		verschil = verschilInMaanden(d) / 12;
 		return Math.abs(verschil);
-	} // end verschilInJaren
+	}
 
 	public int verschilInMaanden(Datum d) {
 		int maandenDatum1;
@@ -256,10 +272,10 @@ public class Datum implements Comparable<Datum> {
 			verschilMaanden = maandenDatum1 - maandenDatum2;
 		}
 		return Math.abs(verschilMaanden);
-	} // end verschilInMaanden
+	}
 
 	// public int verschilInDagen(Datum d) {
 	//
 	// return 0;
 	// }
-}// end class Datum
+}
