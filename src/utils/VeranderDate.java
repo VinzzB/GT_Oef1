@@ -1,6 +1,6 @@
 package utils;
 
-/* Created by:
+/* Created by: Silvia
  * ------------------------------------
  * Helper class for NormalDate class.
  * ------------------------------------
