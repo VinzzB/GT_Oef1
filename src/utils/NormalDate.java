@@ -224,10 +224,10 @@ public class NormalDate implements Comparable<NormalDate>
 				//aantalDagen groter dan de dag? => month (/ year) -1 
 				if (aantalDagen <= -d) 
 				{ 
-					aantalDagen += d;
+					aantalDagen += d; //verminder met aantal dagen in huidige maand.
 					y -= (m == 1 ? 1 : 0); //verminder jaartal?
-					m = (m ==1 ? 13 : m) -1; //verminder maand?
-					d = getDagenInMaand(m, y);  //zet las laatste dag van vorige maand
+					m = (m ==1 ? 12 : m-1); //verminder maand?
+					d = getDagenInMaand(m, y);  //zet als laatste dag van (vorige) maand
 				}								
 			} while (true);			
 		}
