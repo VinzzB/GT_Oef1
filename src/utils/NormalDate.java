@@ -52,27 +52,18 @@ public class NormalDate implements Comparable<NormalDate>
 			System.out.println(a.verschilInDagen(b));
 			
 			System.out.println("a is leap year: " + a.IsLeapYear());
-			System.out.println("b is leap year: " + b.IsLeapYear());
+			System.out.println("b is leap year: " + b.IsLeapYear());			
 			
-			System.out.print("Verhoog a met 1 dag: ");
-			System.out.println(a.veranderDatum(1));
-						
-			for (int x = 24; x < 365; x++)
+			for (int x = 1; x < 365; x++)
 			{
 				System.out.print("Verhoog a met "+x+" dagen: ");
-				System.out.println(a.veranderDatum(x));
-			}			
-			
-			System.out.print("Verhoog a met 90 dagen: ");
-			System.out.println(a.veranderDatum(90));
-			
-			System.out.print("Verhoog a met 365 dagen: ");
-			System.out.println(a.veranderDatum(365));			
+				System.out.println(a.veranderDatum(x) + " check verschil: " + a.verschilInDagen(a.veranderDatum(x)));
+			}								
 			
 			for (int x = -1; x > -365; x--)
 			{					
 				System.out.print("Verlaag a met "+x+" dag: ");
-				System.out.println(a.veranderDatum(x));			
+				System.out.println(a.veranderDatum(x) + " check verschil: " + a.verschilInDagen(a.veranderDatum(x)));		
 			}			
 		}
 		catch (Exception ex)
@@ -172,11 +163,24 @@ public class NormalDate implements Comparable<NormalDate>
 		//Same object? = Always true
 		if (this == obj) return true;
 		//Same Type?
-		if (!(obj instanceof NormalDate)) return false;
-		//CompareDate and return true if equal. Todo: Implement Hashcode
+		if (obj == null || !(obj instanceof NormalDate)) return false;
+		//CompareDate and return true if equal.
 		return compareTo((NormalDate)obj)==0;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 37;
+		int result = 1;
+		result = prime * result + day;
+		result = prime * result + month;
+		result = prime * result + year;
+		return result;
+	}
+
 	public boolean kleinerDan(NormalDate date)
 	{ return compareTo(date)==-1; }
 	
@@ -205,10 +209,10 @@ public class NormalDate implements Comparable<NormalDate>
 			do {
 				if (aantalDagen+d <= getDagenInMaand(m,y))
 				{ break; }
-				aantalDagen -= getDagenInMaand(m, y)-d+1;	
+				aantalDagen -= getDagenInMaand(m, y)-d+1; //verminder met dagen in maand	
 				y += (m == 12 ? 1 : 0); //verhoog jaar?
 				m = (m == 12 ? 1 : m+1); //verhoog maand?
-				d = 1;												
+				d = 1; //Nieuwe maand												
 			} while (true);			
 		}
 		else // negative value, go back in time!
@@ -221,12 +225,11 @@ public class NormalDate implements Comparable<NormalDate>
 				if (aantalDagen <= -d) 
 				{ 
 					aantalDagen += d;
-					y -= (m == 1 ? 1 : 0);
-					m = (m ==1 ? 13 : m) -1;
-					d = getDagenInMaand(m, y);
+					y -= (m == 1 ? 1 : 0); //verminder jaartal?
+					m = (m ==1 ? 13 : m) -1; //verminder maand?
+					d = getDagenInMaand(m, y);  //zet las laatste dag van vorige maand
 				}								
-			} while (true);
-			
+			} while (true);			
 		}
 		return new NormalDate(d+aantalDagen, m, y);
 	}
