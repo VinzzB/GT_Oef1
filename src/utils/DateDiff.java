@@ -49,10 +49,7 @@ public class DateDiff {
 			}
 			days +=  Maxdate.getDay() - Mindate.getDay();
 		}
-						
-			
 			years = months / 12; //=int
-//		return (int)((date.year - year) * 365.25) + ((date.month - month) * 30) + (date.day - day);		
 	}
 
 	public int getDays() {
