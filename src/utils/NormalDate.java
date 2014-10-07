@@ -182,7 +182,7 @@ public class NormalDate implements Comparable<NormalDate>
 	}
 
 	public boolean kleinerDan(NormalDate date)
-	{ return compareTo(date)==-1; }
+	{ return compareTo(date) < 0; }
 	
 	public int verschilInDagen(NormalDate date)
 	{ 					
