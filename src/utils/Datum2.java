@@ -78,7 +78,7 @@ public class Datum2 implements Comparable<Datum2>
 	
 	public int getMaand()
 	{
-		return this.calendar.get(Calendar.MONTH) + 1;
+		return this.calendar.get(Calendar.MONTH);
 	}
 	
 	public int getDag()
