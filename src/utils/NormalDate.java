@@ -3,8 +3,8 @@ import java.util.Date;
 /* Created By: Vinzz */
 public class NormalDate implements Comparable<NormalDate>
 {
-	private static final int[] DAGEN_PER_MAAND = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-	private static final String MAANDEN[] = {"januari", "februari", "maart", "april", "mei","juni","juli",
+	static final int[] DAGEN_PER_MAAND = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    static final String MAANDEN[] = {"januari", "februari", "maart", "april", "mei","juni","juli",
 											 "augustus","september","obtober","november","december"};
 	private int day = 0;
 	private int month = 0;
@@ -205,31 +205,22 @@ public class NormalDate implements Comparable<NormalDate>
 		int m = month;
 		int y = year;
 		if (aantalDagen > 0)
-		{									
-			do {
-				if (aantalDagen+d <= getDagenInMaand(m,y))
-				{ break; }
+		{				
+			while (aantalDagen+d > getDagenInMaand(m,y)) {
 				aantalDagen -= getDagenInMaand(m, y)-d+1; //verminder met dagen in maand	
 				y += (m == 12 ? 1 : 0); //verhoog jaar?
 				m = (m == 12 ? 1 : m+1); //verhoog maand?
-				d = 1; //Nieuwe maand												
-			} while (true);			
+				d = 1; //Nieuwe maand	
+			}
 		}
 		else // negative value, go back in time!
-		{			
-			do {
-				//Break do wanneer de restwaarde van aantalDagen kleiner is dan de dag
-				if (-d < aantalDagen) 
-				{ break; }
-				//aantalDagen groter dan de dag? => month (/ year) -1 
-				if (aantalDagen <= -d) 
-				{ 
-					aantalDagen += d; //verminder met aantal dagen in huidige maand.
-					y -= (m == 1 ? 1 : 0); //verminder jaartal?
-					m = (m ==1 ? 12 : m-1); //verminder maand?
-					d = getDagenInMaand(m, y);  //zet als laatste dag van (vorige) maand
-				}								
-			} while (true);			
+		{		
+			while (-d >= aantalDagen) {
+				aantalDagen += d; //verminder met aantal dagen in huidige maand.
+				y -= (m == 1 ? 1 : 0); //verminder jaartal?
+				m = (m ==1 ? 12 : m-1); //verminder maand?
+				d = getDagenInMaand(m, y);  //zet als laatste dag van (vorige) maand
+			}		
 		}
 		return new NormalDate(d+aantalDagen, m, y);
 	}
