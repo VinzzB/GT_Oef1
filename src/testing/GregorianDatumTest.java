@@ -8,34 +8,35 @@ import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
 
-import utils.Datum2;
+import utils.GregorianDatum;;
 
-public class Datum2Test 
+public class GregorianDatumTest 
 {
-	private Datum2 datumInt, datumString, datumKleiner, datumGroter;
-	private Datum2[] data;
+	private GregorianDatum datumInt, zelfdeDatum, datumString, datumKleiner, datumGroter;
+	private GregorianDatum[] data;
 	private Random random = new Random();
 
 	@Before
 	public void setUp() throws Exception 
 	{
-		datumInt = new Datum2(3, 11, 2014);
-		datumString = new Datum2("3/11/2014");
-		datumKleiner = new Datum2(1, 11, 2014);
-		datumGroter = new Datum2(30, 11, 2015);	
+		datumInt = new GregorianDatum(3, 11, 2014);
+		zelfdeDatum = new GregorianDatum(3, 11, 2014);
+		datumString = new GregorianDatum("3/11/2014");
+		datumKleiner = new GregorianDatum(1, 11, 2014);
+		datumGroter = new GregorianDatum(30, 11, 2015);	
 		
-		data = new Datum2[20];
+		data = new GregorianDatum[20];
 		
 		for (int i = 0; i < 20; i++) 
 		{
-			data[i] = new Datum2(random.nextInt(27) + 1, random.nextInt(11) + 1, random.nextInt(200) + 1970);
+			data[i] = new GregorianDatum(random.nextInt(27) + 1, random.nextInt(11) + 1, random.nextInt(200) + 1970);
 		}
 	}
 
 	@Test
 	public void test_Datum2_Met_gegeven_dag_maand_en_jaar_wordt_aangemaakt() 
 	{
-		Datum2 d = new Datum2(29, 11, 2014);
+		GregorianDatum d = new GregorianDatum(29, 11, 2014);
 		assertEquals(29, d.getDag());
 		assertEquals(10, d.getMaand());
 		assertEquals(2014, d.getJaar());
@@ -44,7 +45,7 @@ public class Datum2Test
 	@Test
 	public void test_Datum2_default_Constructor_voor_vandaag() 
 	{
-		Datum2 d = new Datum2();
+		GregorianDatum d = new GregorianDatum();
 		assertEquals(new GregorianCalendar(), d.getCalendar());
 	}
 
@@ -64,7 +65,7 @@ public class Datum2Test
 			int r3 = random.nextInt(200) + 1970;
 			datumInt.setDatum(r1, r2, r3);
 			assertEquals(r1, datumInt.getDag());
-			assertEquals(r2 - 1, datumInt.getMaand());
+			assertEquals(r2, datumInt.getMaand() + 1);
 			assertEquals(r3, datumInt.getJaar());
 		}
 	}
@@ -72,7 +73,7 @@ public class Datum2Test
 	@Test
 	public void test_GetDatumInAmerikaansFormaat() 
 	{
-		for (Datum2 d : data) 
+		for (GregorianDatum d : data) 
 		{
 			System.out.println(d.getDatumInAmerikaansFormaat());
 		}
@@ -81,7 +82,7 @@ public class Datum2Test
 	@Test
 	public void test_GetDatumInEuropeesFormaat() 
 	{
-		for (Datum2 d : data) 
+		for (GregorianDatum d : data) 
 		{
 			System.out.println(d.getDatumInEuropeesFormaat());
 		}
@@ -90,7 +91,7 @@ public class Datum2Test
 	@Test
 	public void test_ToString() 
 	{
-		for (Datum2 d : data) 
+		for (GregorianDatum d : data) 
 		{
 			System.out.println(d);
 		}
@@ -99,7 +100,7 @@ public class Datum2Test
 	@Test
 	public void test_EqualsObject_True() 
 	{
-		assertTrue(datumInt.equals(datumString));
+		assertTrue(datumInt.equals(zelfdeDatum));
 	}
 	
 	@Test
@@ -153,11 +154,28 @@ public class Datum2Test
 	}
 
 	@Test
-	public void test_VerschillInDagen() 
+	public void test_VerschillInDagen1() 
+	{
+		assertEquals(394, datumGroter.verschillInDagen(datumKleiner));
+	}
+	
+	@Test
+	public void test_VerschillInDagen2() 
 	{
 		assertEquals(2, datumInt.verschillInDagen(datumKleiner));
 	}
-
+	
+	@Test
+	public void test_VerschillInDagen3() 
+	{
+		assertEquals(392, datumGroter.verschillInDagen(datumInt));
+	}
+	
+	@Test
+	public void test_VerschillInDagen4() 
+	{
+		assertEquals(0, datumInt.verschillInDagen(datumString));
+	}
 	@Test
 	public void test_VerschillInMillis() 
 	{

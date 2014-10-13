@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import utils.Datum2;
+import utils.GregorianDatum;;
 
 public class Analysis 
 {
 	String[] namen = new String[12];
 	String[] daten = new String[12];
-	Datum2[] ddaten = new Datum2[12];
+	GregorianDatum[] ddaten = new GregorianDatum[12];
 	
 	String lijn;
 	
@@ -34,7 +34,7 @@ public class Analysis
 					  String [] velden = lijn.split("\t");
 					  namen[i] = velden[0];
 					  daten[i] = velden[1];
-					  ddaten[i] = new Datum2(daten[i]);
+					  ddaten[i] = new GregorianDatum(daten[i]);
 					  i++;
 				  }
 				  catch(Exception ex)
