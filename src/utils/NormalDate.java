@@ -26,7 +26,7 @@ public class NormalDate implements Comparable<NormalDate>
 		{		
 //			NormalDate a = new NormalDate("03/01/2009");
 //			NormalDate b = new NormalDate(3,2,2009);
-//			
+//			test
 			NormalDate a = new NormalDate(1, 3, 2007);
 			NormalDate b  = new NormalDate(3, 1, 2009);
 			
