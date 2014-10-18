@@ -1,13 +1,11 @@
 package testing;
 
 import org.junit.Test;
-
 import static org.junit.Assert.*;
-
 import org.junit.Before;
-
 import utils.NormalDate;
 
+@SuppressWarnings("unused")
 public class NormalDateTest {
 	
 	private NormalDate dateNorm, dateEqual, dateKleinerEnNietLeap, dateGroterEnLeap, dateNewLeapYear, dateNewNotLeapYear;
@@ -41,21 +39,6 @@ public class NormalDateTest {
 		assertEquals("ToString method", "24 januari 2010", dateNorm.toString());
 		assertEquals("Is schrikkeldag", "15 december 1900", dateKleinerEnNietLeap.toString());
 		assertEquals("Is schrikkeldag", "29 februari 2012", dateGroterEnLeap.toString());
-//		for (int i = 1; i <= 12; i++) {
-//			assertEquals("ToString maanden voluit", , new NormalDate(5, i, 2014).toString());
-//		}
-	}
-	
-	@Test public void test_LeapYears()
-	{
-		assertEquals("Is geen schrikkeljaar", false, dateNorm.IsLeapYear());
-		assertEquals("Is geen schrikkeljaar", false, dateKleinerEnNietLeap.IsLeapYear());
-		assertEquals("Is schrikkeljaar", true, dateGroterEnLeap.IsLeapYear());
-		for (int i = 0; i < 1000; i++) 
-		{
-			int y = 1000+i;
-			assertEquals("Is Schrikkeljaar per jaar", y % 4 == 0 && (y % 100 != 0 || (y % 400 == 0)), new NormalDate(25, 3, y).IsLeapYear());
-		}				
 	}
 	
 	@Test (expected = IllegalArgumentException.class) 
