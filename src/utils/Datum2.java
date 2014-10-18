@@ -44,7 +44,7 @@ public class Datum2 implements Comparable<Datum2>
 			{
 			return dag;
 			}
-		else if (dag == 29 && this.getMaand() == 2 && this.calendar.isLeapYear(this.getJaar())) 
+		else if (dag == 29 && this.getMaand() == 1 && this.calendar.isLeapYear(this.getJaar())) 
 			{
 			return dag;
 			}
@@ -54,7 +54,7 @@ public class Datum2 implements Comparable<Datum2>
 	private int setMaand(int maand) throws IllegalArgumentException 
 	{
 		if (maand <= 0 || maand > 12) throw new IllegalArgumentException ("fout maand");
-		return maand;
+		return maand - 1;
 	}
 
 	private int setJaar(int jaar) throws IllegalArgumentException
@@ -78,7 +78,7 @@ public class Datum2 implements Comparable<Datum2>
 	
 	public int getMaand()
 	{
-		return this.calendar.get(Calendar.MONTH) + 1;
+		return this.calendar.get(Calendar.MONTH);
 	}
 	
 	public int getDag()

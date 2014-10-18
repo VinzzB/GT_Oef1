@@ -3,12 +3,12 @@ import java.util.Date;
 /* Created By: Vinzz */
 public class NormalDate implements Comparable<NormalDate>
 {
-	private static final int[] DAGEN_PER_MAAND = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-	private static final String MAANDEN[] = {"januari", "februari", "maart", "april", "mei","juni","juli",
+	static final int[] DAGEN_PER_MAAND = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    static final String MAANDEN[] = {"januari", "februari", "maart", "april", "mei","juni","juli",
 											 "augustus","september","obtober","november","december"};
 	private int day = 0;
 	private int month = 0;
-	private int year = 0;			
+	private int year = 0;				
 	
 	public static int getDagenInMaand(int month, int year)
 	{ return (month == 2 && isLeapYear(year)) ? 29 : DAGEN_PER_MAAND[month-1]; }
@@ -24,8 +24,11 @@ public class NormalDate implements Comparable<NormalDate>
 	{		
 		try
 		{		
-			NormalDate a = new NormalDate("03/01/2009");
-			NormalDate b = new NormalDate(1,1,2009);
+//			NormalDate a = new NormalDate("03/01/2009");
+//			NormalDate b = new NormalDate(3,2,2009);
+//			test
+			NormalDate a = new NormalDate(1, 3, 2007);
+			NormalDate b  = new NormalDate(3, 1, 2009);
 			
 			System.out.println(new Date());
 			
@@ -53,18 +56,18 @@ public class NormalDate implements Comparable<NormalDate>
 			
 			System.out.println("a is leap year: " + a.IsLeapYear());
 			System.out.println("b is leap year: " + b.IsLeapYear());			
-			
-			for (int x = 1; x < 365; x++)
-			{
-				System.out.print("Verhoog a met "+x+" dagen: ");
-				System.out.println(a.veranderDatum(x) + " check verschil: " + a.verschilInDagen(a.veranderDatum(x)));
-			}								
-			
-			for (int x = -1; x > -365; x--)
-			{					
-				System.out.print("Verlaag a met "+x+" dag: ");
-				System.out.println(a.veranderDatum(x) + " check verschil: " + a.verschilInDagen(a.veranderDatum(x)));		
-			}			
+//			
+//			for (int x = 1; x < 365; x++)
+//			{
+//				System.out.print("Verhoog a met "+x+" dagen: ");
+//				System.out.println(a.veranderDatum(x) + " check verschil: " + a.verschilInDagen(a.veranderDatum(x)));
+//			}								
+//			
+//			for (int x = -1; x > -365; x--)
+//			{					
+//				System.out.print("Verlaag a met "+x+" dag: ");
+//				System.out.println(a.veranderDatum(x) + " check verschil: " + a.verschilInDagen(a.veranderDatum(x)));		
+//			}			
 		}
 		catch (Exception ex)
 		{
@@ -205,31 +208,22 @@ public class NormalDate implements Comparable<NormalDate>
 		int m = month;
 		int y = year;
 		if (aantalDagen > 0)
-		{									
-			do {
-				if (aantalDagen+d <= getDagenInMaand(m,y))
-				{ break; }
+		{				
+			while (aantalDagen+d > getDagenInMaand(m,y)) {
 				aantalDagen -= getDagenInMaand(m, y)-d+1; //verminder met dagen in maand	
 				y += (m == 12 ? 1 : 0); //verhoog jaar?
 				m = (m == 12 ? 1 : m+1); //verhoog maand?
-				d = 1; //Nieuwe maand												
-			} while (true);			
+				d = 1; //Nieuwe maand	
+			}
 		}
 		else // negative value, go back in time!
-		{			
-			do {
-				//Break do wanneer de restwaarde van aantalDagen kleiner is dan de dag
-				if (-d < aantalDagen) 
-				{ break; }
-				//aantalDagen groter dan de dag? => month (/ year) -1 
-				if (aantalDagen <= -d) 
-				{ 
-					aantalDagen += d; //verminder met aantal dagen in huidige maand.
-					y -= (m == 1 ? 1 : 0); //verminder jaartal?
-					m = (m ==1 ? 12 : m-1); //verminder maand?
-					d = getDagenInMaand(m, y);  //zet als laatste dag van (vorige) maand
-				}								
-			} while (true);			
+		{		
+			while (-d >= aantalDagen) {
+				aantalDagen += d; //verminder met aantal dagen in huidige maand.
+				y -= (m == 1 ? 1 : 0); //verminder jaartal?
+				m = (m ==1 ? 12 : m-1); //verminder maand?
+				d = getDagenInMaand(m, y);  //zet als laatste dag van (vorige) maand
+			}		
 		}
 		return new NormalDate(d+aantalDagen, m, y);
 	}

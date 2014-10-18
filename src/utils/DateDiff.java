@@ -47,6 +47,7 @@ public class DateDiff {
 				days += NormalDate.getDagenInMaand(m, Mindate.getYear());
 				months +=1;
 			}
+			months -= (Mindate.getDay() > Maxdate.getDay()?1:0);
 			days +=  Maxdate.getDay() - Mindate.getDay();
 		}
 			years = months / 12; //=int

@@ -64,7 +64,7 @@ public class Datum2Test
 			int r3 = random.nextInt(200) + 1970;
 			datumInt.setDatum(r1, r2, r3);
 			assertEquals(r1, datumInt.getDag());
-			assertEquals(r2, datumInt.getMaand() + 1);
+			assertEquals(r2 - 1, datumInt.getMaand());
 			assertEquals(r3, datumInt.getJaar());
 		}
 	}
