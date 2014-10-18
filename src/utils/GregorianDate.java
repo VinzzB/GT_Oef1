@@ -7,17 +7,18 @@ public class GregorianDate extends GregorianCalendar
 {
 	static final int[] DAGEN_PER_MAAND = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 //	private GregorianCalendar date;
-	private int dag;
-	private int maand;
-	private int jaar;
+	//private int dag; //OBSOLETE
+	//private int maand; //OBSOLETE
+	//private int jaar; //OBSOLETE
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		GregorianDate a = new GregorianDate(3, 1, 2009);
-//		GregorianDate b  = new GregorianDate(3, 3, 2009);
+
 		
 		GregorianDate a = new GregorianDate(1, 3, 2007);
 		GregorianDate b  = new GregorianDate(3, 1, 2009);
 		
+		GregorianDate c = new GregorianDate(1, 1, 2009);
+		GregorianDate d  = new GregorianDate(3, 1, 2009);
 		
 		System.out.println("objects created: ");
 		System.out.println("a: " + a);
@@ -40,9 +41,6 @@ public class GregorianDate extends GregorianCalendar
 		
 		System.out.print("Verschil Dagen: ");
 		System.out.println(a.verschilInDagen(b));
-		
-//		System.out.println("a is leap year: " + IsLeapYear());
-//		System.out.println("b is leap year: " + b.IsLeapYear());	
 
 	}
 	
@@ -87,9 +85,9 @@ public class GregorianDate extends GregorianCalendar
 		
 		this.clear();
 		this.set(year, month, day);
-		dag = day;
-		maand = month;
-		jaar = year;
+//		dag = day;
+//		maand = month;
+//		jaar = year;
 		return true;	
 	}
 	
@@ -106,12 +104,14 @@ public class GregorianDate extends GregorianCalendar
 	
 	public int verschilInDagen(GregorianDate date)
 	{
+		//Switch Min/max date.
+		//Clone the firstdate so we can use it as a counter.
 		GregorianDate firstDate = (GregorianDate)(this.before(date) ? this.clone() : date.clone());
 		GregorianDate lastDate = this.before(date) ? date : this;		
 		int i;
-		for (i = 1; firstDate.before(lastDate); i++) 
-		{ firstDate.add(DAY_OF_MONTH, 1); } //Count only
-		return i+2;
+		for (i = 0; firstDate.before(lastDate); i++) //Iterate until dates are equals 
+		{ firstDate.add(DAY_OF_MONTH, 1); } //Add one day to Cloned Date.
+		return i;
 	}
 	
 	public int verschilInMaanden(GregorianDate date)

@@ -1,7 +1,7 @@
 package utils;
 import java.util.Date;
 /* Created By: Vinzz */
-public class NormalDate implements Comparable<NormalDate>
+public class NormalDate implements Comparable<NormalDate>, Cloneable
 {
 	static final int[] DAGEN_PER_MAAND = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     static final String MAANDEN[] = {"januari", "februari", "maart", "april", "mei","juni","juli",
@@ -27,8 +27,8 @@ public class NormalDate implements Comparable<NormalDate>
 //			NormalDate a = new NormalDate("03/01/2009");
 //			NormalDate b = new NormalDate(3,2,2009);
 //			test
-			NormalDate a = new NormalDate(1, 3, 2007);
-			NormalDate b  = new NormalDate(3, 1, 2009);
+			NormalDate a = new NormalDate(1, 1, 1700);
+			NormalDate b  = new NormalDate(1, 1, 1701);
 			
 			System.out.println(new Date());
 			
@@ -83,6 +83,11 @@ public class NormalDate implements Comparable<NormalDate>
 	@SuppressWarnings("deprecation")
 	public NormalDate(Date fullDate)
 	{ setDatum(fullDate.getDate(), fullDate.getMonth(), fullDate.getYear()); }
+	
+	public NormalDate(NormalDate dateObj)
+	{
+		setDatum(dateObj.getDay(), dateObj.getMonth(), dateObj.getYear());
+	}
 	
 	//CTOR: date today
 	public NormalDate() 
@@ -183,6 +188,7 @@ public class NormalDate implements Comparable<NormalDate>
 		result = prime * result + year;
 		return result;
 	}
+	
 
 	public boolean kleinerDan(NormalDate date)
 	{ return compareTo(date) < 0; }
@@ -231,4 +237,10 @@ public class NormalDate implements Comparable<NormalDate>
 	public boolean IsLeapYear()
 	{ return isLeapYear(this.year); }	
 	
+	@Override
+	protected Object clone()  {
+		// TODO Auto-generated method stub
+		return new NormalDate(this);
+		//return super.clone();
+	}
 }

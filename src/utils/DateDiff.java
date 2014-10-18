@@ -8,49 +8,45 @@ public class DateDiff {
 
 	private int days;
 	private int months;
-	private int years;
+	//private int years;
 	
 	public DateDiff(NormalDate date1, NormalDate date2)		
 	{
+		//Return when equal
+		if (date1.equals(date2))
+		{ return; }		
 		//Switch Min / Max
 		NormalDate Maxdate = date1.kleinerDan(date2) ? date2 : date1;
-		NormalDate Mindate = date1.kleinerDan(date2) ? date1 : date2;
-		if (Mindate.getYear() != Maxdate.getYear())
+		NormalDate minDate = (date1.kleinerDan(date2) ? date1 : date2);
+		NormalDate minDateClone = (NormalDate)minDate.clone();
+		//Not in same month or year? -> Go to first day of next month
+		if (minDateClone.getMonth() != Maxdate.getMonth() || minDateClone.getYear() != Maxdate.getYear())
 		{
-			for (int i = Mindate.getYear(); i <= Maxdate.getYear(); i++)
+			days = NormalDate.getDagenInMaand(minDateClone.getMonth(), minDateClone.getYear()) -  minDateClone.getDay()+1;
+			minDateClone = minDateClone.veranderDatum(days);
+			//Iterate until mindate is in the same month and year as maxdate.
+			while(minDateClone.kleinerDan(Maxdate))
 			{
-				if (i == Maxdate.getYear())
-				{								
-					for (int m = 1; m < Maxdate.getMonth(); m++)
-					{ days += NormalDate.getDagenInMaand(m, i); }
-					months += Maxdate.getMonth();
-				}
-				else if (i == Mindate.getYear())
+				int DaysInMonth = NormalDate.getDagenInMaand(minDateClone.getMonth(), minDateClone.getYear());
+				if (minDateClone.veranderDatum(DaysInMonth-1).kleinerDan(Maxdate))
 				{
-					for (int m = Mindate.getMonth()+1; m <= 12; m++)
-					{ days += NormalDate.getDagenInMaand(m, i); }
-					months += 12 - (Mindate.getMonth());				
+					minDateClone = minDateClone.veranderDatum(DaysInMonth);
+					days += DaysInMonth;
+					months++;				
 				}
 				else
-				{ 
-					days += NormalDate.getDagenInJaar(i);
-					months += 12;
-				}			
+				{ break; }			
 			}
-			days += NormalDate.getDagenInMaand(Mindate.getMonth(), Mindate.getYear()) - Mindate.getDay();
-			days += Maxdate.getDay();
+			//Add one month if maxdate is still bigger than mindate
+			if(Maxdate.getDay() >= minDate.getDay())
+			{ months++; }
+			//calculate day difference is same month and year
+			days += Maxdate.getDay()-1;
 		}
-		else
+		else //In same month
 		{
-			for (int m = Mindate.getMonth(); m < Maxdate.getMonth(); m++)
-			{ 
-				days += NormalDate.getDagenInMaand(m, Mindate.getYear());
-				months +=1;
-			}
-			months -= (Mindate.getDay() > Maxdate.getDay()?1:0);
-			days +=  Maxdate.getDay() - Mindate.getDay();
-		}
-			years = months / 12; //=int
+			days += Maxdate.getDay() - minDate.getDay();
+		}		
 	}
 
 	public int getDays() {
@@ -62,7 +58,7 @@ public class DateDiff {
 	}
 
 	public int getYears() {
-		return years;
+		return months / 12; //as floored int
 	}
 
 }
