@@ -17,7 +17,7 @@ public class NormalDateTest {
 						dateNewNotLeapYear,
 						dateVerschilStart, dateVerschil674End, dateVerschil20End,
 						dateVerschil365notLeap, dateVerschil366Leap;
-		
+	
 	@Before public void setUp()
 	{
 		dateNorm = new NormalDate(24,1,2010);			
