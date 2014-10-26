@@ -1,4 +1,5 @@
-package utils;
+package utils.normalDate;
+
 /* Created by: Vinzz
  * ------------------------------------
  * Helper class for NormalDate class.
@@ -10,24 +11,24 @@ public class DateDiff {
 	private int months;
 	//private int years;
 	
-	public DateDiff(NormalDate date1, NormalDate date2)		
+	public DateDiff(Datum date1, Datum date2)		
 	{
 		//Return when equal
 		if (date1.equals(date2))
 		{ return; }		
 		//Switch Min / Max
-		NormalDate Maxdate = date1.kleinerDan(date2) ? date2 : date1;
-		NormalDate minDate = (date1.kleinerDan(date2) ? date1 : date2);
-		NormalDate minDateClone = (NormalDate)minDate.clone();
+		Datum Maxdate = date1.kleinerDan(date2) ? date2 : date1;
+		Datum minDate = (date1.kleinerDan(date2) ? date1 : date2);
+		Datum minDateClone = (Datum)minDate.clone();
 		//Not in same month or year? -> Go to first day of next month
 		if (minDateClone.getMonth() != Maxdate.getMonth() || minDateClone.getYear() != Maxdate.getYear())
 		{
-			days = NormalDate.getDagenInMaand(minDateClone.getMonth(), minDateClone.getYear()) -  minDateClone.getDay()+1;
+			days = Datum.getDagenInMaand(minDateClone.getMonth(), minDateClone.getYear()) -  minDateClone.getDay()+1;
 			minDateClone = minDateClone.veranderDatum(days);
 			//Iterate until mindate is in the same month and year as maxdate.
 			while(minDateClone.kleinerDan(Maxdate))
 			{
-				int DaysInMonth = NormalDate.getDagenInMaand(minDateClone.getMonth(), minDateClone.getYear());
+				int DaysInMonth = Datum.getDagenInMaand(minDateClone.getMonth(), minDateClone.getYear());
 				if (minDateClone.veranderDatum(DaysInMonth-1).kleinerDan(Maxdate))
 				{
 					minDateClone = minDateClone.veranderDatum(DaysInMonth);

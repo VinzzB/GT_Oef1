@@ -1,11 +1,11 @@
-package utils;
+package utils.normalDate;
 import java.util.Date;
-/* Created By: Vinzz */
-public class NormalDate implements Comparable<NormalDate>, Cloneable
+/* Created By: Isaak, Silvia, Vinzz */
+public class Datum implements Comparable<Datum>, Cloneable
 {
 	static final int[] DAGEN_PER_MAAND = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     static final String MAANDEN[] = {"januari", "februari", "maart", "april", "mei","juni","juli",
-											 "augustus","september","obtober","november","december"};
+											 "augustus","september","oktober","november","december"};
 	private int day = 0;
 	private int month = 0;
 	private int year = 0;				
@@ -27,8 +27,8 @@ public class NormalDate implements Comparable<NormalDate>, Cloneable
 //			NormalDate a = new NormalDate("03/01/2009");
 //			NormalDate b = new NormalDate(3,2,2009);
 //			test
-			NormalDate a = new NormalDate(1, 1, 1700);
-			NormalDate b  = new NormalDate(1, 1, 1701);
+			Datum a = new Datum(1, 1, 1700);
+			Datum b  = new Datum(1, 1, 1701);
 			
 			System.out.println(new Date());
 			
@@ -76,25 +76,25 @@ public class NormalDate implements Comparable<NormalDate>, Cloneable
 	}
 		
 	//CTOR: Day / month / year
-	public NormalDate(int dag, int maand, int jaar)
+	public Datum(int dag, int maand, int jaar)
 	{ setDatum(dag,maand,jaar); }
 	
 	//CTOR: date object
 	@SuppressWarnings("deprecation")
-	public NormalDate(Date fullDate)
+	public Datum(Date fullDate)
 	{ setDatum(fullDate.getDate(), fullDate.getMonth(), fullDate.getYear()); }
-	
-	public NormalDate(NormalDate dateObj)
+	//CTOR: Copy object
+	private Datum(Datum dateObj)
 	{
 		setDatum(dateObj.getDay(), dateObj.getMonth(), dateObj.getYear());
 	}
 	
 	//CTOR: date today
-	public NormalDate() 
+	public Datum() 
 	{ this(new Date()); }
 		
 	//CTOR: String that contains the European date format. Format: DD/MM/YYYY
-	public NormalDate(String datum) throws IllegalArgumentException
+	public Datum(String datum) throws IllegalArgumentException
 	{
 		//split string and validate
 		String[] dateArr = datum.split("/");
@@ -107,8 +107,13 @@ public class NormalDate implements Comparable<NormalDate>, Cloneable
 	}
 	
 	//GETTERS
+
 	public int getDay() { return day; }
+
+
 	public int getMonth() { return month; }	
+
+
 	public int getYear() { return year; }	
 	
 	//SETTERS
@@ -134,6 +139,7 @@ public class NormalDate implements Comparable<NormalDate>, Cloneable
 		this.year = year; 
 	}
 	
+
 	public boolean setDatum(int dag, int maand, int jaar) 		
 	{
 			setYear(jaar);	
@@ -142,18 +148,20 @@ public class NormalDate implements Comparable<NormalDate>, Cloneable
 			return true;
 	}
 	
+
 	public String getAmericanFormat()
 	{ return String.format("%04d/%02d/%02d", year,month,day); }
 	
+
 	public String getEuropeanFormat()
 	{ return String.format("%02d/%02d/%04d", day,month,year);}
 
 	@Override
 	public String toString()
-	{ return String.format("%02d %s %04d",day, MAANDEN[month-1], year); }
+	{ return String.format("%d %s %04d",day, MAANDEN[month-1], year); }
 
 	@Override
-	public int compareTo(NormalDate normalDate) {
+	public int compareTo(Datum normalDate) {
 		// Check Year
 		if (year > normalDate.year) { return 1; }
 		if (year < normalDate.year) { return -1; }
@@ -171,9 +179,9 @@ public class NormalDate implements Comparable<NormalDate>, Cloneable
 		//Same object? = Always true
 		if (this == obj) return true;
 		//Same Type?
-		if (obj == null || !(obj instanceof NormalDate)) return false;
+		if (obj == null || !(obj instanceof Datum)) return false;
 		//CompareDate and return true if equal.
-		return compareTo((NormalDate)obj)==0;
+		return compareTo((Datum)obj)==0;
 	}
 	
 	/* (non-Javadoc)
@@ -190,25 +198,30 @@ public class NormalDate implements Comparable<NormalDate>, Cloneable
 	}
 	
 
-	public boolean kleinerDan(NormalDate date)
+
+	public boolean kleinerDan(Datum date)
 	{ return compareTo(date) < 0; }
 	
-	public int verschilInDagen(NormalDate date)
+	public boolean groterDan(Datum date)
+	{ return compareTo(date) > 0; }	
+	
+
+	public int verschilInDagen(Datum date)
 	{ 					
 		return new DateDiff(this, date).getDays();
 	}
-	
-	public int verschilInMaanden(NormalDate date)
+
+	public int verschilInMaanden(Datum date)
 	{
 		return new DateDiff(this, date).getMonths();
 	}
-	
-	public int verschilInJaren(NormalDate date)
+
+	public int verschilInJaren(Datum date)
 	{
 		return new DateDiff(this, date).getYears();
 	}
 
-	public NormalDate veranderDatum(int aantalDagen)
+	public Datum veranderDatum(int aantalDagen)
 	{
 		int d = day;
 		int m = month;
@@ -231,7 +244,8 @@ public class NormalDate implements Comparable<NormalDate>, Cloneable
 				d = getDagenInMaand(m, y);  //zet als laatste dag van (vorige) maand
 			}		
 		}
-		return new NormalDate(d+aantalDagen, m, y);
+		setDatum(d, m, y);
+		return new Datum(d+aantalDagen, m, y);
 	}
 	
 	public boolean IsLeapYear()
@@ -239,8 +253,6 @@ public class NormalDate implements Comparable<NormalDate>, Cloneable
 	
 	@Override
 	protected Object clone()  {
-		// TODO Auto-generated method stub
-		return new NormalDate(this);
-		//return super.clone();
+		return new Datum(this);
 	}
 }

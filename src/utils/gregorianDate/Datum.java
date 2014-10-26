@@ -1,4 +1,4 @@
-package utils;
+package utils.gregorianDate;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,7 +11,7 @@ import java.util.Locale;
  * @version     1.0                 
  * @since       2014-10-08          
  */
-public class GregorianDatum implements Comparable<GregorianDatum>
+public class Datum implements Comparable<Datum>
 {
 	/**
 	 * Object van klasse GregorianCalendar
@@ -21,7 +21,7 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	/**
 	 * Een constructor zonder parameters, object datum gelijk aan de systeemdatum
 	 */
-	public GregorianDatum()
+	public Datum()
 	{
 		calendar = new GregorianCalendar();
 	}
@@ -31,10 +31,10 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	 *  
 	 *  @param datum GregorianDatum
 	 */
-	public GregorianDatum(GregorianDatum datum)
+	public Datum(Datum datum)
 	{
 		this();
-		this.calendar.set(datum.getJaar(), datum.getMaand(), datum.getDag());
+		this.calendar.set(datum.getYear(), datum.getMonth(), datum.getDay());
 		
 	}
 	
@@ -45,7 +45,7 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	 *  @param maand int zet maand van calendar 
 	 *  @param jaar int zet jaar van calendar 
 	 */
-	public GregorianDatum(int dag, int maand, int jaar)
+	public Datum(int dag, int maand, int jaar)
 	{
 		this();
 		this.setDatum(dag, maand, jaar);
@@ -58,7 +58,7 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	 *  					maand en jaar staat een scheidingsteken 
 	 *  					(Vb 12/05/2009)
 	 */
-	public GregorianDatum(String datum)
+	public Datum(String datum)
 	{
 		this();
 
@@ -130,7 +130,7 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	/**
 	 * @return jaar van calendar
 	 */
-	public int getJaar()
+	public int getYear()
 	{
 		return this.calendar.get(Calendar.YEAR);
 	}
@@ -138,7 +138,7 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	/**
 	 * @return maand van calendar
 	 */
-	public int getMaand()
+	public int getMonth()
 	{
 		return this.calendar.get(Calendar.MONTH);
 	}
@@ -146,7 +146,7 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	/**
 	 * @return dag van calendar
 	 */
-	public int getDag()
+	public int getDay()
 	{
 		return this.calendar.get(Calendar.DAY_OF_MONTH);
 	}
@@ -163,18 +163,18 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	 * 
 	 * @return String in Amerikaans formaat
 	 */
-	public String getDatumInAmerikaansFormaat()
+	public String getAmericanFormat()
 	{
-		return String.format("%d/%d/%d", this.getJaar(), this.getMaand() + 1, this.getDag());
+		return String.format("%d/%d/%d", this.getYear(), this.getMonth() + 1, this.getDay());
 	}
 	
 	/**geeft een datum in Europees formaat terug (vb 4/2/2009)
 	 * 
 	 * @return String in Europees formaat
 	 */
-	public String getDatumInEuropeesFormaat()
+	public String getEuropeanFormat()
 	{
-		return String.format("%d/%d/%d", this.getDag(), this.getMaand() + 1, this.getJaar());
+		return String.format("%d/%d/%d", this.getDay(), this.getMonth() + 1, this.getYear());
 	}
 	
 	/**geeft datum object terug als volgt: 4 februari 2009
@@ -215,11 +215,11 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 		{
 			return false;
 		}
-		if (!(obj instanceof GregorianDatum)) 
+		if (!(obj instanceof Datum)) 
 		{
 			return false;
 		}
-		GregorianDatum other = (GregorianDatum) obj;
+		Datum other = (Datum) obj;
 		
 		/* Not Javadoc
 		 * GregorianCalendar may have different milliseconds value for the same date value. 
@@ -237,7 +237,7 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 		return true;
 	}
 	
-	public int compareTo(GregorianDatum datum) 
+	public int compareTo(Datum datum) 
 	{
 		return this.calendar.compareTo(datum.getCalendar());
 	}
@@ -248,7 +248,7 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	 * @param datum
 	 * @return true / false
 	 */
-	public boolean kleinerDan(GregorianDatum datum)
+	public boolean kleinerDan(Datum datum)
 	{
 		return this.calendar.before(datum.getCalendar());
 	}
@@ -259,7 +259,7 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	 * @param datum
 	 * @return true / false
 	 */
-	public boolean groterDan(GregorianDatum datum)
+	public boolean groterDan(Datum datum)
 	{
 		return this.calendar.after(datum.getCalendar());
 	}
@@ -270,7 +270,7 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	 * @param datum
 	 * @return int jaren
 	 */ 
-	public int verschillInJaren(GregorianDatum datum)
+	public int verschilInJaren(Datum datum)
 	{
 		return this.verschillCalender(datum).get(Calendar.YEAR) - 1970;
 	}
@@ -281,7 +281,7 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	 * @param datum
 	 * @return int maanden
 	 */
-	public int verschillInMaanden(GregorianDatum datum)
+	public int verschilInMaanden(Datum datum)
 	{
 		return (this.verschillCalender(datum).get(Calendar.YEAR) - 1970)*12 
 			    + this.verschillCalender(datum).get(Calendar.MONTH);	
@@ -293,7 +293,7 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	 * @param datum
 	 * @return int dagen
 	 */
-	public int verschillInDagen(GregorianDatum datum)
+	public int verschilInDagen(Datum datum)
 	{
 		int dagen = 0;
 		
@@ -311,7 +311,7 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	 * @param datum
 	 * @return int milliseconds
 	 */
-	public long verschillInMillis(GregorianDatum datum)
+	public long verschillInMillis(Datum datum)
 	{
 		return Math.abs(this.calendar.getTime().getTime() 
 				- datum.calendar.getTime().getTime());
@@ -323,7 +323,7 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	 * @param datum
 	 * @return GregorianDatum
 	 */ 
-	public Calendar verschillCalender(GregorianDatum datum)
+	public Calendar verschillCalender(Datum datum)
 	{
 		Calendar c = new GregorianCalendar();
 		c.setTimeInMillis(this.verschillInMillis(datum));
@@ -335,7 +335,7 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	 * 
 	 * @param aantalDagen
 	 */
-	public void veranderDatum(int aantalDagen)
+	private void veranderThisDatum(int aantalDagen)
 	{
 		this.calendar.add(Calendar.DAY_OF_YEAR, aantalDagen);
 	}
@@ -348,9 +348,9 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	 * @param aantalDagen
 	 * @return GregorianDatum
 	 */
-	public GregorianDatum veranderedDatum(int aantalDagen)
+	public Datum veranderDatum(int aantalDagen)
 	{
-		this.veranderDatum(aantalDagen);
+		this.veranderThisDatum(aantalDagen);
 		return this;
 	}
 	
@@ -365,25 +365,25 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 	{
 		try
 		{
-			GregorianDatum c = new GregorianDatum();
+			Datum c = new Datum();
 			System.out.println(c);
-			GregorianDatum d = new GregorianDatum("3/5/2007");
-			System.out.println(d.getMaand());
+			Datum d = new Datum("3/5/2007");
+			System.out.println(d.getMonth());
 			System.out.println(d);
-			System.out.println(d.getDatumInAmerikaansFormaat());
-			System.out.println(d.getDatumInEuropeesFormaat());
+			System.out.println(d.getAmericanFormat());
+			System.out.println(d.getEuropeanFormat());
 			System.out.println(d.calendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH));
 			System.out.println(d.calendar.getMinimum(GregorianCalendar.DAY_OF_MONTH));
-			GregorianDatum b = new GregorianDatum(31, 12, 2014);
+			Datum b = new Datum(31, 12, 2014);
 			System.out.println(b);
-			System.out.println(b.getMaand());
-			GregorianDatum a = new GregorianDatum(b);
+			System.out.println(b.getMonth());
+			Datum a = new Datum(b);
 			System.out.println(a.equals(b));
-			System.out.println(a.veranderedDatum(3));
-			System.out.println(a.verschillInDagen(b));
+			System.out.println(a.veranderDatum(3));
+			System.out.println(a.verschilInDagen(b));
 		
-			GregorianDatum e = new GregorianDatum(1, 3, 2007);
-			GregorianDatum f  = new GregorianDatum(3, 1, 2009);
+			Datum e = new Datum(1, 3, 2007);
+			Datum f  = new Datum(3, 1, 2009);
 			
 			
 			System.out.println("objects created: ");
@@ -391,22 +391,22 @@ public class GregorianDatum implements Comparable<GregorianDatum>
 			System.out.println("f: " + f);
 			
 			System.out.print("American format: ");
-			System.out.println(e.getDatumInAmerikaansFormaat());
+			System.out.println(e.getAmericanFormat());
 			
 			System.out.print("European format: ");
-			System.out.println(f.getDatumInAmerikaansFormaat());
+			System.out.println(f.getAmericanFormat());
 			
 			System.out.print("Is f kleiner dan e: ");
 			System.out.println(e.kleinerDan(f));
 			
 			System.out.print("Verschil Jaren: ");
-			System.out.println(e.verschillInJaren(f));
+			System.out.println(e.verschilInJaren(f));
 			
 			System.out.print("Verschil Maanden: ");
-			System.out.println(e.verschillInMaanden(f));
+			System.out.println(e.verschilInMaanden(f));
 			
 			System.out.print("Verschil Dagen: ");
-			System.out.println(e.verschillInDagen(f));
+			System.out.println(e.verschilInDagen(f));
 		}
 		catch (IllegalArgumentException e)
 		{
