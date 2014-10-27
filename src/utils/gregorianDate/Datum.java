@@ -272,7 +272,15 @@ public class Datum implements Comparable<Datum>
 	 */ 
 	public int verschilInJaren(Datum datum)
 	{
-		return this.verschillCalender(datum).get(Calendar.YEAR) - 1970;
+		int jaren = 0;
+		Datum kleinere = new Datum(this.kleinerDan(datum) ? this : datum);
+		Datum grotere = new Datum(this.groterDan(datum) ? this : datum);
+		while(kleinere.kleinerDan(grotere))
+		{
+			kleinere.calendar.add(GregorianCalendar.YEAR, 1);
+			if(kleinere.kleinerDan(grotere) || kleinere.equals(grotere)) jaren++;
+		}
+		return jaren;
 	}
 	
 	/**
@@ -283,8 +291,15 @@ public class Datum implements Comparable<Datum>
 	 */
 	public int verschilInMaanden(Datum datum)
 	{
-		return (this.verschillCalender(datum).get(Calendar.YEAR) - 1970)*12 
-			    + this.verschillCalender(datum).get(Calendar.MONTH);	
+		int maanden = 0;
+		Datum kleinere = new Datum(this.kleinerDan(datum) ? this : datum);
+		Datum grotere = new Datum(this.groterDan(datum) ? this : datum);
+		while(kleinere.kleinerDan(grotere))
+		{
+			kleinere.calendar.add(GregorianCalendar.MONTH, 1);
+			if(kleinere.kleinerDan(grotere) || kleinere.equals(grotere)) maanden++;
+		}
+		return maanden;	
 	}
 	
 	/**
@@ -316,20 +331,7 @@ public class Datum implements Comparable<Datum>
 		return Math.abs(this.calendar.getTime().getTime() 
 				- datum.calendar.getTime().getTime());
 	}
-	
-	/**
-	 * returns calender calculated from het verschil in milliseconds
-	 *  tussen datum d en huidig datumobject
-	 * @param datum
-	 * @return GregorianDatum
-	 */ 
-	public Calendar verschillCalender(Datum datum)
-	{
-		Calendar c = new GregorianCalendar();
-		c.setTimeInMillis(this.verschillInMillis(datum));
-		return c;
-	}
-	
+		
 	/** 
 	 * verhoogt of verlaagt de datum met een aantal dagen
 	 * 
@@ -384,11 +386,13 @@ public class Datum implements Comparable<Datum>
 		
 			Datum e = new Datum(1, 3, 2007);
 			Datum f  = new Datum(3, 1, 2009);
+			Datum zero = new Datum(1, 1, 1);
 			
 			
 			System.out.println("objects created: ");
 			System.out.println("e: " + e);
 			System.out.println("f: " + f);
+			System.out.println("zero: " + zero);
 			
 			System.out.print("American format: ");
 			System.out.println(e.getAmericanFormat());
