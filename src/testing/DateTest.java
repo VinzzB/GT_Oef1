@@ -13,8 +13,8 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 
 //----------------------------------
-import utils.date.gregorian.*;
-//import utils.date.normal.*;
+//import utils.date.gregorian.*;
+import utils.date.normal.*;
 //----------------------------------
 //^^^ Switch Class To Test Above ^^^
 //----------------------------------
@@ -46,13 +46,13 @@ public class DateTest {
 		dateKleinerEnNietLeap = new Datum(28,2,1900);
 		dateKleinerEnNietLeapPlusOneDay = new Datum("01/03/1900");
 		dateGroterEnLeap = new Datum(29,2,2012);
-		dateGroterEnLeapPlusOneDay = new Datum("01/03/2012");
+		dateGroterEnLeapPlusOneDay = new Datum("1/03/2012");
 		dateNewLeapYear = new Datum(1,1,1600);		
 		dateNewNotLeapYear = new Datum("01/01/1700");
 		dateVerschilStart = new Datum(1,3,2007);
 		dateVerschil20End = new Datum("21/03/2007");
 		dateVerschil674End = new Datum(3,1,2009);		
-		dateNewVerschil365notLeap = new Datum("01/01/1701");
+		dateNewVerschil365notLeap = new Datum("1/01/1701");
 		dateNewVerschil366Leap= new Datum(1,1,1601);
 		dateYearZero = new Datum("18/10/0000");
 		dateToday = new Datum();
@@ -321,11 +321,11 @@ public class DateTest {
 		Datum date = new Datum("01-01-2011");				
 	}	
 	
-	@Test (expected = IllegalArgumentException.class)
-	public void test_Ctor_Als_String_parameter_lengte_dagFormatIs1_Geef_fout()
-	{
-		Datum date = new Datum("1/01/2011");				
-	}	
+//	@Test (expected = IllegalArgumentException.class)
+//	public void test_Ctor_Als_String_parameter_lengte_dagFormatIs1_Geef_fout()
+//	{
+//		Datum date = new Datum("1/01/2011");				
+//	}	
 
 	@Test (expected = IllegalArgumentException.class)
 	public void test_Ctor_Als_String_parameter_lengte_maandFormatIs1_Geef_fout()
@@ -478,7 +478,7 @@ public class DateTest {
 	}
 	
 	@Test
-	public void test_veranderDatum_parameters_is1_Geeft_nieuw_object_metZelfdeWaarde_terug()
+	public void test_veranderDatum_parameters_add1_Geeft_nieuw_object_metZelfdeWaarde_terug()
 	{
 		Datum d = date.veranderDatum(1); //past date aan en geeft een nieuw object terug. --> d == date		
 		assertEquals("Nieuw object aangemaakt?", date, d);

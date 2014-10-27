@@ -64,7 +64,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 	{
 		// split string and validate
 		String[] dateArr = datum.split("/");
-		if (dateArr.length < 2 || !(dateArr[0].length() == 2)
+		if (dateArr.length < 2 || !(dateArr[0].length() >= 1)
 							   || !(dateArr[1].length() == 2) 
 							   || !(dateArr[2].length() == 4))
 		{
