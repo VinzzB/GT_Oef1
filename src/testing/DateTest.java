@@ -1,24 +1,35 @@
 package testing;
-/*
- * Created by Isaak, Natalia, Nathalie, Vincent, Wouter (Joined together by Vinzz)
- */
 import java.util.Date;
 import java.util.Random;
-
 import org.junit.Test;
-
 import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.runner.RunWith;
 
 //----------------------------------
-//import utils.date.gregorian.*;
-import utils.date.normal.*;
-//----------------------------------
+import utils.date.gregorian.*;
+//import utils.date.normal.*;
 //^^^ Switch Class To Test Above ^^^
 //----------------------------------
 
+/**
+ * Shared Test class for Datum classes
+ * 
+ * Switch between Datum classes in import section above
+ * 
+ * ------------------------
+ * Coverage: (Tested with eclEmma on 27/10/2014 22:11)
+ * ------------------------
+ * DateDiff  = 100%
+ * Maanden  = 95%
+ * Jaren = 61%
+ * normal.Datum = 94,2%
+ * gregorian.Datum = 63,8% (with 5 errors, to be continued...)
+ * -------------------------
+ * 
+ * @author Isaak, Natalia, Nathalie, Vincent, Wouter (Joined together by Vinzz)
+ *
+ */
 @SuppressWarnings("unused")
 public class DateTest {
 	
@@ -84,7 +95,11 @@ public class DateTest {
 		assertEquals("Amerikaans formaat", "2009/01/03", dateVerschil674End.getAmericanFormat());		
 		assertEquals("Amerikaans formaat", "1701/01/01", dateNewVerschil365notLeap.getAmericanFormat());		
 		assertEquals("Amerikaans formaat", "1601/01/01", dateNewVerschil366Leap.getAmericanFormat());	
-		assertEquals("Amerikaans formaat", "0000/10/18", dateYearZero.getAmericanFormat());
+		//Only the normal.Datum class accepts zero years
+		 if (Datum.class.getCanonicalName() == utils.date.normal.Datum.class.getCanonicalName())
+		{
+			 assertEquals("Amerikaans formaat", "0000/10/18", dateYearZero.getAmericanFormat());
+		}
 	}
 	
 	/*
@@ -115,8 +130,13 @@ public class DateTest {
 		assertEquals("Europees formaat", "21/03/2007", dateVerschil20End.getEuropeanFormat());		
 		assertEquals("Europees formaat", "03/01/2009", dateVerschil674End.getEuropeanFormat());		
 		assertEquals("Europees formaat", "01/01/1701", dateNewVerschil365notLeap.getEuropeanFormat());		
-		assertEquals("Europees formaat", "01/01/1601", dateNewVerschil366Leap.getEuropeanFormat());	
-		assertEquals("Europees formaat", "18/10/0000", dateYearZero.getEuropeanFormat());
+		assertEquals("Europees formaat", "01/01/1601", dateNewVerschil366Leap.getEuropeanFormat());
+		//Only the normal.Datum class accepts zero years
+		if (Datum.class.getCanonicalName() == utils.date.normal.Datum.class.getCanonicalName())
+		{
+			 assertEquals("Europees formaat", "18/10/0000", dateYearZero.getEuropeanFormat());			
+		}
+
 	}
 	
 	/*
@@ -145,8 +165,12 @@ public class DateTest {
 		assertEquals("toString method", "21 maart 2007", dateVerschil20End.toString());		
 		assertEquals("toString method", "3 januari 2009", dateVerschil674End.toString());		
 		assertEquals("toString method", "1 januari 1701", dateNewVerschil365notLeap.toString());		
-		assertEquals("toString method", "1 januari 1601", dateNewVerschil366Leap.toString());		
-		assertEquals("toString method", "18 oktober 0000", dateYearZero.toString());	
+		assertEquals("toString method", "1 januari 1601", dateNewVerschil366Leap.toString());	
+		//Only the normal.Datum class accepts zero years
+		if (Datum.class.getCanonicalName() == utils.date.normal.Datum.class.getCanonicalName())
+		{
+			 assertEquals("toString method", "18 oktober 0000", dateYearZero.toString());	
+		}
 	}
 	
 	
@@ -426,7 +450,11 @@ public class DateTest {
 		assertEquals("getYear method", 2009, dateVerschil674End.getYear());		
 		assertEquals("getYear method", 1701, dateNewVerschil365notLeap.getYear());		
 		assertEquals("getYear method", 1601, dateNewVerschil366Leap.getYear());	
-		assertEquals("getYear method", 0, dateYearZero.getYear());
+		//Only the normal.Datum class accepts zero years
+		if (Datum.class.getCanonicalName() == utils.date.normal.Datum.class.getCanonicalName())
+		{
+			 assertEquals("getYear method", 0, dateYearZero.getYear());
+		}
 	}	
 		
 	/*

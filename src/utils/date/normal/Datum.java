@@ -69,7 +69,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 							   || !(dateArr[2].length() == 4))
 		{
 			throw new IllegalArgumentException(
-					"Er werd een ongeldig formaat opgegeven. Geldig formaat: DD/MM/YYYY");
+					"Er werd een ongeldig formaat opgegeven. Geldig formaat: (D)D/MM/YYYY");
 		}
 		// set internal date
 		setDatum(Integer.parseInt(dateArr[0]), 
@@ -106,8 +106,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 	// SETTERS
 	private void setDay(int day) throws IllegalArgumentException
 	{
-		int dim = Maanden.get(month).GetLength(year); // getDagenInMaand(month,
-														// year);
+		int dim = Maanden.get(month).GetLength(year); 
 		if (day < 1 || day > dim)
 		{
 			throw new IllegalArgumentException(
@@ -312,8 +311,8 @@ public class Datum implements Comparable<Datum>, Cloneable
 				d = Maanden.get(m).GetLength(y); 													 
 			}
 		}
-		setDatum(d+ aantalDagen, m, y);
-		return new Datum(d + aantalDagen, m, y); //add rest
+		setDatum(d+ aantalDagen, m, y); //add rest
+		return (Datum)clone(); 
 	}
 
 	/**

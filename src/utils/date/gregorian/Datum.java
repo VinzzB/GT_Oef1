@@ -34,7 +34,7 @@ public class Datum implements Comparable<Datum>
 	public Datum(Datum datum)
 	{
 		this();
-		this.calendar.set(datum.getYear(), datum.getMonth(), datum.getDay());
+		this.calendar.set(datum.getYear(), datum.getMonth()-1, datum.getDay());
 		
 	}
 	
@@ -140,7 +140,7 @@ public class Datum implements Comparable<Datum>
 	 */
 	public int getMonth()
 	{
-		return this.calendar.get(Calendar.MONTH);
+		return this.calendar.get(Calendar.MONTH)+1;
 	}
 	
 	/**
@@ -165,7 +165,7 @@ public class Datum implements Comparable<Datum>
 	 */
 	public String getAmericanFormat()
 	{
-		return String.format("%d/%d/%d", this.getYear(), this.getMonth() + 1, this.getDay());
+		return String.format("%04d/%02d/%02d", this.getYear(), this.getMonth() , this.getDay());
 	}
 	
 	/**geeft een datum in Europees formaat terug (vb 4/2/2009)
@@ -174,7 +174,7 @@ public class Datum implements Comparable<Datum>
 	 */
 	public String getEuropeanFormat()
 	{
-		return String.format("%d/%d/%d", this.getDay(), this.getMonth() + 1, this.getYear());
+		return String.format("%02d/%02d/%04d", this.getDay(), this.getMonth() , this.getYear());
 	}
 	
 	/**geeft datum object terug als volgt: 4 februari 2009
