@@ -1,4 +1,4 @@
-package utils.gregorianDate;
+package utils.date.gregorian;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

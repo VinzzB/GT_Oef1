@@ -13,8 +13,8 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 
 //----------------------------------
-import utils.gregorianDate.*;
-//import utils.normalDate.*;
+import utils.date.gregorian.*;
+//import utils.date.normal.*;
 //----------------------------------
 //^^^ Switch Class To Test Above ^^^
 //----------------------------------
@@ -163,6 +163,12 @@ public class DateTest {
 	}		
 	
 	@Test
+	public void test_kleinerDan_Als_parameter_equals_False()
+	{
+		assertFalse(date.kleinerDan(date));		
+	}
+	
+	@Test
 	public void test_kleinerDan_Als_parameter_isGroter_True()
 	{
 		assertTrue(date.kleinerDan(dateGroterEnLeap));		
@@ -173,17 +179,36 @@ public class DateTest {
 	{
 		assertFalse(date.kleinerDan(dateKleinerEnNietLeap));		
 	}	
-	
-	
-	
+		
 	/*
 	 * -----------------------------------------------
 	 * TEST METHOD: groterDan(Datum?)
 	 * -----------------------------------------------
 	*/	
 	
-	/*TODO*/
+	@Test(expected = NullPointerException.class)
+	public void test_groterDan_Als_parameter_Null_Geef_fout()
+	{
+		date.groterDan(null);		
+	}		
 	
+	@Test
+	public void test_groterDan_Als_parameter_equals_False()
+	{
+		assertFalse(date.groterDan(date));		
+	}
+	
+	@Test
+	public void test_groterDan_Als_parameter_isGroter_False()
+	{
+		assertFalse(date.groterDan(dateGroterEnLeap));		
+	}
+	
+	@Test
+	public void test_groterDan_Als_parameter_iskleiner_True()
+	{
+		assertTrue(date.groterDan(dateKleinerEnNietLeap));		
+	}		
 			
 	/*
 	 * -----------------------------------------------
@@ -445,6 +470,22 @@ public class DateTest {
 	}
 	
 	@Test
+	public void test_veranderDatum_Geeft_nieuw_object_terug()
+	{
+		Datum d = date.veranderDatum(1); //past date aan en geeft een nieuw object terug. --> d == date
+		date.veranderDatum(1); //verander date object nog eens. d blijft onveranderd. --> d != date
+		assertNotEquals("Nieuw object aangemaakt?", date.getDay(), d.getDay());
+	}
+	
+	@Test
+	public void test_veranderDatum_parameters_is1_Geeft_nieuw_object_metZelfdeWaarde_terug()
+	{
+		Datum d = date.veranderDatum(1); //past date aan en geeft een nieuw object terug. --> d == date		
+		assertEquals("Nieuw object aangemaakt?", date, d);
+	}
+	
+	
+	@Test
 	public void test_veranderDatum_Verhoog_28feb_inSchrikkelJaar_met1Dag_Geeft_29feb()
 	{
 		assertEquals("Verhoog 28 feb +1dag in schrikkeljaar",
@@ -563,6 +604,9 @@ public class DateTest {
 	@Test
 	public void test_verschilInDagen_Als_parameter_DatumMin1jaar_inSchrikkeljaar_Geeft_366()
 	{
+		Datum dateNewVerschil366Leap = new Datum(1,1,1601);;
+		Datum dateNewLeapYear = new Datum(1,1,1600);	
+			
 		assertEquals("Verschil in dagen in schrikkeljaar", 366,dateNewVerschil366Leap.verschilInDagen(dateNewLeapYear));
 	}
 	

@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import utils.gregorianDate.*;
+import utils.date.gregorian.*;
 
 public class Analysis 
 {

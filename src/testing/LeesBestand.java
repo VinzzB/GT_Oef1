@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import utils.gregorianDate.Datum;
+import utils.date.gregorian.Datum;
 
 public class LeesBestand
 {
