@@ -60,7 +60,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 	 * @param datum
 	 * @throws IllegalArgumentException
 	 */
-	public Datum(String datum) throws IllegalArgumentException
+	public Datum(String datum)
 	{
 		// split string and validate
 		String[] dateArr = datum.split("/");
@@ -86,6 +86,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 	{
 		return day;
 	}
+	
 	/**
 	 * maand van datum
 	 * @return
@@ -94,6 +95,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 	{
 		return month;
 	}
+	
 	/**
 	 * jaar van datum
 	 * @return
@@ -104,7 +106,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 	}
 
 	// SETTERS
-	private void setDay(int day) throws IllegalArgumentException
+	private void setDay(int day)
 	{
 		int dim = Maanden.get(month).GetLength(year); 
 		if (day < 1 || day > dim)
@@ -115,7 +117,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 		this.day = day;
 	}
 
-	private void setMonth(int month) throws IllegalArgumentException
+	private void setMonth(int month)
 	{
 		if (month < 1 || month > 12)
 		{
@@ -125,7 +127,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 		this.month = month;
 	}
 
-	private void setYear(int year) throws IllegalArgumentException
+	private void setYear(int year)
 	{
 		if (year < 0)
 		{
