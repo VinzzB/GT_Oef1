@@ -71,7 +71,8 @@ public enum Maanden {
 	 */
 	public int GetLength(int year)
 	{
-		return (monthIndex == 2 && Jaren.isLeapYear(year)) ? 29 : get(monthIndex).GetLength();
+		return (get(monthIndex) == Maanden.februari && Jaren.isLeapYear(year)) ? 29 : get(monthIndex).GetLength();
+		//return (monthIndex == 2 && Jaren.isLeapYear(year)) ? 29 : get(monthIndex).GetLength();
 	}
 	
 }
