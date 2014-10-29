@@ -4,10 +4,11 @@ import java.util.Date;
 
 /**
  * Een Datum classe die 'From Scratch' is opgebouwd.
+ * 
  * @author Isaak, Silvia, Vinzz
  *
  */
-public class Datum implements Comparable<Datum>, Cloneable
+public class Datum implements Comparable<Datum>// , Cloneable
 {
 	private int day = 0;
 	private int month = 0;
@@ -22,7 +23,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 	 */
 	public Datum(int dag, int maand, int jaar)
 	{
-		setDatum(dag, maand, jaar);
+		setDatumInternal(dag, maand, jaar);
 	}
 
 	/**
@@ -33,17 +34,21 @@ public class Datum implements Comparable<Datum>, Cloneable
 	@SuppressWarnings("deprecation")
 	public Datum(Date fullDate)
 	{
-		setDatum(fullDate.getDate(), fullDate.getMonth(), fullDate.getYear());
+		setDatumInternal(fullDate.getDate(), 
+						 fullDate.getMonth(),
+						 fullDate.getYear());
 	}
 
 	/**
-	 * Copy CTOR (private) -> public equivalent = Clone()
+	 * Copy CTOR
 	 * 
 	 * @param dateObj
 	 */
-	private Datum(Datum dateObj)
+	public Datum(Datum dateObj)
 	{
-		setDatum(dateObj.getDay(), dateObj.getMonth(), dateObj.getYear());
+		setDatumInternal(dateObj.getDay(), 
+						 dateObj.getMonth(),
+						 dateObj.getYear());
 	}
 
 	/**
@@ -65,39 +70,40 @@ public class Datum implements Comparable<Datum>, Cloneable
 		// split string and validate
 		String[] dateArr = datum.split("/");
 		if (dateArr.length < 2 || !(dateArr[0].length() >= 1)
-							   || !(dateArr[1].length() == 2) 
-							   || !(dateArr[2].length() == 4))
+				|| !(dateArr[1].length() == 2) || !(dateArr[2].length() == 4))
 		{
 			throw new IllegalArgumentException(
 					"Er werd een ongeldig formaat opgegeven. Geldig formaat: (D)D/MM/YYYY");
 		}
 		// set internal date
-		setDatum(Integer.parseInt(dateArr[0]), 
-				Integer.parseInt(dateArr[1]),
-				Integer.parseInt(dateArr[2]));
+		setDatumInternal(Integer.parseInt(dateArr[0]),
+				Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[2]));
 	}
 
 	// GETTERS
 	/**
 	 * dag van datum
+	 * 
 	 * @return
 	 */
 	public int getDay()
 	{
 		return day;
 	}
-	
+
 	/**
 	 * maand van datum
+	 * 
 	 * @return
 	 */
 	public int getMonth()
 	{
 		return month;
 	}
-	
+
 	/**
 	 * jaar van datum
+	 * 
 	 * @return
 	 */
 	public int getYear()
@@ -108,11 +114,12 @@ public class Datum implements Comparable<Datum>, Cloneable
 	// SETTERS
 	private void setDay(int day)
 	{
-		int dim = Maanden.get(month).GetLength(year); 
+		int dim = Maanden.get(month).GetLength(year);
 		if (day < 1 || day > dim)
 		{
 			throw new IllegalArgumentException(
-					"De opgegeven dag ligt buiten de geldige range. (1-" + dim + ")");
+					"De opgegeven dag ligt buiten de geldige range. (1-" + dim
+							+ ")");
 		}
 		this.day = day;
 	}
@@ -139,6 +146,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 
 	/**
 	 * zet de datum naar de opgegeven waarden.
+	 * 
 	 * @param dag
 	 * @param maand
 	 * @param jaar
@@ -146,14 +154,37 @@ public class Datum implements Comparable<Datum>, Cloneable
 	 */
 	public boolean setDatum(int dag, int maand, int jaar)
 	{
+		Datum oldDate = new Datum(this);
+		try
+		{
+			setDatumInternal(dag, maand, jaar);
+			return true;
+		}
+		catch (IllegalArgumentException ex)
+		{
+			setDatumInternal(oldDate.getDay(), oldDate.getMonth(),
+					oldDate.getYear());
+		}
+		return false;
+	}
+
+	/**
+	 * Sets the date and can throw exceptions.
+	 * 
+	 * @param dag
+	 * @param maand
+	 * @param jaar
+	 */
+	private void setDatumInternal(int dag, int maand, int jaar)
+	{
 		setYear(jaar);
 		setMonth(maand);
 		setDay(dag);
-		return true;
 	}
 
 	/**
 	 * Datum in Amerikaans formaat (YYYY/MM/DD)
+	 * 
 	 * @return
 	 */
 	public String getAmericanFormat()
@@ -163,6 +194,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 
 	/**
 	 * Datum in Europees formaat (DD/MM/YYYY)
+	 * 
 	 * @return
 	 */
 	public String getEuropeanFormat()
@@ -180,7 +212,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 	}
 
 	/**
-	 * @see java.lang. java.lang.Comparable#compareTo(T o)
+	 * @see java.lang.Comparable#compareTo(T o)
 	 */
 	@Override
 	public int compareTo(Datum normalDate)
@@ -203,7 +235,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 	 */
 	@Override
 	public boolean equals(Object obj)
-	{	
+	{
 		// Same object? = Always true
 		if (this == obj)
 			return true;
@@ -232,6 +264,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 
 	/**
 	 * Is huidig Datum object kleiner dan opgegeven Datum object
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -242,6 +275,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 
 	/**
 	 * Is huidig Datum object groter dan opgegeven Datum object
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -251,7 +285,9 @@ public class Datum implements Comparable<Datum>, Cloneable
 	}
 
 	/**
-	 * Telt het verschil in dagen tussen het huidig Datum object en het opgegeven Datum object
+	 * Telt het verschil in dagen tussen het huidig Datum object en het
+	 * opgegeven Datum object
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -261,7 +297,9 @@ public class Datum implements Comparable<Datum>, Cloneable
 	}
 
 	/**
-	 * Telt het verschil in Maanden tussen het huidig Datum object en het opgegeven Datum object
+	 * Telt het verschil in Maanden tussen het huidig Datum object en het
+	 * opgegeven Datum object
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -271,7 +309,9 @@ public class Datum implements Comparable<Datum>, Cloneable
 	}
 
 	/**
-	 * Telt het verschil in jaren tussen het huidig Datum object en het opgegeven Datum object
+	 * Telt het verschil in jaren tussen het huidig Datum object en het
+	 * opgegeven Datum object
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -279,8 +319,11 @@ public class Datum implements Comparable<Datum>, Cloneable
 	{
 		return new DateDiff(this, date).getYears();
 	}
+
 	/**
-	 * Verandert de huidige datum(!) met X aantal dagen en geeft een nieuw(!) Datum object terug. 
+	 * Verandert de huidige datum(!) met X aantal dagen en geeft een nieuw(!)
+	 * Datum object terug.
+	 * 
 	 * @param aantalDagen
 	 * @return Een nieuw Datum object
 	 */
@@ -294,7 +337,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 			while (aantalDagen + d > Maanden.get(m).GetLength(y))
 			{
 				// verminder met dagen in maand
-				aantalDagen -= Maanden.get(m).GetLength(y) - d + 1; 
+				aantalDagen -= Maanden.get(m).GetLength(y) - d + 1;
 				y += (m == 12 ? 1 : 0); // verhoog jaar?
 				m = (m == 12 ? 1 : m + 1); // verhoog maand?
 				d = 1; // Nieuwe maand
@@ -306,24 +349,24 @@ public class Datum implements Comparable<Datum>, Cloneable
 			while (-d >= aantalDagen)
 			{
 				// verminder met aantal dagen in huidige maand.
-				aantalDagen += d; 
+				aantalDagen += d;
 				y -= (m == 1 ? 1 : 0); // verminder jaartal?
 				m = (m == 1 ? 12 : m - 1); // verminder maand?
 				// zet als laatste dag van (vorige) maand
-				d = Maanden.get(m).GetLength(y); 													 
+				d = Maanden.get(m).GetLength(y);
 			}
 		}
-		setDatum(d+ aantalDagen, m, y); //add rest
-		return (Datum)clone(); 
-	}
-
-	/**
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	@Override
-	protected Object clone()
-	{
+		setDatumInternal(d + aantalDagen, m, y); // add rest
 		return new Datum(this);
 	}
+
+	// /**
+	// *
+	// * @see java.lang.Object#clone()
+	// */
+	// @Override
+	// public Object clone()
+	// {
+	// return new Datum(this);
+	// }
 }

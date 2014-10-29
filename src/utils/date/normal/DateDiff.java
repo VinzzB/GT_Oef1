@@ -28,7 +28,7 @@ class DateDiff
 		// Switch Min / Max
 		Datum Maxdate = date1.kleinerDan(date2) ? date2 : date1;
 		Datum minDate = date1.kleinerDan(date2) ? date1 : date2;
-		minDate = (Datum)minDate.clone(); //Cloned for calculations
+		minDate = new Datum(minDate); //Cloned for calculations
 
 		// Not in same month or year? -> Add 1 month
 		while (minDate.getMonth() != Maxdate.getMonth()

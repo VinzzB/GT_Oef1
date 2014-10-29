@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 
 //----------------------------------
-import utils.date.gregorian.*;
-//import utils.date.normal.*;
+//import utils.date.gregorian.*;
+import utils.date.normal.*;
 //^^^ Switch Class To Test Above ^^^
 //----------------------------------
 
@@ -360,8 +360,9 @@ public class DateTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void test_Ctor_Als_String_parameter_lengte_jaarFormatIs2_Geef_fout()
 	{
-		Datum date = new Datum("01/01/11");				
+		Datum date = new Datum("01/01/11");		
 	}	
+	
 	
 	/*
 	 * -----------------------------------------------
@@ -463,10 +464,10 @@ public class DateTest {
 	 * -----------------------------------------------
 	*/
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void test_setDatum_Als_parameters_0_Geeft_fout()
+	@Test//(expected = IllegalArgumentException.class)
+	public void test_setDatum_Als_parameters_0_Geeft_false()
 	{
-		date.setDatum(0, 0, 0);
+		assertFalse("Zet datum naar 0 geeft false", date.setDatum(0, 0, 0));	
 	}
 	
 	@Test
@@ -485,6 +486,14 @@ public class DateTest {
 		}				
 	}	
 		
+	@Test
+	public void test_setDatum_Als_parameters_foutieveMaand_Geeft_vorigeDatum()
+	{
+		Datum oldDate = new Datum(date); // (Datum)date.clone();
+		date.setDatum(1, 0, 2000);
+		assertEquals("is oude waarde?", oldDate, date);
+	}		
+	
 	/*
 	 * -----------------------------------------------
 	 * TEST METHOD: veranderDatum(int)
