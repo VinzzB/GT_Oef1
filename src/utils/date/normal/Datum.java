@@ -60,7 +60,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 	 * @param datum
 	 * @throws IllegalArgumentException
 	 */
-	public Datum(String datum)
+	public Datum(String datum) throws IllegalArgumentException
 	{
 		// split string and validate
 		String[] dateArr = datum.split("/");
@@ -106,7 +106,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 	}
 
 	// SETTERS
-	private void setDay(int day)
+	private void setDay(int day) throws IllegalArgumentException
 	{
 		int dim = Maanden.get(month).GetLength(year); 
 		if (day < 1 || day > dim)
@@ -117,7 +117,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 		this.day = day;
 	}
 
-	private void setMonth(int month)
+	private void setMonth(int month) throws IllegalArgumentException
 	{
 		if (month < 1 || month > 12)
 		{
@@ -127,7 +127,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 		this.month = month;
 	}
 
-	private void setYear(int year)
+	private void setYear(int year) throws IllegalArgumentException
 	{
 		if (year < 0)
 		{
@@ -139,6 +139,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 
 	/**
 	 * zet de datum naar de opgegeven waarden.
+	 * 
 	 * @param dag
 	 * @param maand
 	 * @param jaar
@@ -154,6 +155,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 
 	/**
 	 * Datum in Amerikaans formaat (YYYY/MM/DD)
+	 * 
 	 * @return
 	 */
 	public String getAmericanFormat()
@@ -163,6 +165,7 @@ public class Datum implements Comparable<Datum>, Cloneable
 
 	/**
 	 * Datum in Europees formaat (DD/MM/YYYY)
+	 * 
 	 * @return
 	 */
 	public String getEuropeanFormat()
@@ -185,15 +188,15 @@ public class Datum implements Comparable<Datum>, Cloneable
 	@Override
 	public int compareTo(Datum normalDate)
 	{
-		// Check Year
-		if (year > normalDate.year) { return 1; }
-		if (year < normalDate.year) { return -1; }
-		// Check Month
-		if (month > normalDate.month) { return 1; }
-		if (month < normalDate.month) { return -1; }
-		// check Day
-		if (day > normalDate.day) { return 1; }
-		if (day < normalDate.day) { return -1; }
+		if (year > normalDate.year || month > normalDate.month || day > normalDate.day)
+		{
+			return 1;
+		}
+		else if (year < normalDate.year || month < normalDate.month || day < normalDate.day)
+		{
+			return -1;
+		}
+
 		return 0; // equal
 	}
 
@@ -203,13 +206,17 @@ public class Datum implements Comparable<Datum>, Cloneable
 	 */
 	@Override
 	public boolean equals(Object obj)
-	{	
+	{
 		// Same object? = Always true
 		if (this == obj)
+		{
 			return true;
+		}
 		// Same Type?
 		if (obj == null || !(obj instanceof Datum))
+		{
 			return false;
+		}
 		// CompareDate and return true if equal.
 		return compareTo((Datum) obj) == 0;
 	}
