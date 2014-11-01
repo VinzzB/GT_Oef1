@@ -21,7 +21,7 @@ public class Datum implements Comparable<Datum>// , Cloneable
 	 * @param maand
 	 * @param jaar
 	 */
-	public Datum(int dag, int maand, int jaar)
+	public Datum(int dag, int maand, int jaar) throws IllegalArgumentException
 	{
 		setDatumInternal(dag, maand, jaar);
 	}
@@ -32,7 +32,7 @@ public class Datum implements Comparable<Datum>// , Cloneable
 	 * @param fullDate
 	 */
 	@SuppressWarnings("deprecation")
-	public Datum(Date fullDate)
+	public Datum(Date fullDate) throws IllegalArgumentException
 	{
 		setDatumInternal(fullDate.getDate(), 
 						 fullDate.getMonth(),
@@ -44,7 +44,7 @@ public class Datum implements Comparable<Datum>// , Cloneable
 	 * 
 	 * @param dateObj
 	 */
-	public Datum(Datum dateObj)
+	public Datum(Datum dateObj) //throws moet hier niet want object is al gevalideerd.
 	{
 		setDatumInternal(dateObj.getDay(), 
 						 dateObj.getMonth(),
@@ -65,7 +65,7 @@ public class Datum implements Comparable<Datum>// , Cloneable
 	 * @param datum
 	 * @throws IllegalArgumentException
 	 */
-	public Datum(String datum)
+	public Datum(String datum) throws IllegalArgumentException
 	{
 		// split string and validate
 		String[] dateArr = datum.split("/");
@@ -112,7 +112,7 @@ public class Datum implements Comparable<Datum>// , Cloneable
 	}
 
 	// SETTERS
-	private void setDay(int day)
+	private void setDay(int day) throws IllegalArgumentException
 	{
 		int dim = Maanden.get(month).GetLength(year);
 		if (day < 1 || day > dim)
@@ -124,7 +124,7 @@ public class Datum implements Comparable<Datum>// , Cloneable
 		this.day = day;
 	}
 
-	private void setMonth(int month)
+	private void setMonth(int month) throws IllegalArgumentException
 	{
 		if (month < 1 || month > 12)
 		{
@@ -134,7 +134,7 @@ public class Datum implements Comparable<Datum>// , Cloneable
 		this.month = month;
 	}
 
-	private void setYear(int year)
+	private void setYear(int year) throws IllegalArgumentException
 	{
 		if (year < 0)
 		{
@@ -175,7 +175,7 @@ public class Datum implements Comparable<Datum>// , Cloneable
 	 * @param maand
 	 * @param jaar
 	 */
-	private void setDatumInternal(int dag, int maand, int jaar)
+	private void setDatumInternal(int dag, int maand, int jaar) throws IllegalArgumentException
 	{
 		setYear(jaar);
 		setMonth(maand);
@@ -215,17 +215,18 @@ public class Datum implements Comparable<Datum>// , Cloneable
 	 * @see java.lang.Comparable#compareTo(T o)
 	 */
 	@Override
-	public int compareTo(Datum normalDate)
-	{
-		// Check Year
-		if (year > normalDate.year) { return 1; }
-		if (year < normalDate.year) { return -1; }
-		// Check Month
-		if (month > normalDate.month) { return 1; }
-		if (month < normalDate.month) { return -1; }
-		// check Day
-		if (day > normalDate.day) { return 1; }
-		if (day < normalDate.day) { return -1; }
+	public int compareTo(Datum normalDate) {
+		//groter
+		if (year > normalDate.year 
+				|| month > normalDate.month 
+				|| day > normalDate.day)
+		{ return 1; }
+		//Kleiner
+		if (year < normalDate.year 
+				|| month < normalDate.month 
+				|| day < normalDate.day)
+		{ return -1; }
+
 		return 0; // equal
 	}
 
@@ -238,10 +239,14 @@ public class Datum implements Comparable<Datum>// , Cloneable
 	{
 		// Same object? = Always true
 		if (this == obj)
+		{
 			return true;
+		}
 		// Same Type?
 		if (obj == null || !(obj instanceof Datum))
+		{
 			return false;
+		}
 		// CompareDate and return true if equal.
 		return compareTo((Datum) obj) == 0;
 	}

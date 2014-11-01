@@ -485,7 +485,7 @@ public class DateTest {
 			assertEquals("setDatum Jaar",y, testDate.getYear());			
 		}				
 	}	
-		
+
 	@Test
 	public void test_setDatum_Als_parameters_foutieveMaand_Geeft_vorigeDatum()
 	{
