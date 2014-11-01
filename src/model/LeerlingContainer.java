@@ -1,28 +1,41 @@
 package model;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 
 /**
- *
+ * Klasse die alle leerlingen bevat. De LeerlingContainer kan enkel geraadpleegd
+ * worden door andere klassen. De Container wordt gevuld bij het begin van de
+ * quizzApp met gegevens uit een file? of database?
  * @author Silvia
  */
-public class LeerlingContainer
+final public class LeerlingContainer implements Iterable
 {
-    private List<Leerling> leerlingContainer;
+    private static Map<Integer, Leerling> leerlingContainer = new HashMap<>();
+
+    /**
+     * Constructor verwacht een Map object met een Integer als sleutel en
+     * Leerlingobjecten als value
+     * @param leerlingC 
+     */
+    public LeerlingContainer(Map<Integer, Leerling> leerlingC)
+    {
+        leerlingContainer = leerlingC;
+    }
+
+    public static Map<Integer, Leerling> getLeerlingContainer()
+    {
+        return leerlingContainer;
+    }
 
     @Override
     public int hashCode()
     {
-        int hash = 3;
-        hash = 67 * hash + Objects.hashCode(this.leerlingContainer);
+        int hash = 7;
+        hash = 41 * hash + Objects.hashCode(this.leerlingContainer);
         return hash;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "LeerlingContainer{" + "leerlingContainer=" + leerlingContainer + '}';
     }
 
     @Override
@@ -40,46 +53,17 @@ public class LeerlingContainer
         return Objects.equals(this.leerlingContainer, other.leerlingContainer);
     }
 
-    public LeerlingContainer(List<Leerling> leerlingContainer)
+    @Override
+    public String toString()
     {
-        this.leerlingContainer = leerlingContainer;
-    }
-    public LeerlingContainer()
-    {
-        this.leerlingContainer = null;
+        return "LeerlingContainer{" + "leerlingContainer=" + leerlingContainer + '}';
     }
 
-    public void setLeerlingContainer(List<Leerling> leerlingContainer)
-    {
-        this.leerlingContainer = leerlingContainer;
-    }
 
-    public List<Leerling> getLeerlingContainer()
+    @Override
+    public Iterator iterator()
     {
-        return leerlingContainer;
-    }
-
-    void addLeerling(Leerling l) throws IllegalArgumentException
-    {
-        if(l == null)
-        {
-            throw new IllegalArgumentException("Leerling is null");
-        }
-        if (leerlingContainer != null)
-        {
-        leerlingContainer.add(l);
-        }
-    }
-
-    void removeLeerling(Leerling l) throws IllegalArgumentException
-    {
-       if(l == null)
-        {
-            throw new IllegalArgumentException("Leerling is null");
-        }
-       if (leerlingContainer != null)
-       {
-        leerlingContainer.remove(l);
-       }
+        Iterator leerlingcontainer = leerlingContainer.entrySet().iterator();
+        return leerlingcontainer;
     }
 }
