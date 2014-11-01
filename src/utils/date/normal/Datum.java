@@ -216,17 +216,15 @@ public class Datum implements Comparable<Datum>// , Cloneable
 	 */
 	@Override
 	public int compareTo(Datum normalDate) {
-		//groter
-		if (year > normalDate.year 
-				|| month > normalDate.month 
-				|| day > normalDate.day)
-		{ return 1; }
-		//Kleiner
-		if (year < normalDate.year 
-				|| month < normalDate.month 
-				|| day < normalDate.day)
-		{ return -1; }
-
+		// Check Year
+		if (year > normalDate.year) { return 1; }
+		if (year < normalDate.year) { return -1; }
+		// Check Month
+		if (month > normalDate.month) { return 1; }
+		if (month < normalDate.month) { return -1; }
+		// check Day
+		if (day > normalDate.day) { return 1; }
+		if (day < normalDate.day) { return -1; }
 		return 0; // equal
 	}
 
