@@ -1,72 +1,143 @@
 package model;
-import utils.date.normal.*;
+import java.util.HashSet;
+import java.util.Set;
+import utils.date.normal.Datum;
 /**
- *
+ * Klasse Quizdeelname: Een quizdeelname is gelinkt aan 1 leerling en bevat 1 of 
+ * meerdere opdrachtantwoorden en is ook gelinkt aan 1 quiz en bevat de datum van
+ * deelname.
  * @author Silvia
  */
 public class QuizDeelname
 {
- private Leerling owner;
- private OpdrachtAntwoord opdrachtAntwoord;
+ private Leerling ownerLeerling;
+ private Set opdrachtAntwoorden;
  private Datum datumDeelname;
- private Quiz quiz;
+ private Quiz ownerQuiz;
 
-    public QuizDeelname()
+    /**
+     * Linkt de leerling aan de quizdeelname
+     * @param newOwner Leerling die bij deze quizdeelname hoort
+     */
+    public void setOwnerLeerling (Leerling newOwner)
     {
-        this.owner = new Leerling();
-        this.opdrachtAntwoord = new OpdrachtAntwoord();
-        this.datumDeelname = new Datum();
-        this.quiz = new Quiz();
-    }     
-    public QuizDeelname(Leerling owner, OpdrachtAntwoord opdrachtAntwoord, Datum datumDeelname, Quiz quiz)
-    {
-        this.owner = owner;
-        this.opdrachtAntwoord = opdrachtAntwoord;
-        this.datumDeelname = datumDeelname;
-        this.quiz = quiz;
-    }
-
-    public void setOwner(Leerling newOwner)
-    {
-        Leerling old = owner;
-        owner = newOwner;
-        if (newOwner != null)
+        if(ownerLeerling != newOwner)
         {
-            newOwner.addQuizDeelname(this);
-        }
-        if (old != null)
-        {
-            old.removeQuizDeelname(this);
+            Leerling old = ownerLeerling;
+            ownerLeerling = newOwner;
+            if (newOwner != null)
+            {
+                newOwner.addQuizDeelname(this);
+            }
+            if (old != null)
+            {
+                old.removeQuizDeelname(this);
+            }
         }
     }
 
-    public OpdrachtAntwoord getOpdrachtAntwoord()
+    /**
+     * 
+     * @return Set met opdrachtantwoorden
+     */
+    public Set getOpdrachtAntwoorden()
     {
-        return opdrachtAntwoord;
+        return opdrachtAntwoorden;
     }
 
-    public void setOpdrachtAntwoord(OpdrachtAntwoord opdrachtAntwoord)
-    {
-        this.opdrachtAntwoord = opdrachtAntwoord;
-    }
-
+    /**
+     * 
+     * @return Datum deelnamedatum
+     */
     public Datum getDatumDeelname()
     {
         return datumDeelname;
     }
 
+    /**
+     * 
+     * @param datumDeelname Datum
+     */
     public void setDatumDeelname(Datum datumDeelname)
     {
         this.datumDeelname = datumDeelname;
     }
 
+    /**
+     * 
+     * @return Quiz
+     */
     public Quiz getQuiz()
     {
-        return quiz;
+        return ownerQuiz;
     }
 
-    public void setQuiz(Quiz quiz)
+    /**
+     * Linkt de Quiz aan de quizdeelname
+     * @param newOwner Quiz waaraan de quizdeelname moet gelinkt worden
+     */
+    public void setOwnerQuiz(Quiz newOwner)
     {
-        this.quiz = quiz;
+        if(ownerQuiz != newOwner)
+        {
+            Quiz old = ownerQuiz;
+            ownerQuiz = newOwner;
+            if (newOwner != null)
+            {
+                newOwner.addQuizDeelname(this);
+            }
+            if (old != null)
+            {
+                old.removeQuizDeelname(this);
+            }
+        }
     }
+    
+    /**
+     * Default Constructor
+     */
+    public QuizDeelname()
+    {
+        this.opdrachtAntwoorden = new HashSet();
+        this.datumDeelname = new Datum();
+        this.ownerQuiz = new Quiz();
+    }     
+    /**
+     * Constructor met 4 parameters
+     * @param newOwnerLeerling Leerling waaraan de quizdeelname zal gelinkt worden
+     * @param opdrachtAntwoord Set met 1 of meer opdrachtantwoorden
+     * @param datumDeelname Datum van deelname
+     * @param newOwnerQuiz Quiz waaraan de quizdeelname zal gelinkt worden
+     */
+    public QuizDeelname(Leerling newOwnerLeerling, Set opdrachtAntwoord, Datum datumDeelname, Quiz newOwnerQuiz)
+    {
+        this.ownerLeerling = newOwnerLeerling;
+        this.opdrachtAntwoorden = opdrachtAntwoord;
+        this.datumDeelname = datumDeelname;
+        this.ownerQuiz = newOwnerQuiz;
+    }
+
+    /**
+     * Voegt een opdrachtantwoord toe aan de Set met opdrachtantwoorden 
+     * en linkt deze met de quizdeelname
+     * @param opdrachtAntwoord 
+     */
+    public void addOpdrachtAntwoord(OpdrachtAntwoord opdrachtAntwoord)
+    {
+        this.opdrachtAntwoorden.add(opdrachtAntwoord);
+        opdrachtAntwoord.setOwnerQuizDeelname(this);
+    }
+
+    /**
+     * Verwijdert een opdrachtantwoord van de Set met opdrachtantwoorden
+     * en verwijdert de link met de quizdeelname
+     * @param opdrAntw 
+     */
+    public void removeOpdrachtAntwoord(OpdrachtAntwoord opdrAntw)
+    {
+        this.opdrachtAntwoorden.remove(opdrAntw);
+        opdrAntw.setOwnerQuizDeelname(null);
+    }
+    
+    
 }
