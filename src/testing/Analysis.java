@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import utils.date.gregorian.*;
+import utils.Datum2;
 
 public class Analysis 
 {
 	String[] namen = new String[12];
-	String[] daten = new String[12]; 
-	Datum[] ddaten = new Datum[12];
+	String[] daten = new String[12];
+	Datum2[] ddaten = new Datum2[12];
 	
 	String lijn;
 	
@@ -34,7 +34,7 @@ public class Analysis
 					  String [] velden = lijn.split("\t");
 					  namen[i] = velden[0];
 					  daten[i] = velden[1];
-					  ddaten[i] = new Datum(daten[i]);
+					  ddaten[i] = new Datum2(daten[i]);
 					  i++;
 				  }
 				  catch(Exception ex)
@@ -101,7 +101,7 @@ public class Analysis
 	public String printVerschill()
 	{
 		return String.format("%s is %d jaaren ouder dan %s", 
-				namen[oudste],  ddaten[oudste].verschilInJaren(ddaten[jongste]), namen[jongste]);
+				namen[oudste],  ddaten[oudste].verschillInJaren(ddaten[jongste]), namen[jongste]);
 	}
 	
 	public static void main(String[] args) 

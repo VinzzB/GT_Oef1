@@ -5,7 +5,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+<<<<<<< HEAD
 import utils.date.gregorian.Datum;
+=======
+import utils.Datum;
+>>>>>>> refs/remotes/origin/master
 
 public class LeesBestand
 {
