@@ -3,7 +3,7 @@ package model;
 /**
  * Een enumeration voor de opdracht categoriën
  * 
- * @author Atlas
+ * @author Isaak
  */
 public enum OpdrachtCategorie
 {
