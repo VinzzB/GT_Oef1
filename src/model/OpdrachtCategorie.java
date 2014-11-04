@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Een enumeration voor de opdracht categoriën
+ * Een enumeration voor de opdracht categoriëen
  * 
  * @author Isaak
  */
