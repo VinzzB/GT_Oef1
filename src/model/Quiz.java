@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Quiz 
+public class Quiz implements Comparable<Quiz>, Cloneable
 {
 	private String onderwerp;
 	private int leerjaar;
@@ -34,8 +34,23 @@ public class Quiz
 		setIsTest(isTest);
 		setIsUniek(isUniek);
 		setStatus(status);
+		
 	}
 
+	public Quiz(Quiz quiz)
+	{
+		this();
+		setOnderwerp(quiz.onderwerp);
+		setLeerjaar(quiz.leerjaar);
+		setIsTest(quiz.isTest);
+		setIsUniek(quiz.isUniek);
+		setStatus(quiz.status);
+		
+		for (QuizOpdracht quizOpdracht : quiz.quizOpdrachten)
+		{
+			this.quizOpdrachten.add(quizOpdracht);
+		}
+	}
 
 	public String getOnderwerp() 
 	{
@@ -172,6 +187,12 @@ public class Quiz
 		return "Quiz [onderwerp=" + onderwerp + ", leerjaar=" + leerjaar
 				+ ", isTest=" + isTest + ", isUniek=" + isUniek + ", status="
 				+ status + ", quizOpdrachten=" + quizOpdrachten + "]";
+	}
+	
+	@Override
+	public Quiz clone() throws CloneNotSupportedException
+	{
+		return new Quiz(this);
 	}
 
 	protected void voegQuizOpdrachtToe(QuizOpdracht quizOpdracht)

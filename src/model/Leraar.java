@@ -2,10 +2,10 @@ package model;
 
 public enum Leraar 
 {
-	LEERAAR1("", ""),
-	LEERAAR2("", ""),
-	LEERAAR3("", ""),
-	LEERAAR4("", "");
+	LERAAR1("", ""),
+	LERAAR2("", ""),
+	LERAAR3("", ""),
+	LERAAR4("", "");
 	
 	private final String naam;
 	private final String voornaam;
