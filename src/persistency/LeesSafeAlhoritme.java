@@ -7,10 +7,12 @@ import java.util.Scanner;
 
 abstract class LeesSafeAlhoritme
 {
-	private String output ="";
-	private File file = new File("bestanden\\werknemers.txt");
-	  
-	public void leesVanBestand()
+	protected String output ="";
+	protected File file;
+	 
+	abstract void setVeld(String veld);
+	
+	public void leesVanTXTBestand()
 	{
 		  try
 		  {
@@ -18,13 +20,17 @@ abstract class LeesSafeAlhoritme
 			while (scanner.hasNext())
 			{
 		      String lijn = scanner.nextLine();
-			  String [] velden = lijn.split(",");
+		      String[] velden = lijn.split("\t");
+		      for (String veld : velden)
+		      {
+		    	  setVeld(veld);
+		      }
 			  String naam = velden[0];
 			  double salaris = Double.parseDouble(velden[1]);
 			  Werknemer werknemer = new Werknemer(naam, salaris);				
 			  output += werknemer.toString()+"\n";
 			}
-			if (scanner!=null)
+			if (scanner != null)
 			{
 			  scanner.close();
 			}
@@ -40,11 +46,11 @@ abstract class LeesSafeAlhoritme
 		  }
 		}
 	
-	public void schrijfWerknemersNaarBestand()
+	public void schrijfWerknemersNaarTXTBestand()
 	{
 
 		try{
-			PrintWriter writer = new PrintWriter(file);
+			PrintWriter writer = new PrintWriter(file));
 			for (int i = 0;i <werknemerLijst.getAantalWerknemers();i++)
 			{
 				Werknemer werknemer = werknemerLijst.getWerknemer(i);

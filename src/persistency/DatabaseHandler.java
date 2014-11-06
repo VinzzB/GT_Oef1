@@ -1,8 +1,20 @@
 package persistency;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import view.LeesDatabaseGui;
+
 public class DatabaseHandler
 {
-	private DatabaseStrategy db; 
+	private IDatabaseStrategy db; 
+		
+	public DatabaseHandler() throws InstantiationException, IllegalAccessException, 
+									IllegalArgumentException, InvocationTargetException, 
+									NoSuchMethodException, SecurityException, 
+									ClassNotFoundException 
+	{
+		setDatabaseStrategy();
+	}
 	
 	public void vulCatalogs()
 	{
@@ -19,8 +31,14 @@ public class DatabaseHandler
 		db.safeQuizOpdrachten();
 	}
 	
-	public void setDatabaseStrategy(DatabaseStrategy db)
+	public void setDatabaseStrategy() throws InstantiationException, IllegalAccessException, 
+											IllegalArgumentException, InvocationTargetException, 
+											NoSuchMethodException, SecurityException, 
+											ClassNotFoundException
 	{
-		this.db = db;
+		LeesDatabaseGui ldb = new LeesDatabaseGui();
+		Class<?> dataBase = Class.forName(ldb.kiesDatabaseStrategy());
+		Constructor<?> ctor = dataBase.getConstructor();
+		this.db = (IDatabaseStrategy)ctor.newInstance();
 	}
 }
