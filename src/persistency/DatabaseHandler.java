@@ -40,5 +40,7 @@ public class DatabaseHandler
 		Class<?> dataBase = Class.forName(ldb.kiesDatabaseStrategy());
 		Constructor<?> ctor = dataBase.getConstructor();
 		this.db = (IDatabaseStrategy)ctor.newInstance();
+		
+		System.out.print(db.getClass());
 	}
 }
