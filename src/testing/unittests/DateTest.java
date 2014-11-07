@@ -1,4 +1,4 @@
-package testing;
+package testing.unittests;
 import java.util.Date;
 import java.util.Random;
 import org.junit.Test;
