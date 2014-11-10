@@ -1,5 +1,17 @@
 package persistency;
 
+/**
+ * Enumeration van mogelijke manieren van opslagen en lezen van objecten
+ * 
+ * On nieuwe manier toe to voegen maak eerst een nieuwe klasse
+ * met lees/schrijf techniken en daarna voeg een nieuwe field in 
+ * enumeration MogelijkeDatbasen
+ * bv TXTbestand ("TXT-bestand", DatabaseTXT.class)
+ * 
+ * @author Natalia Dyubankova <fornnd@gmail.com>
+ * @version     1.0                 
+ * @since       2014-11-11 
+ */
 public enum MogelijkeDatabasen
 {	
 	TXTbestand ("TXT-bestand", DatabaseTXT.class),

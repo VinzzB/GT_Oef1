@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import model.Opdracht;
@@ -30,14 +31,17 @@ public class PersistencyController
 			db.getDb().setCatalogus(oc, qc);
 			db.safeCatalogus();
 			
+			DatabaseHandler db2 = new DatabaseHandler();
+			db2.vulCatalogus();
 		} 
 		catch 
 		(InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException | ClassNotFoundException e)
+				| NoSuchMethodException | SecurityException | ClassNotFoundException
+				| IOException e)
 		{
 			e.printStackTrace();
-		}
+		} 
 	}
 
 }

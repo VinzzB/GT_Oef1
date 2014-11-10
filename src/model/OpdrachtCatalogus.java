@@ -31,4 +31,14 @@ public class OpdrachtCatalogus
 	 {
 		 return opdrachtCatalogus.size() + 1;
 	 }
+	 
+	public Opdracht getOpdracht(int opdrachtID)
+	{
+		for(Opdracht opdracht : opdrachtCatalogus)
+		{
+			if(opdracht.getOpdrachtID() == opdrachtID)
+				return opdracht;
+		}
+		return null;
+	}
 }

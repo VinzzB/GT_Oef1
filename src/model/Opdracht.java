@@ -1,6 +1,5 @@
 package model;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,7 @@ public class Opdracht
 	private String antwoord;
 	private String antwoordHints;
 	private int maxAantalPogingen;
-	private Time maxAntwoordTijd = null;
+	private int maxAntwoordTijd;
 	
 	private List <QuizOpdracht> quizOpdrachten;
 	
@@ -31,7 +30,7 @@ public class Opdracht
 	}
 	
 	public Opdracht(String vraag, String antwoord, String antwoordHints,
-			int maxAantalPogingen, Time maxAntwoordTijd) 
+			int maxAantalPogingen, int maxAntwoordTijd) 
 	{
 		this();
 		setVraag(vraag);
@@ -42,7 +41,7 @@ public class Opdracht
 	}
 	
 	public Opdracht(int opdrachtID, String vraag, String antwoord, String antwoordHints,
-			int maxAantalPogingen, Time maxAntwoordTijd)
+			int maxAantalPogingen, int maxAntwoordTijd)
 	{
 		this(vraag, antwoord, antwoordHints, maxAantalPogingen, maxAntwoordTijd);
 		this.opdrachtID = opdrachtID;
@@ -80,11 +79,11 @@ public class Opdracht
 		this.maxAantalPogingen = maxAantalPogingen;
 	}
 
-	public Time getMaxAntwoordTijd() {
+	public int getMaxAntwoordTijd() {
 		return maxAntwoordTijd;
 	}
 
-	public void setMaxAntwoordTijd(Time maxAntwoordTijd) {
+	public void setMaxAntwoordTijd(int maxAntwoordTijd) {
 		this.maxAntwoordTijd = maxAntwoordTijd;
 	}
 
@@ -120,9 +119,7 @@ public class Opdracht
 		result = prime * result
 				+ ((antwoordHints == null) ? 0 : antwoordHints.hashCode());
 		result = prime * result + maxAantalPogingen;
-		result = prime * result
-				+ ((maxAntwoordTijd == null) ? 0 : maxAntwoordTijd.hashCode());
-		result = prime * result
+				result = prime * result
 				+ ((quizOpdrachten == null) ? 0 : quizOpdrachten.hashCode());
 		result = prime * result + ((vraag == null) ? 0 : vraag.hashCode());
 		return result;
@@ -158,13 +155,6 @@ public class Opdracht
 			return false;
 		}
 		if (maxAantalPogingen != other.maxAantalPogingen) {
-			return false;
-		}
-		if (maxAntwoordTijd == null) {
-			if (other.maxAntwoordTijd != null) {
-				return false;
-			}
-		} else if (!maxAntwoordTijd.equals(other.maxAntwoordTijd)) {
 			return false;
 		}
 		if (quizOpdrachten == null) {

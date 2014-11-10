@@ -2,10 +2,17 @@ package persistency;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-
+/**
+ * Maakt mogelijk txt-bestant lesen en schrijven om QUIZ programma laten runnen
+ * 
+ * @author Natalia
+ * @version     1.0                 
+ * @since       2014-11-11 
+ */
 public class DatabaseTXT extends Database
 {
 	public DatabaseTXT()
@@ -15,13 +22,38 @@ public class DatabaseTXT extends Database
 		quizzenDB = new File("bestanden\\quizzen.txt");
 		quizOpdrachtDB = new File("bestanden\\quizopdrachten.txt");
 	}
-
+	
+/**
+ * Methode om file te lezen
+ */
 	@Override
-	Object[] leesVanBestand(File file)
+	String[][] leesVanBestand(File file) throws IOException
 	{
-		  Object[] objecten = new Object[(int)file.length()];
-		  try
-		  {
+		int lines = 0;
+		try
+		{
+			Scanner scanner = new Scanner(file);
+			while(scanner.hasNext())
+			{
+				lines++;
+				String waste = scanner.nextLine();
+			}
+			if (scanner != null)
+			{
+			  scanner.close();
+			}
+		}
+		 catch(FileNotFoundException ex)
+		 {
+			 System.out.println("bestand niet gevonden");
+		 }
+		 catch(Exception ex)
+		 {
+			 System.out.println(ex.getMessage());
+		 }
+		String [][] objecten = new String[lines][];
+		try
+		{
 			Scanner scanner = new Scanner(file);
 			int i = 0;
 			while (scanner.hasNext())
@@ -35,18 +67,21 @@ public class DatabaseTXT extends Database
 			{
 			  scanner.close();
 			}
-		  }
-		  catch(FileNotFoundException ex)
-		  {
-		    System.out.println("bestand niet gevonden");
-		  }
-		  catch(Exception ex)
-		  {
-		    System.out.println(ex.getMessage());
-		  }
-		  return objecten;
+		 }
+		 catch(FileNotFoundException ex)
+		 {
+			 System.out.println("bestand niet gevonden");
+		 }
+		 catch(Exception ex)
+		 {
+			 System.out.println(ex.getMessage());
+		 }
+		 return objecten;
 	}
 
+	/**
+	 * Methode om file weg te schrijven
+	 */	
 	@Override
 	void schrijfNaarBestand(String[] objecten, File file)
 	{

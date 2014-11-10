@@ -1,10 +1,22 @@
 package persistency;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import view.LeesDatabaseGui;
 
+/**
+ * Facade klasse. Gebruik om manieren 
+ * van opslagen en lezen van objecten te kiesen.
+ * 
+ * Bij toevoegen van een nieuwe manier hoeft niet verandered worden 
+ * 
+ * @author Natalia Dyubankova <fornnd@gmail.com>
+ * @version     1.0                 
+ * @since       2014-11-11 
+ */
 public class DatabaseHandler
 {
 	private IDatabaseStrategy db; 
@@ -23,15 +35,22 @@ public class DatabaseHandler
 	{
 		setDatabaseStrategy();
 	}
-	
-	public void vulCatalogus()
+
+/**
+ * Leest objecten van de files en voelt database in.
+ * 	
+ * @throws FileNotFoundException
+ * @throws IOException
+ */
+	public void vulCatalogus() throws FileNotFoundException, IOException
 	{
 		db.leesOpdrachten();
 		db.leesQuzen();
-		db.leesQuizOpdachten();
 		db.kopelQuizOpdrachten();
 	}
-	
+/**
+ * Schrijft huidige objecten weg in de files	
+ */
 	public void safeCatalogus()
 	{
 		db.safeOpdrachten();
@@ -39,6 +58,18 @@ public class DatabaseHandler
 		db.safeQuizOpdrachten();
 	}
 	
+/**
+ * Roept een GUI om gebruiker te vragen over welke manier van
+ * van opslagen en lezen van objecten hij wilt gebruiken.
+ *  	
+ * @throws InstantiationException
+ * @throws IllegalAccessException
+ * @throws IllegalArgumentException
+ * @throws InvocationTargetException
+ * @throws NoSuchMethodException
+ * @throws SecurityException
+ * @throws ClassNotFoundException
+ */
 	public void setDatabaseStrategy() throws InstantiationException, IllegalAccessException, 
 											IllegalArgumentException, InvocationTargetException, 
 											NoSuchMethodException, SecurityException, 

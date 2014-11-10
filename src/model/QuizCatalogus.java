@@ -27,8 +27,19 @@ public class QuizCatalogus
 	{
 		quizCatalogus.remove(quiz);
 	}
-	 public int setQuizID()
-	 {
-		 return quizCatalogus.size() + 1;
-	 }
+	
+	public int setQuizID()
+	{
+	    return quizCatalogus.size() + 1;
+	}
+	
+	public Quiz getQuiz(int quizID)
+	{
+		for(Quiz quiz : quizCatalogus)
+		{
+			if(quiz.getQuizID() == quizID)
+				return quiz;
+		}
+		return null;
+	}
 }
