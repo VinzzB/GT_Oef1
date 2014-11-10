@@ -57,12 +57,8 @@ public abstract class Database implements IDatabaseStrategy
 		for (Object object : objecten)
 		{
 			String[] s = (String[]) object;
-			for (Opdracht opdracht : opdrachten.getOpdrachten())
-				if (Integer.parseInt(s[1]) == opdracht.getOpdrachtID())
-				{
-					quizOpdrachten.add(QuizOpdracht.getQuizOpdracht(Integer.parseInt(s[0]), Integer.parseInt(s[1]), Integer.parseInt(s[2])));
+			QuizOpdracht.koppelOpdrachtAanQuiz(quizzen. zOpdracht.getQuiz(), quizOpdracht.getOpdracht(), quizOpdracht.getMaxScore());
 
-				}
 		}
 	}
 
@@ -71,7 +67,7 @@ public abstract class Database implements IDatabaseStrategy
 	{
 		for (QuizOpdracht quizOpdracht : quizOpdrachten)
 		{
-			QuizOpdracht.koppelOpdrachtAanQuiz(quizOpdracht.getQuiz(), quizOpdracht.getOpdracht(), quizOpdracht.getMaxScore());
+			QuizOpdracht.koppelOpdrachtAanQuiz(quizzen.getQuizzen().get(arg0)quizOpdracht.getQuiz(), quizOpdracht.getOpdracht(), quizOpdracht.getMaxScore());
 		}
 	}
 
