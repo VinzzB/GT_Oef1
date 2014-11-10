@@ -1,10 +1,16 @@
 package persistency;
 
+import model.OpdrachtCatalogus;
+import model.QuizCatalogus;
+
 public interface IDatabaseStrategy
 {
+	void setCatalogus(OpdrachtCatalogus opdrachtCatalogus, QuizCatalogus quizCatalogus );
+	
 	void leesOpdrachten();
 	void leesQuzen();
-	void leesQuizOpdrachten();
+	void leesQuizOpdachten();
+	
 	void kopelQuizOpdrachten();
 	
 	void safeOpdrachten();

@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Quiz implements Comparable<Quiz>, Cloneable
 {
+	private int quizID;
 	private String onderwerp;
 	private int leerjaar;
 	private boolean isTest;
@@ -12,6 +13,9 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	private String status;
 	
 	private List <QuizOpdracht> quizOpdrachten;
+	
+	@SuppressWarnings("unused")
+	private QuizCatalogus quizCatalogus;
 	
 	public Quiz()
 	{
@@ -35,6 +39,13 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		setIsUniek(isUniek);
 		setStatus(status);
 		
+	}
+	
+	public Quiz(int quizID, String onderwerp, int leerjaar, boolean isTest,
+			boolean isUniek, String status)
+	{
+		this(onderwerp, leerjaar, isTest, isUniek, status);
+		this.quizID = quizID;
 	}
 
 	public Quiz(Quiz quiz)
@@ -108,6 +119,21 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		this.status = status;
 	}
 	
+	public void setQuizID(int quizID)
+	{
+		this.quizID = quizID;
+	}
+	
+	public int getQuizID()
+	{
+		return quizID;
+	}
+
+	public void setQuizCatalogus(QuizCatalogus quizCatalogus)
+	{
+		this.quizCatalogus = quizCatalogus;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -219,5 +245,11 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	public QuizOpdracht getOpdracht(int volgnr)
 	{
 		return quizOpdrachten.get(volgnr-1);
+	}
+	
+	public String toBestand()
+	{
+		return quizID + "\t" + onderwerp + "\t" + leerjaar + "\t" + isTest + "\t" +
+				isUniek + "\t" + status;
 	}
 }

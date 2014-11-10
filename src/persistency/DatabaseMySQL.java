@@ -1,62 +1,21 @@
 package persistency;
 
-public class DatabaseMySQL extends LeesSafeAlhoritme implements IDatabaseStrategy
+import java.io.File;
+
+public class DatabaseMySQL extends Database
 {
 
 	@Override
-	public void leesOpdrachten()
+	Object[] leesVanBestand(File file)
 	{
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public void leesQuzen()
+	void schrijfNaarBestand(Object[] objecten, File file)
 	{
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void leesQuizOpdrachten()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void kopelQuizOpdrachten()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void safeOpdrachten()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void safeQuizen()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void safeQuizOpdrachten()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void setVeld(String veld)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
 }

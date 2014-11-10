@@ -6,14 +6,17 @@ import java.util.List;
 
 public class Opdracht 
 {
+	private int opdrachtID;
 	private String vraag;
 	private String antwoord;
 	private String antwoordHints;
 	private int maxAantalPogingen;
-	private Time maxAntwoordTijd;
+	private Time maxAntwoordTijd = null;
 	
 	private List <QuizOpdracht> quizOpdrachten;
 	
+	@SuppressWarnings("unused")
+	private OpdrachtCatalogus opdrachtCatalogus;	
 	
 	public Opdracht()
 	{
@@ -36,6 +39,13 @@ public class Opdracht
 		setAntwoordHints(antwoordHints);
 		setMaxAantalPogingen(maxAantalPogingen);
 		setMaxAntwoordTijd(maxAntwoordTijd);
+	}
+	
+	public Opdracht(int opdrachtID, String vraag, String antwoord, String antwoordHints,
+			int maxAantalPogingen, Time maxAntwoordTijd)
+	{
+		this(vraag, antwoord, antwoordHints, maxAantalPogingen, maxAntwoordTijd);
+		this.opdrachtID = opdrachtID;
 	}
 
 	public String getVraag() {
@@ -81,6 +91,21 @@ public class Opdracht
 	public boolean isJuisteAntwoord(String antwoord)
 	{
 		return false;
+	}
+	
+	public  void setOpdrachtID(int opdrachtID)
+	{
+		this.opdrachtID = opdrachtID;
+	}
+	
+	public int getOpdrachtID()
+	{
+		return opdrachtID;
+	}
+	
+	public void setOpdrachtCatalogus(OpdrachtCatalogus opdrachtCatalogus)
+	{
+		this.opdrachtCatalogus = opdrachtCatalogus;
 	}
 	
 	/* (non-Javadoc)
@@ -166,7 +191,7 @@ public class Opdracht
 	public String toString() {
 		return "Opdracht [vraag=" + vraag + ", antwoord=" + antwoord
 				+ ", antwoordHints=" + antwoordHints + ", maxAantalPogingen="
-				+ maxAantalPogingen + ", maxAntwoordTijd=" + maxAntwoordTijd
+				+ maxAantalPogingen + ", maxAntwoordTijd=" + maxAntwoordTijd 
 				+ ", quizOpdrachten=" + quizOpdrachten + "]";
 	}
 
@@ -199,5 +224,11 @@ public class Opdracht
 	public QuizOpdracht getOpdracht(int volgnr)
 	{
 		return quizOpdrachten.get(volgnr - 1);
+	}
+	
+	public String toBestand()
+	{
+		return  opdrachtID + "\t" +	vraag + "\t" + antwoord + "\t" + antwoordHints + "\t" +
+				maxAantalPogingen + "\t" + maxAntwoordTijd;
 	}
 }

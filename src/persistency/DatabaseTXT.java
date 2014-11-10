@@ -1,68 +1,71 @@
 package persistency;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
-public class DatabaseTXT extends LeesSafeAlhoritme implements IDatabaseStrategy
+
+public class DatabaseTXT extends Database
 {
-
-	public DatabaseTXT() {}
-
-	@Override
-	public void leesOpdrachten()
+	public DatabaseTXT()
 	{
-		super.file = new File("bestanden\\opdrachten.txt");
-		super.leesVanTXTBestand();
-		
-		
+		super();
+		opdrachtenDB = new File("bestanden\\opdrachten.txt");
+		quizzenDB = new File("bestanden\\quizzen.txt");
+		quizOpdrachtDB = new File("bestanden\\quizopdrachten.txt");
 	}
 
 	@Override
-	public void leesQuzen()
+	Object[] leesVanBestand(File file)
 	{
-		// TODO Auto-generated method stub
-		
+		  Object[] objecten = new Object[(int)file.length()];
+		  try
+		  {
+			Scanner scanner = new Scanner(file);
+			int i = 0;
+			while (scanner.hasNext())
+			{
+		      String lijn = scanner.nextLine();
+		      String[] velden = lijn.split("\t");
+		      objecten[i] = velden;
+		      i++;
+			}
+			if (scanner != null)
+			{
+			  scanner.close();
+			}
+		  }
+		  catch(FileNotFoundException ex)
+		  {
+		    System.out.println("bestand niet gevonden");
+		  }
+		  catch(Exception ex)
+		  {
+		    System.out.println(ex.getMessage());
+		  }
+		  return objecten;
 	}
 
 	@Override
-	public void leesQuizOpdrachten()
+	void schrijfNaarBestand(String[] objecten, File file)
 	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void kopelQuizOpdrachten()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void safeOpdrachten()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void safeQuizen()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void safeQuizOpdrachten()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void setVeld(String veld)
-	{
-		// TODO Auto-generated method stub
-		
+		try
+		{
+			PrintWriter writer = new PrintWriter(file);
+			for (String object : objecten)
+			{
+				writer.println(object);
+			}
+			if (writer != null)
+			{
+				writer.close();
+			}
+		}
+		catch(Exception ex)
+		{
+			System.out.println(ex.getMessage());
+		}
 	}
 
 }

@@ -2,11 +2,19 @@ package persistency;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+
 import view.LeesDatabaseGui;
 
 public class DatabaseHandler
 {
 	private IDatabaseStrategy db; 
+	/**
+	 * @return the db
+	 */
+	public IDatabaseStrategy getDb()
+	{
+		return db;
+	}
 		
 	public DatabaseHandler() throws InstantiationException, IllegalAccessException, 
 									IllegalArgumentException, InvocationTargetException, 
@@ -16,15 +24,15 @@ public class DatabaseHandler
 		setDatabaseStrategy();
 	}
 	
-	public void vulCatalogs()
+	public void vulCatalogus()
 	{
 		db.leesOpdrachten();
 		db.leesQuzen();
-		db.leesQuizOpdrachten();
+		db.leesQuizOpdachten();
 		db.kopelQuizOpdrachten();
 	}
 	
-	public void safeCatalogs()
+	public void safeCatalogus()
 	{
 		db.safeOpdrachten();
 		db.safeQuizen();
@@ -41,6 +49,6 @@ public class DatabaseHandler
 		Constructor<?> ctor = dataBase.getConstructor();
 		this.db = (IDatabaseStrategy)ctor.newInstance();
 		
-		System.out.print(db.getClass());
+		System.out.print(db.getClass() + "\n");
 	}
 }

@@ -46,21 +46,30 @@ public class QuizOpdracht
 			return false;
 		}
 		QuizOpdracht other = (QuizOpdracht) obj;
-		if (maxScore != other.maxScore) {
+		if (maxScore != other.maxScore) 
+		{
 			return false;
 		}
-		if (opdracht == null) {
-			if (other.opdracht != null) {
+		if (opdracht == null) 
+		{
+			if (other.opdracht != null) 
+			{
 				return false;
 			}
-		} else if (!opdracht.equals(other.opdracht)) {
+		} 
+		else if (!opdracht.equals(other.opdracht)) 
+		{
 			return false;
 		}
-		if (quiz == null) {
-			if (other.quiz != null) {
+		if (quiz == null) 
+		{
+			if (other.quiz != null) 
+			{
 				return false;
 			}
-		} else if (!quiz.equals(other.quiz)) {
+		} 
+		else if (!quiz.equals(other.quiz)) 
+		{
 			return false;
 		}
 		return true;
@@ -81,8 +90,7 @@ public class QuizOpdracht
 
 	public static void koppelOpdrachtAanQuiz(Quiz quiz, Opdracht opdracht, int maxScore)
 	{
-		QuizOpdracht quizOpdracht = 
-		new QuizOpdracht(quiz,opdracht,maxScore);
+		QuizOpdracht quizOpdracht = new QuizOpdracht(quiz, opdracht, maxScore);
 		quiz.voegQuizOpdrachtToe(quizOpdracht);
 		opdracht.voegQuizOpdrachtToe(quizOpdracht);
 	}
@@ -101,5 +109,15 @@ public class QuizOpdracht
 	public Opdracht getOpdracht() 
 	{
 	return opdracht;
+	}
+	
+	public int getMaxScore()
+	{
+		return maxScore;
+	}
+	
+	public String toBestand()
+	{
+		return this.quiz.getQuizID() + "\t" + opdracht.getOpdrachtID() + "\t" + maxScore;
 	}
 }
