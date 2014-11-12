@@ -3,6 +3,11 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author      Natalia Dyubankova <fornnd@gmail.com>
+ * @version     1.0                 
+ * @since       2014-11-12          
+ */
 public class Quiz implements Comparable<Quiz>, Cloneable
 {
 	private int quizID;
@@ -16,19 +21,39 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	
 	@SuppressWarnings("unused")
 	private QuizCatalogus quizCatalogus;
-	
+
+/**
+ * Sole constructor. 
+ * (For invocation by constructors with parameters.)
+ */
 	public Quiz()
 	{
 		quizOpdrachten = new ArrayList<QuizOpdracht>();
 	}
-	
+
+/**
+ * Constructs a new instance of Quiz using String as an onderwerp. 
+ * All other fields default to null.
+ * 
+ * @param onderwerp
+ */
 	public Quiz (String onderwerp)
 	{
 		this();
 		setOnderwerp(onderwerp);
 	}
 
-
+/**
+ * Constructs a new instance of Quiz using String as an onderwerp, Int as leerjaar,
+ * Boolean as isTest, Boolean as isUniek, String as status. 
+ * All other fields default to null.
+ * 
+ * @param onderwerp
+ * @param leerjaar
+ * @param isTest
+ * @param isUniek
+ * @param status
+ */
 	public Quiz(String onderwerp, int leerjaar, boolean isTest,
 			boolean isUniek, String status) 
 	{
@@ -40,7 +65,18 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		setStatus(status);
 		
 	}
-	
+/**
+ * Constructs a new instance of Quiz using Int as QuizID, String as an onderwerp, 
+ * Int as leerjaar, Boolean as isTest, Boolean as isUniek, String as status. 
+ * All other fields default to null.
+ * 	
+ * @param quizID
+ * @param onderwerp
+ * @param leerjaar
+ * @param isTest
+ * @param isUniek
+ * @param status
+ */
 	public Quiz(int quizID, String onderwerp, int leerjaar, boolean isTest,
 			boolean isUniek, String status)
 	{
@@ -48,21 +84,30 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		this.quizID = quizID;
 	}
 
+/**
+ * Copy constructor.
+ * Constructs a new instance of Quiz using other Quiz as parameter.
+ * 
+ * @param quiz
+ */
 	public Quiz(Quiz quiz)
 	{
 		this();
-		setOnderwerp(quiz.onderwerp);
-		setLeerjaar(quiz.leerjaar);
-		setIsTest(quiz.isTest);
-		setIsUniek(quiz.isUniek);
-		setStatus(quiz.status);
+		setQuizID(quiz.getQuizID());
+		setOnderwerp(quiz.getOnderwerp());
+		setLeerjaar(quiz.getLeerjaar());
+		setIsTest(quiz.isTest());
+		setIsUniek(quiz.isUniek());
+		setStatus(quiz.getStatus());
 		
-		for (QuizOpdracht quizOpdracht : quiz.quizOpdrachten)
+		for (QuizOpdracht quizOpdracht : quiz.getQuizOpdrachten())
 		{
 			this.quizOpdrachten.add(quizOpdracht);
 		}
 	}
 
+// getters en setters
+	
 	public String getOnderwerp() 
 	{
 		return onderwerp;
@@ -133,6 +178,27 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	{
 		this.quizCatalogus = quizCatalogus;
 	}
+	
+	public List <QuizOpdracht> getQuizOpdrachten()
+	{
+		return this.quizOpdrachten;
+	}
+	
+	public ArrayList <Opdracht> getOpdrachten()
+	{
+		ArrayList <Opdracht> opdrachten = new ArrayList <Opdracht>();
+		
+		for (QuizOpdracht quizOpdracht : quizOpdrachten)
+		{
+			opdrachten.add(quizOpdracht.getOpdracht());
+		}
+		return opdrachten;
+	}
+	
+	public QuizOpdracht getOpdracht(int volgnr)
+	{
+		return quizOpdrachten.get(volgnr-1);
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -156,45 +222,63 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object obj) 
+	{
+		if (this == obj) 
+		{
 			return true;
 		}
-		if (obj == null) {
+		if (obj == null) 
+		{
 			return false;
 		}
-		if (!(obj instanceof Quiz)) {
+		if (!(obj instanceof Quiz)) 
+		{
 			return false;
 		}
 		Quiz other = (Quiz) obj;
-		if (isTest != other.isTest) {
+		if (isTest != other.isTest) 
+		{
 			return false;
 		}
-		if (isUniek != other.isUniek) {
+		if (isUniek != other.isUniek) 
+		{
 			return false;
 		}
-		if (leerjaar != other.leerjaar) {
+		if (leerjaar != other.leerjaar) 
+		{
 			return false;
 		}
-		if (onderwerp == null) {
-			if (other.onderwerp != null) {
+		if (onderwerp == null) 
+		{
+			if (other.onderwerp != null) 
+			{
 				return false;
 			}
-		} else if (!onderwerp.equals(other.onderwerp)) {
+		} else if (!onderwerp.equals(other.onderwerp)) 
+		{
 			return false;
 		}
-		if (quizOpdrachten == null) {
-			if (other.quizOpdrachten != null) {
+		if (quizOpdrachten == null) 
+		{
+			if (other.quizOpdrachten != null) 
+			{
 				return false;
 			}
-		} else if (!quizOpdrachten.equals(other.quizOpdrachten)) {
+		} 
+		else if (!quizOpdrachten.equals(other.quizOpdrachten)) 
+		{
 			return false;
 		}
-		if (status == null) {
-			if (other.status != null) {
+		if (status == null) 
+		{
+			if (other.status != null) 
+			{
 				return false;
 			}
-		} else if (!status.equals(other.status)) {
+		} 
+		else if (!status.equals(other.status)) 
+		{
 			return false;
 		}
 		return true;
@@ -202,7 +286,8 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	
 	public int compareTo(Quiz quiz)
 	{
-		return 0;
+		return this.quizID - quiz.quizID;
+
 	}
 
 	/* (non-Javadoc)
@@ -220,33 +305,32 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	{
 		return new Quiz(this);
 	}
-
+/**
+ * Voeg quizOpdracht instantie to List van quizOpdrachten
+ * als Quiz instantie werd gekoppeld met Opdracht
+ * 
+ * @param quizOpdracht
+ */
 	protected void voegQuizOpdrachtToe(QuizOpdracht quizOpdracht)
 	{
 		quizOpdrachten.add(quizOpdracht);
 	}
-	
+/**
+ * Verwijdert quizOpdracht instrantie van List van quizOpdrachten
+ * bij verwijderen van koppeling van instantie van Quiz met Opdracht
+ * 	
+ * @param quizOpdracht
+ */
 	protected void verwijderQuizOpdracht(QuizOpdracht quizOpdracht)
 	{
 		quizOpdrachten.remove(quizOpdracht);
 	}
-	
-	public ArrayList <Opdracht> getOpdrachten()
-	{
-		ArrayList <Opdracht> opdrachten = new ArrayList <Opdracht>();
-		
-		for (QuizOpdracht quizOpdracht : quizOpdrachten)
-		{
-			opdrachten.add(quizOpdracht.getOpdracht());
-		}
-		return opdrachten;
-	}
-	
-	public QuizOpdracht getOpdracht(int volgnr)
-	{
-		return quizOpdrachten.get(volgnr-1);
-	}
-	
+
+	/**
+	 * Methode om String samen te stellen om instantie naar TXT bestand weg te schrijven
+	 * 
+	 * @return String met \t delimeters
+	 */
 	public String toBestand()
 	{
 		return quizID + "\t" + onderwerp + "\t" + leerjaar + "\t" + isTest + "\t" +

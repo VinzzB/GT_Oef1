@@ -1,18 +1,63 @@
 package model;
 
-public class QuizOpdracht 
+/**
+ * @author      Natalia Dyubankova <fornnd@gmail.com>
+ * @version     1.0                 
+ * @since       2014-11-12          
+ */
+public class QuizOpdracht implements Cloneable
 {
 	private Quiz quiz;
 	private Opdracht opdracht;
 	private int maxScore;
 
-	
+	/**
+	 * Constructs a new instance of QuizOpdracht using instantie van quiz en opdracht
+	 * en bijhorende maxScore. 
+	 * 
+	 * PRIVATE!
+	 * 
+	 * @param quiz
+	 * @param opdracht
+	 * @param maxScore
+	 */
 	private QuizOpdracht (Quiz quiz, Opdracht opdracht, int maxScore)
 	{
 		this.quiz = quiz;
 		this.opdracht = opdracht;
 		this.maxScore = maxScore;		
 	}
+
+/**
+ * Copy contsructor. 
+ * Constructs a new instance of QuizOpdracht using other QuizOpdracht as parameter.
+ * 
+ * @param quizOpdracht
+ */
+	private QuizOpdracht(QuizOpdracht quizOpdracht)
+	{
+		this.quiz = quizOpdracht.quiz;
+		this.opdracht = quizOpdracht.opdracht;
+		this.maxScore = quizOpdracht.maxScore;
+	}
+	
+// getters en setters	
+	public Quiz getQuiz() 
+	{
+	return quiz;
+	}
+	
+	public Opdracht getOpdracht() 
+	{
+	return opdracht;
+	}
+	
+	public int getMaxScore()
+	{
+		return maxScore;
+	}
+	
+
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -85,37 +130,45 @@ public class QuizOpdracht
 
 	public int compareTo(QuizOpdracht quizOpdracht)
 	{
-		return 0;
+		return this.quiz.compareTo(quizOpdracht.getQuiz())*100000 + 
+				this.opdracht.compareTo(quizOpdracht.getOpdracht()) + 
+				(this.maxScore - quizOpdracht.getMaxScore());
+	}
+	
+	public QuizOpdracht clone()
+	{
+		return new QuizOpdracht(this);
 	}
 
+/**
+ * Koppelt quiz met opdracht en bijhorende score. 
+ * 
+ * STATIC!!!
+ * 
+ * @param quiz
+ * @param opdracht
+ * @param maxScore
+ */
 	public static void koppelOpdrachtAanQuiz(Quiz quiz, Opdracht opdracht, int maxScore)
 	{
 		QuizOpdracht quizOpdracht = new QuizOpdracht(quiz, opdracht, maxScore);
 		quiz.voegQuizOpdrachtToe(quizOpdracht);
 		opdracht.voegQuizOpdrachtToe(quizOpdracht);
 	}
-
+/**
+ * Ontkoppelt quiz en opdracht
+ */
 	public void ontKoppelOpdrachtVanQuiz()
 	{
 	quiz.verwijderQuizOpdracht(this);
 	opdracht.verwijderQuizOpdracht(this);
 	}
 	
-	public Quiz getQuiz() 
-	{
-	return quiz;
-	}
-	
-	public Opdracht getOpdracht() 
-	{
-	return opdracht;
-	}
-	
-	public int getMaxScore()
-	{
-		return maxScore;
-	}
-	
+/**
+ * Methode om String samen te stellen om instantie naar TXT bestand weg te schrijven
+ * 
+ * @return String met \t delimeters
+ */
 	public String toBestand()
 	{
 		return this.quiz.getQuizID() + "\t" + opdracht.getOpdrachtID() + "\t" + maxScore;
