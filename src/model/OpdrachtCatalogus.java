@@ -8,13 +8,23 @@ import java.util.ArrayList;
  * @version     1.0                 
  * @since       2014-11-12  
  */
-public class OpdrachtCatalogus
+public class OpdrachtCatalogus implements Comparable<OpdrachtCatalogus>, Cloneable
 {
 	private ArrayList<Opdracht> opdrachtCatalogus;
 	
 	public OpdrachtCatalogus()
 	{
 		opdrachtCatalogus = new ArrayList<Opdracht>();
+	}
+	
+	public OpdrachtCatalogus(OpdrachtCatalogus opdrachtCatalogus)
+	{
+		this();
+		
+		for(Opdracht opdracht : opdrachtCatalogus.getOpdrachten())
+		{
+			this.opdrachtCatalogus.add(opdracht);
+		}
 	}
 	
 	public ArrayList<Opdracht> getOpdrachten()
@@ -52,5 +62,18 @@ public class OpdrachtCatalogus
 				return opdracht;
 		}
 		return null;
+	}
+
+	@Override
+	public int compareTo(OpdrachtCatalogus opdrachtCatalogus)
+	{
+		if (this.opdrachtCatalogus.size() == opdrachtCatalogus.getOpdrachten().size())
+			return this.hashCode() - opdrachtCatalogus.hashCode();
+		else return this.opdrachtCatalogus.size() - opdrachtCatalogus.getOpdrachten().size();
+	}
+	
+	public OpdrachtCatalogus clone()
+	{
+		return new OpdrachtCatalogus(this);
 	}
 }

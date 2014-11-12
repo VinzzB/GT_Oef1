@@ -9,7 +9,7 @@ import java.util.List;
  * @version     1.0                 
  * @since       2014-11-12  
  */
-public class Opdracht 
+public class Opdracht implements Comparable<Opdracht>, Cloneable
 {
 	private int opdrachtID;
 	private String vraag;
@@ -17,14 +17,13 @@ public class Opdracht
 	private int maxAantalPogingen;
 	private int maxAntwoordTijdInSec;
 	private boolean gekoppeldAanQuiz = false;
-	private String editErrorMessage = "De opdracht kan niet meer gewijzigd "
+	private final String editErrorMessage = "De opdracht kan niet meer gewijzigd "
 									+ "	worden, want ze is reeds gelinkt aan "
 									+ "een Quiz";
 	
 	private List <QuizOpdracht> quizOpdrachten;
 	private List <String> antwoordHints; //meerdere hints per vraag mogelijk
 	
-	@SuppressWarnings("unused")
 	private OpdrachtCatalogus opdrachtCatalogus;	
 	
 	public Opdracht()
@@ -57,6 +56,28 @@ public class Opdracht
 		this.opdrachtID = opdrachtID;
 	}
 
+	public Opdracht(Opdracht opdracht) throws Exception
+	{
+		this();
+		setOpdrachtID(opdracht.getOpdrachtID());
+		setVraag(opdracht.getVraag());
+		setAntwoord(opdracht.getAntwoord());
+		setMaxAantalPogingen(opdracht.getMaxAantalPogingen());
+		setMaxAntwoordTijdInSec(opdracht.getMaxAntwoordTijdInSec());
+		setOpdrachtCatalogus(opdracht.getOpdrachtCatalogus());
+		
+		for(QuizOpdracht quizOpdracht : opdracht.getQuizOpdrachten())
+		{
+			this.quizOpdrachten.add(quizOpdracht);
+		}
+
+		for(String antwoordHint : opdracht.getAntwoordHints())
+		{
+			this.antwoordHints.add(antwoordHint);
+		}
+		
+		
+	}
 	public String getVraag() {
 		return vraag;
 	}
@@ -153,6 +174,11 @@ public class Opdracht
 		this.opdrachtCatalogus = opdrachtCatalogus;
 	}
 	
+	public OpdrachtCatalogus getOpdrachtCatalogus()
+	{
+		return this.opdrachtCatalogus;
+	}
+	
 	public boolean isGekoppeldAanQuiz()
 	{
 		return gekoppeldAanQuiz;
@@ -161,6 +187,11 @@ public class Opdracht
 	public void setGekoppeldAanQuiz(boolean gekoppeldAanQuiz)
 	{
 		this.gekoppeldAanQuiz = gekoppeldAanQuiz;
+	}
+	
+	public List <QuizOpdracht> getQuizOpdrachten()
+	{
+		return this.quizOpdrachten;
 	}
 
 	/* (non-Javadoc)
@@ -243,7 +274,23 @@ public class Opdracht
 
 	public int compareTo(Opdracht opdracht)
 	{
-		return 0;
+		return this.opdrachtID - opdracht.getOpdrachtID();
+	}
+	
+	@Override
+	public Opdracht clone() throws CloneNotSupportedException
+	{
+		Opdracht opdracht;
+		try
+		{
+			opdracht = new Opdracht(this);
+			return opdracht;
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	/**(Opdracht -> QuizOpdracht: 1 to many 
@@ -278,7 +325,7 @@ public class Opdracht
 	
 	public String toBestand()
 	{
-		return  opdrachtID + "\t" +	vraag + "\t" + antwoord + "\t" + antwoordHints + "\t" +
-				maxAantalPogingen + "\t" + maxAntwoordTijdInSec;
+		return  this.opdrachtID + "\t" + this.vraag + "\t" + this.antwoord + "\t" + this.antwoordHints + "\t" +
+				maxAantalPogingen + "\t" + this.maxAntwoordTijdInSec;
 	}
 }
