@@ -3,16 +3,26 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author      Nathalie Mathieu <natmathieu@gmail.com>
+ * @author      Natalia Dyubankova <fornnd@gmail.com>
+ * @version     1.0                 
+ * @since       2014-11-12  
+ */
 public class Opdracht 
 {
 	private int opdrachtID;
 	private String vraag;
 	private String antwoord;
-	private String antwoordHints;
 	private int maxAantalPogingen;
-	private int maxAntwoordTijd;
+	private int maxAntwoordTijdInSec;
+	private boolean gekoppeldAanQuiz = false;
+	private String editErrorMessage = "De opdracht kan niet meer gewijzigd "
+									+ "	worden, want ze is reeds gelinkt aan "
+									+ "een Quiz";
 	
 	private List <QuizOpdracht> quizOpdrachten;
+	private List <String> antwoordHints; //meerdere hints per vraag mogelijk
 	
 	@SuppressWarnings("unused")
 	private OpdrachtCatalogus opdrachtCatalogus;	
@@ -22,7 +32,7 @@ public class Opdracht
 		quizOpdrachten = new ArrayList<QuizOpdracht>();
 	}
 	
-	public Opdracht(String vraag, String antwoord)
+	public Opdracht(String vraag, String antwoord) throws Exception
 	{
 		this();
 		setVraag(vraag);
@@ -30,20 +40,20 @@ public class Opdracht
 	}
 	
 	public Opdracht(String vraag, String antwoord, String antwoordHints,
-			int maxAantalPogingen, int maxAntwoordTijd) 
+			int maxAantalPogingen, int maxAntwoordTijdInSec) throws Exception 
 	{
 		this();
 		setVraag(vraag);
 		setAntwoord(antwoord);
-		setAntwoordHints(antwoordHints);
+		this.voegAntwoordHintsToe(antwoordHints);
 		setMaxAantalPogingen(maxAantalPogingen);
-		setMaxAntwoordTijd(maxAntwoordTijd);
+		setMaxAntwoordTijdInSec(maxAntwoordTijdInSec);
 	}
 	
 	public Opdracht(int opdrachtID, String vraag, String antwoord, String antwoordHints,
-			int maxAantalPogingen, int maxAntwoordTijd)
+			int maxAantalPogingen, int maxAntwoordTijdInSec) throws Exception
 	{
-		this(vraag, antwoord, antwoordHints, maxAantalPogingen, maxAntwoordTijd);
+		this(vraag, antwoord, antwoordHints, maxAantalPogingen, maxAntwoordTijdInSec);
 		this.opdrachtID = opdrachtID;
 	}
 
@@ -51,45 +61,70 @@ public class Opdracht
 		return vraag;
 	}
 
-	public void setVraag(String vraag) {
-		this.vraag = vraag;
+	public void setVraag(String vraag) throws Exception 
+	{
+		//opdracht mag enkel gewijzigd worden indien nog niet gekoppeld aan een quiz
+		if (!this.gekoppeldAanQuiz)
+		{
+			this.vraag = vraag;
+		}
+		else throw new Exception(this.editErrorMessage);
 	}
 
-	public String getAntwoord() {
+	public String getAntwoord() 
+	{
 		return antwoord;
 	}
 
-	public void setAntwoord(String antwoord) {
-		this.antwoord = antwoord;
+	public void setAntwoord(String antwoord) throws Exception 
+	{
+		if (!this.gekoppeldAanQuiz)
+		{
+			this.antwoord = antwoord;
+		}
+		else throw new Exception(this.editErrorMessage);
 	}
 
-	public String getAntwoordHints() {
+	public List<String> getAntwoordHints() 
+	{
 		return antwoordHints;
 	}
 
-	public void setAntwoordHints(String antwoordHints) {
-		this.antwoordHints = antwoordHints;
-	}
-
-	public int getMaxAantalPogingen() {
+	public int getMaxAantalPogingen() 
+	{
 		return maxAantalPogingen;
 	}
 
-	public void setMaxAantalPogingen(int maxAantalPogingen) {
-		this.maxAantalPogingen = maxAantalPogingen;
+	public void setMaxAantalPogingen(int maxAantalPogingen) throws Exception 
+	{
+		if (!this.gekoppeldAanQuiz)
+		{
+			this.maxAantalPogingen = maxAantalPogingen;
+		}
+		else throw new Exception(this.editErrorMessage);
 	}
 
-	public int getMaxAntwoordTijd() {
-		return maxAntwoordTijd;
+	public int getMaxAntwoordTijdInSec() 
+	{
+		return maxAntwoordTijdInSec;
 	}
 
-	public void setMaxAntwoordTijd(int maxAntwoordTijd) {
-		this.maxAntwoordTijd = maxAntwoordTijd;
+	public void setMaxAntwoordTijdInSec(int maxAntwoordTijdInSec) throws Exception 
+	{
+		if (!this.gekoppeldAanQuiz)
+		{
+			this.maxAntwoordTijdInSec = maxAntwoordTijdInSec;
+		}
+		else throw new Exception(this.editErrorMessage);
 	}
 
 	public boolean isJuisteAntwoord(String antwoord)
 	{
-		return false;
+		if (this.antwoord == antwoord)
+		{
+			return true;
+		}
+		else return false;
 	}
 	
 	public  void setOpdrachtID(int opdrachtID)
@@ -102,11 +137,32 @@ public class Opdracht
 		return opdrachtID;
 	}
 	
+	public ArrayList <Opdracht> getOpdrachten()
+	{
+		ArrayList <Opdracht> opdrachten = new ArrayList <Opdracht>();
+		
+		for (QuizOpdracht quizOpdracht : quizOpdrachten)
+		{
+			opdrachten.add(quizOpdracht.getOpdracht());
+		}
+		return opdrachten;
+	}
+	
 	public void setOpdrachtCatalogus(OpdrachtCatalogus opdrachtCatalogus)
 	{
 		this.opdrachtCatalogus = opdrachtCatalogus;
 	}
 	
+	public boolean isGekoppeldAanQuiz()
+	{
+		return gekoppeldAanQuiz;
+	}
+
+	public void setGekoppeldAanQuiz(boolean gekoppeldAanQuiz)
+	{
+		this.gekoppeldAanQuiz = gekoppeldAanQuiz;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -181,7 +237,7 @@ public class Opdracht
 	public String toString() {
 		return "Opdracht [vraag=" + vraag + ", antwoord=" + antwoord
 				+ ", antwoordHints=" + antwoordHints + ", maxAantalPogingen="
-				+ maxAantalPogingen + ", maxAntwoordTijd=" + maxAntwoordTijd 
+				+ maxAantalPogingen + ", maxAntwoordTijd=" + maxAntwoordTijdInSec 
 				+ ", quizOpdrachten=" + quizOpdrachten + "]";
 	}
 
@@ -190,9 +246,13 @@ public class Opdracht
 		return 0;
 	}
 	
+	/**(Opdracht -> QuizOpdracht: 1 to many 
+	 * koppel nieuwe quizopdracht in klasse Quizopdracht aan deze opdracht)
+	 */
 	protected void voegQuizOpdrachtToe(QuizOpdracht quizOpdracht)
 	{
-		quizOpdrachten.add(quizOpdracht);
+		this.quizOpdrachten.add(quizOpdracht);
+		this.gekoppeldAanQuiz = true;
 	}
 	
 	protected void verwijderQuizOpdracht(QuizOpdracht quizOpdracht)
@@ -200,15 +260,15 @@ public class Opdracht
 		quizOpdrachten.remove(quizOpdracht);
 	}
 	
-	public ArrayList <Opdracht> getOpdrachten()
+	
+	protected void voegAntwoordHintsToe(String hints)
 	{
-		ArrayList <Opdracht> opdrachten = new ArrayList <Opdracht>();
-		
-		for (QuizOpdracht quizOpdracht : quizOpdrachten)
-		{
-			opdrachten.add(quizOpdracht.getOpdracht());
-		}
-		return opdrachten;
+		this.antwoordHints.add(hints);
+	}
+	
+	protected void verwijderAntwoordHints(String hints)
+	{
+		this.antwoordHints.remove(hints);
 	}
 	
 	public QuizOpdracht getOpdracht(int volgnr)
@@ -219,6 +279,6 @@ public class Opdracht
 	public String toBestand()
 	{
 		return  opdrachtID + "\t" +	vraag + "\t" + antwoord + "\t" + antwoordHints + "\t" +
-				maxAantalPogingen + "\t" + maxAntwoordTijd;
+				maxAantalPogingen + "\t" + maxAntwoordTijdInSec;
 	}
 }
