@@ -184,7 +184,15 @@ public class QuizDeelname implements Cloneable, Comparable<QuizDeelname>
 			o.add(item);
 		}
 		Datum d = new Datum(this.datumDeelname);
-		Quiz q = new Quiz(this.ownerQuiz);
+		Quiz q = new Quiz();
+		try
+		{
+			q = new Quiz(this.ownerQuiz);
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		return new QuizDeelname(l, o, d, q);
 	}
 
