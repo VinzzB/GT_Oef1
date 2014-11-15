@@ -1,176 +1,197 @@
 package model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
- * @author      Natalia Dyubankova <fornnd@gmail.com>
- * @version     1.0                 
- * @since       2014-11-12          
+ * @author Natalia Dyubankova <fornnd@gmail.com>
+ * @version 1.0
+ * @since 2014-11-12
  */
 public class QuizOpdracht implements Cloneable
 {
 	private Quiz quiz;
 	private Opdracht opdracht;
 	private int maxScore;
+	private Set<OpdrachtAntwoord> opdrachtantwoorden;
 
 	/**
-	 * Constructs a new instance of QuizOpdracht using instantie van quiz en opdracht
-	 * en bijhorende maxScore. 
-	 * 
+	 * Constructs a new instance of QuizOpdracht using instantie van quiz en opdracht en bijhorende maxScore.
+	 *
 	 * PRIVATE!
-	 * 
+	 *
 	 * @param quiz
 	 * @param opdracht
 	 * @param maxScore
 	 */
-	private QuizOpdracht (Quiz quiz, Opdracht opdracht, int maxScore)
+	private QuizOpdracht(Quiz quiz, Opdracht opdracht, int maxScore)
 	{
 		this.quiz = quiz;
 		this.opdracht = opdracht;
-		this.maxScore = maxScore;		
+		this.maxScore = maxScore;
+		this.opdrachtantwoorden = new HashSet<OpdrachtAntwoord>();
 	}
 
-/**
- * Copy contsructor. 
- * Constructs a new instance of QuizOpdracht using other QuizOpdracht as parameter.
- * 
- * @param quizOpdracht
- */
+	/**
+	 * Copy contsructor. Constructs a new instance of QuizOpdracht using other QuizOpdracht as parameter.
+	 *
+	 * @param quizOpdracht
+	 */
 	private QuizOpdracht(QuizOpdracht quizOpdracht)
 	{
 		this.quiz = quizOpdracht.quiz;
 		this.opdracht = quizOpdracht.opdracht;
 		this.maxScore = quizOpdracht.maxScore;
+		this.opdrachtantwoorden = quizOpdracht.opdrachtantwoorden;
 	}
-	
-// getters en setters	
-	public Quiz getQuiz() 
+
+	// getters en setters
+	public Quiz getQuiz()
 	{
-	return quiz;
+		return quiz;
 	}
-	
-	public Opdracht getOpdracht() 
+
+	public Opdracht getOpdracht()
 	{
-	return opdracht;
+		return opdracht;
 	}
-	
+
 	public int getMaxScore()
 	{
 		return maxScore;
 	}
-	
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
-	public int hashCode() 
+	public int hashCode()
 	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + maxScore;
-		result = prime * result
-				+ ((opdracht == null) ? 0 : opdracht.hashCode());
+		result = prime * result + ((opdracht == null) ? 0 : opdracht.hashCode());
 		result = prime * result + ((quiz == null) ? 0 : quiz.hashCode());
 		return result;
 	}
 
-
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+		{
 			return true;
 		}
-		if (obj == null) {
+		if (obj == null)
+		{
 			return false;
 		}
-		if (!(obj instanceof QuizOpdracht)) {
+		if (!(obj instanceof QuizOpdracht))
+		{
 			return false;
 		}
 		QuizOpdracht other = (QuizOpdracht) obj;
-		if (maxScore != other.maxScore) 
+		if (maxScore != other.maxScore)
 		{
 			return false;
 		}
-		if (opdracht == null) 
+		if (opdracht == null)
 		{
-			if (other.opdracht != null) 
+			if (other.opdracht != null)
 			{
 				return false;
 			}
-		} 
-		else if (!opdracht.equals(other.opdracht)) 
+		} else if (!opdracht.equals(other.opdracht))
 		{
 			return false;
 		}
-		if (quiz == null) 
+		if (quiz == null)
 		{
-			if (other.quiz != null) 
+			if (other.quiz != null)
 			{
 				return false;
 			}
-		} 
-		else if (!quiz.equals(other.quiz)) 
+		} else if (!quiz.equals(other.quiz))
 		{
 			return false;
 		}
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "QuizOpdracht [maxScore=" + maxScore + "]";
 	}
 
 	public int compareTo(QuizOpdracht quizOpdracht)
 	{
-		return this.quiz.compareTo(quizOpdracht.getQuiz())*100000 + 
-				this.opdracht.compareTo(quizOpdracht.getOpdracht()) + 
-				(this.maxScore - quizOpdracht.getMaxScore());
+		return this.quiz.compareTo(quizOpdracht.getQuiz()) * 100000 + this.opdracht.compareTo(quizOpdracht.getOpdracht())
+				+ (this.maxScore - quizOpdracht.getMaxScore());
 	}
-	
+
+	@Override
 	public QuizOpdracht clone()
 	{
 		return new QuizOpdracht(this);
 	}
 
-/**
- * Koppelt quiz met opdracht en bijhorende score. 
- * 
- * STATIC!!!
- * 
- * @param quiz
- * @param opdracht
- * @param maxScore
- */
+	/**
+	 * Koppelt quiz met opdracht en bijhorende score.
+	 *
+	 * STATIC!!!
+	 *
+	 * @param quiz
+	 * @param opdracht
+	 * @param maxScore
+	 */
 	public static void koppelOpdrachtAanQuiz(Quiz quiz, Opdracht opdracht, int maxScore)
 	{
 		QuizOpdracht quizOpdracht = new QuizOpdracht(quiz, opdracht, maxScore);
 		quiz.voegQuizOpdrachtToe(quizOpdracht);
 		opdracht.voegQuizOpdrachtToe(quizOpdracht);
 	}
-/**
- * Ontkoppelt quiz en opdracht
- */
+
+	/**
+	 * Ontkoppelt quiz en opdracht
+	 */
 	public void ontKoppelOpdrachtVanQuiz()
 	{
-	quiz.verwijderQuizOpdracht(this);
-	opdracht.verwijderQuizOpdracht(this);
+		quiz.verwijderQuizOpdracht(this);
+		opdracht.verwijderQuizOpdracht(this);
 	}
-	
-/**
- * Methode om String samen te stellen om instantie naar TXT bestand weg te schrijven
- * 
- * @return String met \t delimeters
- */
+
+	/**
+	 * Methode om String samen te stellen om instantie naar TXT bestand weg te schrijven
+	 *
+	 * @return String met \t delimeters
+	 */
 	public String toBestand()
 	{
 		return this.quiz.getQuizID() + "\t" + opdracht.getOpdrachtID() + "\t" + maxScore;
+	}
+
+	public void addOpdrachtAntwoord(OpdrachtAntwoord opdrachtAntwoord)
+	{
+		opdrachtantwoorden.add(opdrachtAntwoord);
+		opdrachtAntwoord.setOwnerQuizOpdracht(this);
+	}
+
+	public void removeOpdrachtAntwoord(OpdrachtAntwoord opdrachtAntwoord)
+	{
+		opdrachtantwoorden.remove(opdrachtAntwoord);
+		opdrachtAntwoord.setOwnerQuizOpdracht(null);
 	}
 }
