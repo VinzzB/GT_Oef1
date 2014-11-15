@@ -54,8 +54,9 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	 * @param isTest
 	 * @param isUniek
 	 * @param status
+	 * @throws Exception 
 	 */
-	public Quiz(String onderwerp, int leerjaar, boolean isTest, boolean isUniek, String status)
+	public Quiz(String onderwerp, int leerjaar, boolean isTest, boolean isUniek, String status) throws Exception
 	{
 		this();
 		setOnderwerp(onderwerp);
@@ -76,8 +77,9 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	 * @param isTest
 	 * @param isUniek
 	 * @param status
+	 * @throws Exception 
 	 */
-	public Quiz(int quizID, String onderwerp, int leerjaar, boolean isTest, boolean isUniek, String status)
+	public Quiz(int quizID, String onderwerp, int leerjaar, boolean isTest, boolean isUniek, String status) throws Exception
 	{
 		this(onderwerp, leerjaar, isTest, isUniek, status);
 		this.quizID = quizID;
@@ -87,8 +89,9 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	 * Copy constructor. Constructs a new instance of Quiz using other Quiz as parameter.
 	 *
 	 * @param quiz
+	 * @throws Exception 
 	 */
-	public Quiz(Quiz quiz)
+	public Quiz(Quiz quiz) throws Exception
 	{
 		this();
 		setQuizID(quiz.getQuizID());
@@ -121,8 +124,10 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		return leerjaar;
 	}
 
-	public void setLeerjaar(int leerjaar)
+	public void setLeerjaar(int leerjaar) throws Exception
 	{
+		if (leerjaar <= 0 || leerjaar > 6)
+			throw new Exception ("Leerjaar moet tusse 1 en 6 zijn");
 		this.leerjaar = leerjaar;
 	}
 
@@ -299,7 +304,15 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	@Override
 	public Quiz clone() throws CloneNotSupportedException
 	{
-		return new Quiz(this);
+		try
+		{
+			return new Quiz(this);
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/**
