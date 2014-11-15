@@ -1,13 +1,14 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @author      Natalia Dyubankova <fornnd@gmail.com>
  * @version     1.0                 
  * @since       2014-11-12          
  */
-public class QuizCatalogus
+public class QuizCatalogus implements Iterable<Quiz>
 {
 	private ArrayList<Quiz> quizCatalogus;
 
@@ -31,7 +32,12 @@ public class QuizCatalogus
  */
 	public int setQuizID()
 	{
-	    return quizCatalogus.size() + 1;
+		int maxID = 0;
+		for (Quiz quiz : quizCatalogus)
+		{
+			if(quiz.getQuizID() > maxID) maxID = quiz.getQuizID();
+		}
+	    return maxID + 1;
 	}
 
 /**
@@ -70,4 +76,10 @@ public class QuizCatalogus
 	{
 		quizCatalogus.remove(quiz);
 	}
+@Override
+public Iterator<Quiz> iterator()
+{
+	Iterator<Quiz> quizzen = quizCatalogus.iterator(); 
+	return quizzen;
+}
 }
