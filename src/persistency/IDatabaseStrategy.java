@@ -18,8 +18,8 @@ public interface IDatabaseStrategy
 {
 	void setCatalogus(OpdrachtCatalogus opdrachtCatalogus, QuizCatalogus quizCatalogus );
 	
-	void leesOpdrachten() throws FileNotFoundException, IOException;
-	void leesQuzen() throws FileNotFoundException, IOException;
+	void leesOpdrachten() throws FileNotFoundException, IOException, NumberFormatException, Exception;
+	void leesQuzen() throws FileNotFoundException, IOException, NumberFormatException, Exception;
 	void kopelQuizOpdrachten() throws FileNotFoundException, IOException;
 	
 	void safeOpdrachten();

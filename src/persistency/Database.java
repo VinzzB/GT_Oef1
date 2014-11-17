@@ -35,9 +35,11 @@ public abstract class Database implements IDatabaseStrategy
 
 /**
  * Konverteert gelezen String naar Opdracht object
+ * @throws Exception 
+ * @throws NumberFormatException 
  */
 	@Override
-	public void leesOpdrachten() throws IOException
+	public void leesOpdrachten() throws NumberFormatException, Exception
 	{
 		String [][] objecten = leesVanBestand(opdrachtenDB);
 		for (String[] object : objecten)
@@ -50,9 +52,11 @@ public abstract class Database implements IDatabaseStrategy
 
 	/**
 	 * Konverteert gelezen String naar Quiz object
+	 * @throws Exception 
+	 * @throws NumberFormatException 
 	 */
 	@Override
-	public void leesQuzen() throws FileNotFoundException, IOException
+	public void leesQuzen() throws NumberFormatException, Exception
 	{
 		String [][] objecten  = leesVanBestand(quizzenDB);
 		for (String[] object : objecten)

@@ -105,6 +105,11 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		{
 			this.quizOpdrachten.add(quizOpdracht);
 		}
+		
+		for(QuizDeelname deelname : quiz.quizdeelnames)
+		{
+			this.quizdeelnames.add(deelname);
+		}
 	}
 
 	// getters en setters

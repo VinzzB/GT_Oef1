@@ -38,11 +38,10 @@ public class DatabaseHandler
 
 /**
  * Leest objecten van de files en voelt database in.
- * 	
- * @throws FileNotFoundException
- * @throws IOException
+ * @throws Exception 
+ * @throws NumberFormatException 
  */
-	public void vulCatalogus() throws FileNotFoundException, IOException
+	public void vulCatalogus() throws NumberFormatException, Exception
 	{
 		db.leesOpdrachten();
 		db.leesQuzen();
