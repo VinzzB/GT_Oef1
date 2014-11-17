@@ -13,7 +13,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 {
 	private int opdrachtID;
 	private String vraag;
-	private String antwoord;
+	private String juisteAntwoord;
 	private int maxAantalPogingen;
 	private int maxAntwoordTijdInSec;
 	private boolean gekoppeldAanQuiz = false;
@@ -94,14 +94,14 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 
 	public String getAntwoord() 
 	{
-		return antwoord;
+		return juisteAntwoord;
 	}
 
 	public void setAntwoord(String antwoord) throws Exception 
 	{
 		if (!this.gekoppeldAanQuiz)
 		{
-			this.antwoord = antwoord;
+			this.juisteAntwoord = antwoord;
 		}
 		else throw new Exception(this.editErrorMessage);
 	}
@@ -141,7 +141,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 
 	public boolean isJuisteAntwoord(String antwoord)
 	{
-		if (this.antwoord == antwoord)
+		if (this.juisteAntwoord == antwoord)
 		{
 			return true;
 		}
@@ -202,7 +202,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((antwoord == null) ? 0 : antwoord.hashCode());
+				+ ((juisteAntwoord == null) ? 0 : juisteAntwoord.hashCode());
 		result = prime * result
 				+ ((antwoordHints == null) ? 0 : antwoordHints.hashCode());
 		result = prime * result + maxAantalPogingen;
@@ -227,11 +227,11 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 			return false;
 		}
 		Opdracht other = (Opdracht) obj;
-		if (antwoord == null) {
-			if (other.antwoord != null) {
+		if (juisteAntwoord == null) {
+			if (other.juisteAntwoord != null) {
 				return false;
 			}
-		} else if (!antwoord.equals(other.antwoord)) {
+		} else if (!juisteAntwoord.equals(other.juisteAntwoord)) {
 			return false;
 		}
 		if (antwoordHints == null) {
@@ -266,7 +266,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 	 */
 	@Override
 	public String toString() {
-		return "Opdracht [vraag=" + vraag + ", antwoord=" + antwoord
+		return "Opdracht [vraag=" + vraag + ", antwoord=" + juisteAntwoord
 				+ ", antwoordHints=" + antwoordHints + ", maxAantalPogingen="
 				+ maxAantalPogingen + ", maxAntwoordTijd=" + maxAntwoordTijdInSec 
 				+ ", quizOpdrachten=" + quizOpdrachten + "]";
@@ -325,7 +325,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 	
 	public String toBestand()
 	{
-		return  this.opdrachtID + "\t" + this.vraag + "\t" + this.antwoord + "\t" + this.antwoordHints + "\t" +
+		return  this.opdrachtID + "\t" + this.vraag + "\t" + this.juisteAntwoord + "\t" + this.antwoordHints + "\t" +
 				maxAantalPogingen + "\t" + this.maxAntwoordTijdInSec;
 	}
 }
