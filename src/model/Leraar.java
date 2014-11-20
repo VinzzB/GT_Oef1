@@ -2,10 +2,10 @@ package model;
 
 public enum Leraar 
 {
-	LERAAR1("", ""),
-	LERAAR2("", ""),
-	LERAAR3("", ""),
-	LERAAR4("", "");
+	LERAAR1("AA", "aa"),
+	LERAAR2("BB", "bb"),
+	LERAAR3("CC", "cc"),
+	LERAAR4("DD", "dd");
 	
 	private final String naam;
 	private final String voornaam;
@@ -28,6 +28,6 @@ public enum Leraar
 	
 	public String toString()
 	{
-		return this.naam + "" + this.voornaam;
+		return this.naam + " " + this.voornaam;
 	}
 }
