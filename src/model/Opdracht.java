@@ -35,7 +35,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 	
 	public Opdracht(String vraag, String juistAntwoord, String antwoordHints,
 			int maxAantalPogingen, int maxAntwoordTijdInSec, 
-			OpdrachtCategorie categorie) throws Exception 
+			OpdrachtCategorie categorie, int opdrachtID) throws Exception 
 	{
 		this.vraag = vraag;
 		this.juisteAntwoord = juistAntwoord;
@@ -43,6 +43,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		this.maxAantalPogingen = maxAantalPogingen;
 		this.maxAntwoordTijdInSec = maxAntwoordTijdInSec;
 		this.categorie = categorie;
+		this.opdrachtID = opdrachtID;
 	}
 
 	public Opdracht(Opdracht opdracht) throws Exception
@@ -59,9 +60,21 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		{
 			this.antwoordHints.add(antwoordHint);
 		}
+		setOpdrachtID(opdracht.getOpdrachtID());
 	}
 	
 	/* getters en setters */
+	
+	public int getOpdrachtID()
+	{
+		return this.opdrachtID;
+	}
+	
+	public void setOpdrachtID(int id) 
+	{
+		//ID mag niet dubbel voorkomen
+		this.opdrachtID = id;		
+	}
 	
 	public String getVraag()
 	{
@@ -251,10 +264,6 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		}
 		return true;
 	}
-
-	/*public int compareTo(Opdracht opdracht)
-	{
-	}*/
 	
 	@Override
 	public Opdracht clone() throws CloneNotSupportedException
@@ -273,10 +282,22 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 	}
 
 	@Override
-	public int compareTo(Opdracht arg0)
+	public int compareTo(Opdracht opdracht)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		int o1 = this.opdrachtID;
+		int o2 = opdracht.opdrachtID;
+		if (o1 < o2) 
+		{
+			return -1;
+		}
+		else if (o1 > o2)
+		{
+			return 1;
+		}
+		else
+		{
+			return this.vraag.compareTo(opdracht.vraag);
+		}
 	}
 	
 
