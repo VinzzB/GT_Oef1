@@ -41,13 +41,7 @@ public class OpdrachtCatalogus implements Comparable<OpdrachtCatalogus>, Cloneab
 	
 	protected void verwijderOpdracht(Opdracht opdracht) throws Exception
 	{
-		//enkel mogelijk als nog niet gekoppeld aan quiz
-		if (!opdracht.isGekoppeldAanQuiz())
-		{
-			this.opdrachtCatalogus.remove(opdracht);
-		}
-		else throw new Exception("Opdracht kan niet verwijderd worden, "
-								+ "want is reeds gelinkt aan een quiz.");
+		this.opdrachtCatalogus.remove(opdracht);
 	}
 	 public int setOpdrachtID()
 	 {

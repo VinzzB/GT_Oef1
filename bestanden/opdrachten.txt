@@ -1,2 +1,2 @@
-1	Wat is de hoofdstad van Franrijk?	Parijs	null	0	null
-2	Wat is de hoofdstad van Spanje?	Madrid	null	0	null
+1	Wat is de hoofdstad van Franrijk?	Parijs	null	0	0
+2	Wat is de hoofdstad van Spanje?	Madrid	null	0	0

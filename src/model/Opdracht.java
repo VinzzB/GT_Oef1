@@ -271,6 +271,13 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 			return null;
 		}
 	}
+
+	@Override
+	public int compareTo(Opdracht arg0)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 
 }

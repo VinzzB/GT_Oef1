@@ -20,11 +20,13 @@ import model.OpdrachtCategorie;
 
 public class QuizView extends JFrame
 {
-	/**
-	 * Default Version UID
-	 */
-	private static final long serialVersionUID = 1L; 
 	
+	/**
+	 * Generated serialUID
+	 */
+	
+	
+	private static final long serialVersionUID = -2531391836151089555L;
 	/*
 	 * displayfields
 	 */

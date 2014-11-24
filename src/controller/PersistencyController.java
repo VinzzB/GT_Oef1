@@ -1,8 +1,5 @@
 package controller;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-
 import model.Opdracht;
 import model.OpdrachtCatalogus;
 import model.Quiz;
@@ -12,7 +9,6 @@ import persistency.DatabaseHandler;
 
 public class PersistencyController
 {
-
 	public static void main(String[] args)
 	{
 		try
@@ -34,11 +30,7 @@ public class PersistencyController
 			DatabaseHandler db2 = new DatabaseHandler();
 			db2.vulCatalogus();
 		} 
-		catch 
-		(InstantiationException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException | ClassNotFoundException
-				| IOException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		} 
