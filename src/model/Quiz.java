@@ -1,9 +1,9 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import model.quizStatus.*;
 
 /**
  * @author Natalia Dyubankova <fornnd@gmail.com>
@@ -17,13 +17,19 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	private int leerjaar;
 	private boolean isTest;
 	private boolean isUniek;
-	private String status;
+	private QuizStatus status;
+	
+	// Statussen:
+	private Inconstructie statusInconstructie;
+	private Afgewerkt statusAfgewerkt;
+	private Opengesteld statusOpengesteld;
+	private LaatsteKans statusLaatsteKans;
+	private Afgesloten statusAfgesloten;
 
 	private List<QuizOpdracht> quizOpdrachten;
 
 	@SuppressWarnings("unused")
 	private QuizCatalogus quizCatalogus;
-	private Set<QuizDeelname> quizdeelnames;
 
 	/**
 	 * Sole constructor. (For invocation by constructors with parameters.)
@@ -31,7 +37,14 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	public Quiz()
 	{
 		quizOpdrachten = new ArrayList<QuizOpdracht>();
-		quizdeelnames = new HashSet<QuizDeelname>();
+		
+		// create state instances
+		statusInconstructie = new Inconstructie(this);
+		statusAfgewerkt = new Afgewerkt(this);
+		statusOpengesteld = new Opengesteld(this);
+		statusLaatsteKans = new LaatsteKans(this);
+		statusAfgesloten = new Afgesloten(this);
+		status = statusInconstructie;
 	}
 
 	/**
@@ -56,7 +69,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	 * @param status
 	 * @throws Exception 
 	 */
-	public Quiz(String onderwerp, int leerjaar, boolean isTest, boolean isUniek, String status) throws Exception
+	public Quiz(String onderwerp, int leerjaar, boolean isTest, boolean isUniek, QuizStatus status) throws Exception
 	{
 		this();
 		setOnderwerp(onderwerp);
@@ -79,7 +92,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	 * @param status
 	 * @throws Exception 
 	 */
-	public Quiz(int quizID, String onderwerp, int leerjaar, boolean isTest, boolean isUniek, String status) throws Exception
+	public Quiz(int quizID, String onderwerp, int leerjaar, boolean isTest, boolean isUniek, QuizStatus status) throws Exception
 	{
 		this(onderwerp, leerjaar, isTest, isUniek, status);
 		this.quizID = quizID;
@@ -104,11 +117,6 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		for (QuizOpdracht quizOpdracht : quiz.getQuizOpdrachten())
 		{
 			this.quizOpdrachten.add(quizOpdracht);
-		}
-		
-		for(QuizDeelname deelname : quiz.quizdeelnames)
-		{
-			this.quizdeelnames.add(deelname);
 		}
 	}
 
@@ -156,14 +164,39 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		this.isUniek = isUniek;
 	}
 
-	public String getStatus()
+	public QuizStatus getStatus()
 	{
 		return status;
 	}
 
-	public void setStatus(String status)
+	public void setStatus(QuizStatus status)
 	{
 		this.status = status;
+	}
+	
+	public void setAfgesloten()
+	{
+		this.status = statusAfgesloten;
+	}
+	
+	public void setAfgewerkt()
+	{
+		this.status = statusAfgewerkt;
+	}
+	
+	public void setInconstructie()
+	{
+		this.status = statusInconstructie;
+	}
+	
+	public void setLaatsteKans()
+	{
+		this.status = statusLaatsteKans;
+	}
+	
+	public void setOpengesteld()
+	{
+		this.status = statusOpengesteld;
 	}
 
 	public void setQuizID(int quizID)
@@ -201,6 +234,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	{
 		return quizOpdrachten.get(volgnr - 1);
 	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -351,25 +385,4 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		return quizID + "\t" + onderwerp + "\t" + leerjaar + "\t" + isTest + "\t" + isUniek + "\t" + status;
 	}
 
-	/**
-	 * voeg deze Quiz toe aan de QuizDeelnames
-	 * 
-	 * @param quizDeelname
-	 */
-	public void addQuizDeelname(QuizDeelname quizDeelname)
-	{
-		quizdeelnames.add(quizDeelname);
-		quizDeelname.setOwnerQuiz(this);
-	}
-
-	/**
-	 * verwijder deze Quiz uit de quizdeelnames
-	 * 
-	 * @param quizDeelname
-	 */
-	public void removeQuizDeelname(QuizDeelname quizDeelname)
-	{
-		quizdeelnames.remove(quizDeelname);
-		quizDeelname.setOwnerQuiz(null);
-	}
 }
