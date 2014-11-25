@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Opdracht implements Comparable<Opdracht>, Cloneable
 {
-	private int opdrachtID;
+	private int opdrachtID = 0;
 	private String vraag;
 	private String juisteAntwoord;
 	private int maxAantalPogingen = 1;
@@ -35,7 +35,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 	
 	public Opdracht(String vraag, String juistAntwoord, String antwoordHints,
 			int maxAantalPogingen, int maxAntwoordTijdInSec, 
-			OpdrachtCategorie categorie, int opdrachtID) throws Exception 
+			OpdrachtCategorie categorie) throws Exception 
 	{
 		this.vraag = vraag;
 		this.juisteAntwoord = juistAntwoord;
@@ -43,7 +43,6 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		this.maxAantalPogingen = maxAantalPogingen;
 		this.maxAntwoordTijdInSec = maxAntwoordTijdInSec;
 		this.categorie = categorie;
-		this.opdrachtID = opdrachtID;
 	}
 
 	public Opdracht(Opdracht opdracht) throws Exception
@@ -60,7 +59,6 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		{
 			this.antwoordHints.add(antwoordHint);
 		}
-		setOpdrachtID(opdracht.getOpdrachtID());
 	}
 	
 	/* getters en setters */
@@ -72,7 +70,6 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 	
 	public void setOpdrachtID(int id) 
 	{
-		//ID mag niet dubbel voorkomen
 		this.opdrachtID = id;		
 	}
 	
