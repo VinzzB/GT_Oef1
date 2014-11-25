@@ -193,6 +193,14 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 				maxAantalPogingen + "\t" + this.maxAntwoordTijdInSec;
 	}
 	
+	public ArrayList<String> splitTekst(String tekst)
+	{
+		String[] array = tekst.split(";");
+		ArrayList<String> list = 
+				new ArrayList<String>(Arrays.asList(array));
+		return list;
+	}
+	
 	/* override methods */
 
 	@Override
