@@ -1,9 +1,12 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -12,42 +15,46 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import model.Leraar;
+import model.Opdracht;
 import model.OpdrachtCategorie;
+import model.quizStatus.Afgesloten;
+import model.quizStatus.Afgewerkt;
+import model.quizStatus.Inconstructie;
+import model.quizStatus.LaatsteKans;
+import model.quizStatus.Opengesteld;
+import model.quizStatus.QuizStatus;
 
 public class QuizView extends JFrame
 {
-	
+
 	/**
-	 * Generated serialUID
+	 * Generated version UID
 	 */
-	
-	
-	private static final long serialVersionUID = -2531391836151089555L;
+	private static final long serialVersionUID = 846842690361655830L;
 	/*
 	 * displayfields
 	 */
 	private JPanel panelAlgemeen, panelOpdrachten, panelOpdrachtenLeft, 
 					panelOpdrachtenLeftUp, panelOpdrachtenCenter, 
-					panelOpdrachtenRight, panelOpdrachtenRightUp;
+					panelOpdrachtenRight, panelOpdrachtenRightUp, panelOpdrachtDetails;
 	private JLabel lbOnderwerp, lbKlas, lbAuteur, lbStatus,
 					lbOpdrachtenCategorie, lbOpdrachtenSorteren, lbAantal, lbOpdrachtAantal;
 	private JTextField txtOnderwerp;
 	private JButton btnRegistreer, btnVoegOpdrachtToe, btnVerwijderOpdracht, btnOpdrachtUp;
 	private JComboBox<Integer> cbxLeerjaar;
 	private JComboBox<Leraar> cbxAuteur;
-	private JComboBox<String> cbxStatus;
+	private JComboBox<QuizStatus> cbxStatus;
 	private JComboBox<OpdrachtCategorie> cbxCategorie;
 	private JComboBox<String> cbxSortering;
 	private JScrollPane paneAllOpdrachten, paneSelectedOpdrachten;
 	private JTextArea area;
 	
-	
-	private int width = 900;
-	private int height = 600;
+	private Dimension size = new Dimension(900, 600);
 	
 	/**
 	 * Sole constructor
@@ -57,7 +64,7 @@ public class QuizView extends JFrame
 		super();
 		initializeComponents();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(width, height);
+		this.setSize(size);
 		this.setVisible(true);
 	}
 	
@@ -65,13 +72,18 @@ public class QuizView extends JFrame
 	 * label: Nieuwe Quiz of Quiz
 	 * 
 	 * @param label
+	 * @throws Exception 
 	 */
-	public QuizView(String label)
+	public QuizView(String label) throws Exception
 	{
 		super(label);
+		ArrayList<Opdracht> opdrachten = new ArrayList<Opdracht>();//test
+		opdrachten.add(new Opdracht("AAwwwwwwwwwwwwwwwwwwwwjkl jklkj wjkw", "aa"));
+		opdrachten.add(new Opdracht("BB", "bb"));
+		setOpdrachten(paneAllOpdrachten, opdrachten); 
 		initializeComponents();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(width, height);
+		this.setSize(size);
 		this.setVisible(true);
 	}
 	
@@ -89,6 +101,7 @@ public class QuizView extends JFrame
 		panelOpdrachtenCenter = new JPanel(new GridBagLayout());
 		panelOpdrachtenRight = new JPanel(new BorderLayout()); 
 		panelOpdrachtenRightUp = new JPanel(new GridBagLayout());
+		panelOpdrachtDetails = new JPanel(new FlowLayout());
 		
 		//labels
 		lbOnderwerp = new JLabel("Onderwerp");
@@ -107,7 +120,7 @@ public class QuizView extends JFrame
 		//comboboxes
 		cbxLeerjaar = new JComboBox<Integer>(new Integer[] {1, 2, 3, 4, 5, 6});
 		cbxAuteur = new JComboBox<Leraar>(Leraar.values());
-		cbxStatus = new JComboBox<String>(new String[]{"Afgewerkt", "In preparatie", "Gesloten"});
+		cbxStatus = new JComboBox<QuizStatus>(new QuizStatus[]{new Afgesloten(), new Afgewerkt(), new Inconstructie(), new LaatsteKans(), new Opengesteld()});
 		cbxCategorie = new JComboBox<OpdrachtCategorie>(OpdrachtCategorie.values());
 		cbxSortering = new JComboBox<String>(new String[] {"geen", "categorie", "vraag"});
 		
@@ -118,7 +131,7 @@ public class QuizView extends JFrame
 		btnOpdrachtUp = new JButton("^^^^");
 		
 		//scrollpanes
-		paneAllOpdrachten = new JScrollPane(createResultArea());
+//		paneAllOpdrachten = new JScrollPane(createResultArea());
 		paneSelectedOpdrachten = new JScrollPane(createResultArea());
 		
 		//set constants for GridBagLayout
@@ -212,7 +225,36 @@ public class QuizView extends JFrame
 		return (Leraar) cbxAuteur.getSelectedItem();
 	}
 
-	public static void main(String[] args)
+	public QuizStatus getQuizStatus()
+	{
+		return (QuizStatus) cbxStatus.getSelectedItem();
+	}
+	
+	public OpdrachtCategorie getOpdrachtCategorie()
+	{
+		return (OpdrachtCategorie) cbxCategorie.getSelectedItem();
+	}
+	
+	public Opdracht getSelectedOpdracht(JScrollPane pane)
+	{
+		return new Opdracht();
+	}
+	
+	public void setOpdrachten(JScrollPane pane, ArrayList<Opdracht> opdrachten)
+	{
+		ArrayList<Object[]> values = new ArrayList<Object[]>();
+		for (Opdracht opdracht : opdrachten)
+		{
+			values.add(new Object[]{opdracht.getCategorie(), opdracht.getVraag()});
+		}
+		ModelTable modelTable = new ModelTable(values, new String[]{"Categorie", "Vraag"}, 2);
+		JTable table = new JTable(modelTable);
+		table.getColumnModel().getColumn(0).setMaxWidth(30); // set column Categorie width to 30
+		paneAllOpdrachten = new JScrollPane(table);
+//		table.convertColumnIndexToModel(table.getSelectedRow());
+	}
+	
+	public static void main(String[] args) throws Exception
 	{
 		QuizView qv = new QuizView("New quiz");
 	}
