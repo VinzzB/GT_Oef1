@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public class Opdracht implements Comparable<Opdracht>, Cloneable
 {
-	private int opdrachtID;
+	private int opdrachtID = 0;
 	private String vraag;
 	private String juisteAntwoord;
 	private int maxAantalPogingen = 1;
@@ -62,6 +63,16 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 	}
 	
 	/* getters en setters */
+	
+	public int getOpdrachtID()
+	{
+		return this.opdrachtID;
+	}
+	
+	public void setOpdrachtID(int id) 
+	{
+		this.opdrachtID = id;		
+	}
 	
 	public String getVraag()
 	{
@@ -183,6 +194,14 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 				maxAantalPogingen + "\t" + this.maxAntwoordTijdInSec;
 	}
 	
+	public ArrayList<String> splitTekst(String tekst)
+	{
+		String[] array = tekst.split(";");
+		ArrayList<String> list = 
+				new ArrayList<String>(Arrays.asList(array));
+		return list;
+	}
+	
 	/* override methods */
 
 	@Override
@@ -251,10 +270,6 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		}
 		return true;
 	}
-
-	/*public int compareTo(Opdracht opdracht)
-	{
-	}*/
 	
 	@Override
 	public Opdracht clone() throws CloneNotSupportedException
@@ -273,10 +288,22 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 	}
 
 	@Override
-	public int compareTo(Opdracht arg0)
+	public int compareTo(Opdracht opdracht)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		int o1 = this.opdrachtID;
+		int o2 = opdracht.opdrachtID;
+		if (o1 < o2) 
+		{
+			return -1;
+		}
+		else if (o1 > o2)
+		{
+			return 1;
+		}
+		else
+		{
+			return this.vraag.compareTo(opdracht.vraag);
+		}
 	}
 	
 

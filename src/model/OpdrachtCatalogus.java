@@ -1,73 +1,99 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.sun.javafx.collections.MappingChange.Map;
 
 /**
- * @author      Nathalie Mathieu <natmathieu@gmail.com>
+ * @author      Nathalie Mathieu
  * @author      Natalia Dyubankova <fornnd@gmail.com>
  * @version     1.0                 
  * @since       2014-11-12  
  */
-public class OpdrachtCatalogus implements Comparable<OpdrachtCatalogus>, Cloneable
+public class OpdrachtCatalogus implements /*Comparable<OpdrachtCatalogus>*/ Cloneable
 {
-	private ArrayList<Opdracht> opdrachtCatalogus;
+	private HashMap<Integer,Opdracht> opdrachten;
+	
+	//constructor
 	
 	public OpdrachtCatalogus()
 	{
-		opdrachtCatalogus = new ArrayList<Opdracht>();
+		opdrachten = new HashMap<Integer,Opdracht>();
 	}
 	
-	public OpdrachtCatalogus(OpdrachtCatalogus opdrachtCatalogus)
+	/*public OpdrachtCatalogus(OpdrachtCatalogus opdrachtCatalogus)
 	{
-		this();
-		
+		this();		
 		for(Opdracht opdracht : opdrachtCatalogus.getOpdrachten())
 		{
 			this.opdrachtCatalogus.add(opdracht);
 		}
+	}*/
+	
+	//getters en setters
+	
+	public HashMap<Integer,Opdracht> getOpdrachten()
+	{
+		return this.opdrachten;
 	}
 	
-	public ArrayList<Opdracht> getOpdrachten()
+	//methods
+	
+	public void addOpdracht(Opdracht o)
 	{
-		return opdrachtCatalogus;
+		o.setOpdrachtID(this.getLastID()+1);
+		this.opdrachten.put(o.getOpdrachtID(), o);
 	}
 	
-	public void voegOpdrachtToe(Opdracht opdracht)
+	public void removeOpdracht(Opdracht o) throws Exception
 	{
-		opdracht.setOpdrachtCatalogus(this);
-		opdracht.setOpdrachtID(setOpdrachtID());
-		opdrachtCatalogus.add(opdracht);
+		//enkel mogelijk als nog niet gekoppeld aan test
+		this.opdrachten.remove(o.getOpdrachtID()); 
 	}
 	
-	protected void verwijderOpdracht(Opdracht opdracht) throws Exception
+	public int getLastID()
 	{
-		this.opdrachtCatalogus.remove(opdracht);
+		int id = 0;
+		//get max value of keys in opdrachten
+		for (Integer key : this.opdrachten.keySet()) 
+		{
+			id++;
+			if (id == this.opdrachten.keySet().size()) 
+			{
+				id = key;
+			}
+		}
+		return id;
 	}
-	 public int setOpdrachtID()
-	 {
-		 return this.opdrachtCatalogus.size() + 1;
-	 }
 	 
 	public Opdracht getOpdracht(int opdrachtID)
 	{
-		for(Opdracht opdracht : opdrachtCatalogus)
+		for(java.util.Map.Entry<Integer, Opdracht> entry : this.opdrachten.entrySet())
 		{
-			if(opdracht.getOpdrachtID() == opdrachtID)
-				return opdracht;
+			if(entry.getKey() == opdrachtID)
+				return entry.getValue();
 		}
 		return null;
 	}
 
-	@Override
+	/*@Override
+	 * CompareTo overbodig? er is max één catalogus?
 	public int compareTo(OpdrachtCatalogus opdrachtCatalogus)
 	{
 		if (this.opdrachtCatalogus.size() == opdrachtCatalogus.getOpdrachten().size())
 			return this.hashCode() - opdrachtCatalogus.hashCode();
 		else return this.opdrachtCatalogus.size() - opdrachtCatalogus.getOpdrachten().size();
-	}
+	}*/
 	
-	public OpdrachtCatalogus clone()
+	@Override
+	public Object clone()
 	{
-		return new OpdrachtCatalogus(this);
+		OpdrachtCatalogus clone = new OpdrachtCatalogus();
+		for(Opdracht o : this.opdrachten.values()) 
+		{
+			clone.addOpdracht(o);
+		}
+		return clone;		
 	}
 }
