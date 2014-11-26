@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * @author Nathalie
  * @author Natalia Dyubankova <fornnd@gmail.com>
  * @version 1.0
  * @since 2014-11-12
@@ -51,9 +52,44 @@ public class QuizOpdracht implements Cloneable
 		return quiz;
 	}
 
+	public void setQuiz(Quiz quiz)
+	{
+		if (this.quiz != quiz) 
+		{
+			Quiz oldQuiz = this.quiz;
+			this.quiz = quiz;
+			if (quiz != null) 
+			{
+				quiz.voegQuizOpdrachtToe(this);				
+			}
+			if (oldQuiz != null)
+			{
+				oldQuiz.verwijderQuizOpdracht(this);
+			}
+		}
+	}
+	
 	public Opdracht getOpdracht()
 	{
 		return opdracht;
+	}
+	
+	public void setOpdracht (Opdracht opdracht)
+	{
+		//eerst checken of nog geen test
+		if (this.opdracht != opdracht) 
+		{
+			Opdracht oldOpdracht = this.opdracht;
+			this.opdracht = opdracht;
+			if (opdracht != null)
+			{
+				opdracht.addQuizOpdracht(this);				
+			}
+			if (oldOpdracht != null)
+			{
+				oldOpdracht.removeQuizOpdracht(this);				
+			}
+		}
 	}
 
 	public int getMaxScore()
