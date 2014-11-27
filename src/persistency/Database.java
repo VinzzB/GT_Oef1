@@ -5,12 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import model.Opdracht;
-import model.OpdrachtCatalogus;
-import model.Quiz;
-import model.QuizCatalogus;
-import model.QuizOpdracht;
-import model.quizStatus.QuizStatus;
+import model.*;
+import model.quizStatus.*;
+
 /**
  * Abstracte klasse om objecten te lesen en weg te schrijven
  * 
@@ -46,8 +43,8 @@ public abstract class Database implements IDatabaseStrategy
 		for (String[] object : objecten)
 		{
 			opdrachten.voegOpdrachtToe(new Opdracht(Integer.parseInt(object[0]), 
-					object[1], object[2], object[3],
-					Integer.parseInt(object[4]), Integer.parseInt(object[5])));
+					object[1], object[2], this.vanStringNaarOpdrachtCategorie(object[3]), object[4],
+					Integer.parseInt(object[5]), Integer.parseInt(object[6])));
 		}
 	}
 
@@ -64,9 +61,7 @@ public abstract class Database implements IDatabaseStrategy
 		{
 			String[] s = (String[]) object;
 			quizzen.voegQuizToe(new Quiz(Integer.parseInt(s[0]), s[1], Integer.parseInt(s[2]), 
-					Boolean.parseBoolean(s[3]), Boolean.parseBoolean(s[4])));
-//			quizzen.voegQuizToe(new Quiz(Integer.parseInt(s[0]), s[1], Integer.parseInt(s[2]), 
-//					Boolean.parseBoolean(s[3]), Boolean.parseBoolean(s[4]),	(QuizStatus)s[5]));
+					Boolean.parseBoolean(s[3]), Boolean.parseBoolean(s[4]),	this.vanStringNaarQuizStatus(s[5])));
 		}
 	}
 
@@ -134,6 +129,42 @@ public abstract class Database implements IDatabaseStrategy
 			}
 		}
 		schrijfNaarBestand(objecten.toArray(new String[objecten.size()]), quizOpdrachtDB);
+	}
+	
+	private QuizStatus vanStringNaarQuizStatus(String quizStatusInString)
+	{
+		switch(quizStatusInString)
+		{
+		case "Afgesloten":
+			return new Afgesloten();
+		case "Afgewerkt":
+			return new Afgewerkt();
+		case "In constructie":
+			return new Inconstructie();
+		case "Laatste Kans":
+			return new LaatsteKans();
+		case "Opengesteld":
+			return new Opengesteld();
+		default:
+			return null;
+		}	
+	}
+	
+	private OpdrachtCategorie vanStringNaarOpdrachtCategorie(String opdrachtCategorieInString)
+	{
+		switch(opdrachtCategorieInString)
+		{
+		case "Aardrijkskunde":
+			return OpdrachtCategorie.Aardrijkskunde;
+		case "Wiskunde":
+			return OpdrachtCategorie.Wiskunde;
+		case "Nederlands":
+			return OpdrachtCategorie.Nederlands;
+		case "Wetenschappen":
+			return OpdrachtCategorie.Wetenschappen;
+		default:
+			return null;
+		}
 	}
 	
 	public static QuizCatalogus getQuizCatalogus()
