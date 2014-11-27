@@ -57,6 +57,16 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		this();
 		setOnderwerp(onderwerp);
 	}
+	
+	public Quiz(int quizID, String onderwerp, int leerjaar, boolean isTest, boolean isUniek) throws Exception
+	{
+		this();
+		setOnderwerp(onderwerp);
+		setLeerjaar(leerjaar);
+		setIsTest(isTest);
+		setIsUniek(isUniek);
+		this.quizID = quizID;
+	}
 
 	/**
 	 * Constructs a new instance of Quiz using String as an onderwerp, Int as leerjaar, Boolean as isTest, Boolean as
@@ -77,7 +87,6 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		setIsTest(isTest);
 		setIsUniek(isUniek);
 		setStatus(status);
-
 	}
 
 	/**
@@ -179,14 +188,30 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		this.status = statusAfgesloten;
 	}
 	
+	
+	public QuizStatus getAfgesloten()
+	{
+		return this.statusAfgesloten;
+	}
+	
 	public void setAfgewerkt()
 	{
 		this.status = statusAfgewerkt;
 	}
 	
+	public QuizStatus getAfgewerkt()
+	{
+		return this.statusAfgewerkt;
+	}
+	 
 	public void setInconstructie()
 	{
 		this.status = statusInconstructie;
+	}
+	
+	public QuizStatus getInconstructie()
+	{
+		return this.statusInconstructie;
 	}
 	
 	public void setLaatsteKans()
@@ -194,11 +219,21 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		this.status = statusLaatsteKans;
 	}
 	
+	public QuizStatus getLaatsteKans()
+	{
+		return this.statusLaatsteKans;
+	}
+	
 	public void setOpengesteld()
 	{
 		this.status = statusOpengesteld;
 	}
 
+	public QuizStatus getOpengesteld()
+	{
+		return this.statusOpengesteld;
+	}
+	
 	public void setQuizID(int quizID)
 	{
 		this.quizID = quizID;
