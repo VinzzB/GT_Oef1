@@ -10,6 +10,7 @@ import model.OpdrachtCatalogus;
 import model.Quiz;
 import model.QuizCatalogus;
 import model.QuizOpdracht;
+import model.quizStatus.QuizStatus;
 /**
  * Abstracte klasse om objecten te lesen en weg te schrijven
  * 
@@ -22,8 +23,8 @@ public abstract class Database implements IDatabaseStrategy
 	protected File opdrachtenDB;
 	protected File quizzenDB;
 	protected File quizOpdrachtDB;
-	protected OpdrachtCatalogus opdrachten; 
-	protected QuizCatalogus quizzen;
+	protected static OpdrachtCatalogus opdrachten; 
+	protected static QuizCatalogus quizzen;
 	protected ArrayList<QuizOpdracht> quizOpdrachten;
 	
 	public Database() 
@@ -63,7 +64,9 @@ public abstract class Database implements IDatabaseStrategy
 		{
 			String[] s = (String[]) object;
 			quizzen.voegQuizToe(new Quiz(Integer.parseInt(s[0]), s[1], Integer.parseInt(s[2]), 
-					Boolean.parseBoolean(s[3]), Boolean.parseBoolean(s[4]),	s[5]));
+					Boolean.parseBoolean(s[3]), Boolean.parseBoolean(s[4])));
+//			quizzen.voegQuizToe(new Quiz(Integer.parseInt(s[0]), s[1], Integer.parseInt(s[2]), 
+//					Boolean.parseBoolean(s[3]), Boolean.parseBoolean(s[4]),	(QuizStatus)s[5]));
 		}
 	}
 
@@ -91,7 +94,7 @@ public abstract class Database implements IDatabaseStrategy
 	{
 		int i = 0;
 		String[] objecten = new String[opdrachten.getOpdrachten().size()];
-		for (Opdracht opdracht : opdrachten.getOpdrachten())
+		for (Opdracht opdracht : opdrachten.getOpdrachten().values())
 		{
 			objecten[i] = opdracht.toBestand();
 			i ++;
@@ -131,6 +134,16 @@ public abstract class Database implements IDatabaseStrategy
 			}
 		}
 		schrijfNaarBestand(objecten.toArray(new String[objecten.size()]), quizOpdrachtDB);
+	}
+	
+	public static QuizCatalogus getQuizCatalogus()
+	{
+		return quizzen;
+	}
+	
+	public static OpdrachtCatalogus getOpdrachtCatalogus()
+	{
+		return opdrachten;
 	}
 
 /**

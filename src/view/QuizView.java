@@ -18,16 +18,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionListener;
 
 import model.Leraar;
 import model.Opdracht;
+import model.OpdrachtCatalogus;
 import model.OpdrachtCategorie;
-import model.quizStatus.Afgesloten;
-import model.quizStatus.Afgewerkt;
-import model.quizStatus.Inconstructie;
-import model.quizStatus.LaatsteKans;
-import model.quizStatus.Opengesteld;
-import model.quizStatus.QuizStatus;
+import model.quizStatus.*;
+import persistency.Database;
 
 public class QuizView extends JFrame
 {
@@ -43,7 +41,8 @@ public class QuizView extends JFrame
 					panelOpdrachtenLeftUp, panelOpdrachtenCenter, 
 					panelOpdrachtenRight, panelOpdrachtenRightUp, panelOpdrachtDetails;
 	private JLabel lbOnderwerp, lbKlas, lbAuteur, lbStatus,
-					lbOpdrachtenCategorie, lbOpdrachtenSorteren, lbAantal, lbOpdrachtAantal;
+					lbOpdrachtenCategorie, lbOpdrachtenSorteren, lbAantal, lbOpdrachtAantal,
+					lbOpdrachtDetails;
 	private JTextField txtOnderwerp;
 	private JButton btnRegistreer, btnVoegOpdrachtToe, btnVerwijderOpdracht, btnOpdrachtUp;
 	private JComboBox<Integer> cbxLeerjaar;
@@ -53,8 +52,12 @@ public class QuizView extends JFrame
 	private JComboBox<String> cbxSortering;
 	private JScrollPane paneAllOpdrachten, paneSelectedOpdrachten;
 	private JTextArea area;
+	private ModelTable modelTable;
+	private JTable table;
 	
 	private Dimension size = new Dimension(900, 600);
+	
+	private OpdrachtCatalogus opdrachten = Database.getOpdrachtCatalogus();
 	
 	/**
 	 * Sole constructor
@@ -77,9 +80,6 @@ public class QuizView extends JFrame
 	public QuizView(String label) throws Exception
 	{
 		super(label);
-		ArrayList<Opdracht> opdrachten = new ArrayList<Opdracht>();//test
-		opdrachten.add(new Opdracht("AAwwwwwwwwwwwwwwwwwwwwjkl jklkj wjkw", "aa"));
-		opdrachten.add(new Opdracht("BB", "bb"));
 		setOpdrachten(paneAllOpdrachten, opdrachten); 
 		initializeComponents();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,6 +102,7 @@ public class QuizView extends JFrame
 		panelOpdrachtenRight = new JPanel(new BorderLayout()); 
 		panelOpdrachtenRightUp = new JPanel(new GridBagLayout());
 		panelOpdrachtDetails = new JPanel(new FlowLayout());
+		panelOpdrachtenLeftUp.setMaximumSize(new Dimension(300, 500));
 		
 		//labels
 		lbOnderwerp = new JLabel("Onderwerp");
@@ -110,6 +111,7 @@ public class QuizView extends JFrame
 		lbStatus = new JLabel("Status");
 		lbOpdrachtenCategorie = new JLabel("Toon opdrachten van categorie:");
 		lbOpdrachtenSorteren = new JLabel("Sorteer opdrachten op:");
+		lbOpdrachtDetails = new JLabel(" ");
 		lbAantal = new JLabel("Aantal toegevoegde opdrachten:");
 		lbOpdrachtAantal = new JLabel("0");
 		lbOpdrachtAantal.setBorder(BorderFactory.createEtchedBorder());
@@ -171,6 +173,7 @@ public class QuizView extends JFrame
 		//Fill in Left bottom panel
 		panelOpdrachtenLeft.add(panelOpdrachtenLeftUp, BorderLayout.NORTH);
 		panelOpdrachtenLeft.add(paneAllOpdrachten, BorderLayout.CENTER);
+		panelOpdrachtenLeft.add(lbOpdrachtDetails, BorderLayout.SOUTH);
 		
 		//Fill in Center bottom panel
 		panelOpdrachtenCenter.add(btnVoegOpdrachtToe, c);
@@ -240,23 +243,41 @@ public class QuizView extends JFrame
 		return new Opdracht();
 	}
 	
-	public void setOpdrachten(JScrollPane pane, ArrayList<Opdracht> opdrachten)
+	public JTable getTable()
+	{
+		return this.table;
+	}
+	
+	public Opdracht getOpdracht(int index)
+	{
+		return opdrachten.getOpdracht(index);
+	}
+	
+	public void setOpdrachten(JScrollPane pane, OpdrachtCatalogus opdrachten)
 	{
 		ArrayList<Object[]> values = new ArrayList<Object[]>();
-		for (Opdracht opdracht : opdrachten)
+		for (Opdracht opdracht : opdrachten.getOpdrachten().values())
 		{
 			values.add(new Object[]{opdracht.getCategorie(), opdracht.getVraag()});
 		}
-		ModelTable modelTable = new ModelTable(values, new String[]{"Categorie", "Vraag"}, 2);
-		JTable table = new JTable(modelTable);
+		modelTable = new ModelTable(values, new String[]{"Categorie", "Vraag"}, 2);
+		table = new JTable(modelTable);
 		table.getColumnModel().getColumn(0).setMaxWidth(30); // set column Categorie width to 30
 		paneAllOpdrachten = new JScrollPane(table);
-//		table.convertColumnIndexToModel(table.getSelectedRow());
 	}
 	
-	public static void main(String[] args) throws Exception
+	public void setOpdrachtCatalogus(OpdrachtCatalogus opdrachtCatalogus)
 	{
-		QuizView qv = new QuizView("New quiz");
+		this.opdrachten = opdrachtCatalogus;
 	}
-
+	
+	public void setLbOpdrachtDetails(Opdracht opdracht)
+	{
+		lbOpdrachtDetails.setText("Opdracht details: " + opdracht.toString());
+	}
+	//Liseners:
+	public void addOpdrachtSelectedListener(ListSelectionListener listenForSelectedRow)
+	{
+		table.getSelectionModel().addListSelectionListener(listenForSelectedRow);
+	}
 }
