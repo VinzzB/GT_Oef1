@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import com.sun.javafx.collections.MappingChange.Map;
 
@@ -11,7 +12,7 @@ import com.sun.javafx.collections.MappingChange.Map;
  * @version     1.0                 
  * @since       2014-11-12  
  */
-public class OpdrachtCatalogus implements /*Comparable<OpdrachtCatalogus>*/ Cloneable
+public class OpdrachtCatalogus implements /*Comparable<OpdrachtCatalogus>*/ Iterable<Opdracht>,Cloneable
 {
 	private HashMap<Integer,Opdracht> opdrachten;
 	
@@ -95,5 +96,11 @@ public class OpdrachtCatalogus implements /*Comparable<OpdrachtCatalogus>*/ Clon
 			clone.addOpdracht(o);
 		}
 		return clone;		
+	}
+	
+	@Override
+	public Iterator<Opdracht> iterator() 
+	{
+		return opdrachten.values().iterator();
 	}
 }
