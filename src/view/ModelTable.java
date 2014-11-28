@@ -20,11 +20,11 @@ public class ModelTable implements TableModel
     private String[] columnNames;
     private int columnCount;
 
-    public ModelTable(ArrayList<Object[]> data, String[] columnNames, int columnCount)
+    public ModelTable(ArrayList<Object[]> data, String[] columnNames)
     {
     	this.data = data;
     	this.columnNames = columnNames;
-    	this.columnCount = columnCount;
+    	this.columnCount = columnNames.length;
     }
     
     /**

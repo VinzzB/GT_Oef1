@@ -2,11 +2,12 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,15 +17,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
-import model.Leraar;
-import model.Opdracht;
-import model.OpdrachtCatalogus;
-import model.OpdrachtCategorie;
-import model.quizStatus.*;
+import model.*;
+import model.quizStatus.QuizStatus;
 import persistency.Database;
 
 public class QuizView extends JFrame
@@ -39,7 +37,7 @@ public class QuizView extends JFrame
 	 */
 	private JPanel panelAlgemeen, panelOpdrachten, panelOpdrachtenLeft, 
 					panelOpdrachtenLeftUp, panelOpdrachtenCenter, 
-					panelOpdrachtenRight, panelOpdrachtenRightUp, panelOpdrachtDetails;
+					panelOpdrachtenRight, panelOpdrachtenRightUp;
 	private JLabel lbOnderwerp, lbKlas, lbAuteur, lbStatus,
 					lbOpdrachtenCategorie, lbOpdrachtenSorteren, lbAantal, lbOpdrachtAantal,
 					lbOpdrachtDetails;
@@ -51,13 +49,15 @@ public class QuizView extends JFrame
 	private JComboBox<OpdrachtCategorie> cbxCategorie;
 	private JComboBox<String> cbxSortering;
 	private JScrollPane paneAllOpdrachten, paneSelectedOpdrachten;
-	private JTextArea area;
-	private ModelTable modelTable;
-	private JTable table;
+	private ModelTable modelTableAllOpdrachten;
+	private DefaultTableModel modelTableSelectedOpdrachten;
+	private JTable tableAllOpdrachten, tableSelectedOpdrachten;
+	
 	
 	private Dimension size = new Dimension(900, 600);
 	
 	private OpdrachtCatalogus opdrachten = Database.getOpdrachtCatalogus();
+	private HashMap<Integer, Opdracht> selectedOpdrachten = new HashMap<Integer, Opdracht>();
 	
 	/**
 	 * Sole constructor
@@ -77,10 +77,9 @@ public class QuizView extends JFrame
 	 * @param label
 	 * @throws Exception 
 	 */
-	public QuizView(String label) throws Exception
+	public QuizView(String label)
 	{
 		super(label);
-		setOpdrachten(paneAllOpdrachten, opdrachten); 
 		initializeComponents();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(size);
@@ -101,7 +100,6 @@ public class QuizView extends JFrame
 		panelOpdrachtenCenter = new JPanel(new GridBagLayout());
 		panelOpdrachtenRight = new JPanel(new BorderLayout()); 
 		panelOpdrachtenRightUp = new JPanel(new GridBagLayout());
-		panelOpdrachtDetails = new JPanel(new FlowLayout());
 		panelOpdrachtenLeftUp.setMaximumSize(new Dimension(300, 500));
 		
 		//labels
@@ -133,8 +131,8 @@ public class QuizView extends JFrame
 		btnOpdrachtUp = new JButton("^^^^");
 		
 		//scrollpanes
-//		paneAllOpdrachten = new JScrollPane(createResultArea());
-		paneSelectedOpdrachten = new JScrollPane(createResultArea());
+		setOpdrachten(paneAllOpdrachten, opdrachten); 
+		setSelectedOpdrachten(paneSelectedOpdrachten, selectedOpdrachten);
 		
 		//set constants for GridBagLayout
 		GridBagConstraints c = new GridBagConstraints();
@@ -205,14 +203,6 @@ public class QuizView extends JFrame
 
 	}
 	
-	private JScrollPane createResultArea()
-	{
-		// set up display area
-		area = new JTextArea();
-		area.setEditable(false);
-		return new JScrollPane(area);
-	}
-	
 	public String getOnderwerp()
 	{
 		return txtOnderwerp.getText();
@@ -238,14 +228,14 @@ public class QuizView extends JFrame
 		return (OpdrachtCategorie) cbxCategorie.getSelectedItem();
 	}
 	
-	public Opdracht getSelectedOpdracht(JScrollPane pane)
+	public JTable getAllOpdrachtenTable()
 	{
-		return new Opdracht();
+		return this.tableAllOpdrachten;
 	}
 	
-	public JTable getTable()
+	public JTable getSelectedOpdrachtenTable()
 	{
-		return this.table;
+		return this.tableSelectedOpdrachten;
 	}
 	
 	public Opdracht getOpdracht(int index)
@@ -253,19 +243,65 @@ public class QuizView extends JFrame
 		return opdrachten.getOpdracht(index);
 	}
 	
-	public void setOpdrachten(JScrollPane pane, OpdrachtCatalogus opdrachten)
+	public Opdracht getSelectedOpdracht(JTable table)
+	{
+		if (table.getSelectedRowCount() == 0)
+			return null;
+		else
+			return opdrachten.getOpdracht(table.getValueAt(table.getSelectedRow(), 1).toString());
+	}
+	
+	public int getMaxScorePerQuizOpdracht(Opdracht opdracht)
+	{
+		for(Integer i = 0; i <= modelTableSelectedOpdrachten.getRowCount(); i++)
+		{
+			if(tableSelectedOpdrachten.getModel().getValueAt(i, 1) == opdracht.getVraag())
+			{
+				return Integer.parseInt(tableSelectedOpdrachten.getModel().getValueAt(i, 2).toString());
+			}
+		}
+		return 0;
+	}
+	
+	private void setOpdrachten(JScrollPane pane, OpdrachtCatalogus opdrachten)
 	{
 		ArrayList<Object[]> values = new ArrayList<Object[]>();
 		for (Opdracht opdracht : opdrachten.getOpdrachten().values())
 		{
 			values.add(new Object[]{opdracht.getCategorie(), opdracht.getVraag()});
 		}
-		modelTable = new ModelTable(values, new String[]{"Categorie", "Vraag"}, 2);
-		table = new JTable(modelTable);
-		table.getColumnModel().getColumn(0).setMaxWidth(30); // set column Categorie width to 30
-		paneAllOpdrachten = new JScrollPane(table);
+		modelTableAllOpdrachten = new ModelTable(values, new String[]{"Categorie", "Vraag"});
+		tableAllOpdrachten = new JTable(modelTableAllOpdrachten);
+		tableAllOpdrachten.getColumnModel().getColumn(0).setMaxWidth(100);
+		paneAllOpdrachten = new JScrollPane(tableAllOpdrachten);
 	}
 	
+	private void setSelectedOpdrachten(JScrollPane pane, HashMap<Integer, Opdracht> selectedOpdrachten)
+	{
+		Object[][] values = new Object[selectedOpdrachten.size()][];
+		int i = 0;
+		for (Opdracht opdracht : selectedOpdrachten.values())
+		{
+			values[i] = new Object[]{opdracht.getCategorie(), opdracht.getVraag(), "0"};
+			i++;
+		}
+		modelTableSelectedOpdrachten = new DefaultTableModel(values, new String[]{"Categorie", "Vraag", "Score"});
+		tableSelectedOpdrachten = new JTable(modelTableSelectedOpdrachten);
+		tableSelectedOpdrachten.getColumnModel().getColumn(0).setMaxWidth(100);
+		tableSelectedOpdrachten.getColumnModel().getColumn(2).setMaxWidth(50);
+		paneSelectedOpdrachten = new JScrollPane(tableSelectedOpdrachten);
+	}
+
+	public void addSelectedOpdrachtToPane(Opdracht opdracht)
+	{
+		
+		modelTableSelectedOpdrachten.addRow(new String[] {opdracht.getCategorie().toString(), opdracht.getVraag(), "0"});
+	}
+	
+	public void removeSelectedOpdrachtVanPane(int opdrachtRow)
+	{
+		modelTableSelectedOpdrachten.removeRow(opdrachtRow);
+	}
 	public void setOpdrachtCatalogus(OpdrachtCatalogus opdrachtCatalogus)
 	{
 		this.opdrachten = opdrachtCatalogus;
@@ -273,11 +309,43 @@ public class QuizView extends JFrame
 	
 	public void setLbOpdrachtDetails(Opdracht opdracht)
 	{
-		lbOpdrachtDetails.setText("Opdracht details: " + opdracht.toString());
+		lbOpdrachtDetails.setText("<html>" + "Opdracht details: " + opdracht.toString() + "</html>");
 	}
+	
+	public void setLbOpdrachtenAantal(Integer aantal)
+	{
+		lbOpdrachtAantal.setText(aantal.toString());
+	}
+	
+	public void moveUp(Integer row)
+	{
+		modelTableSelectedOpdrachten.moveRow(row, row, row-1);
+	}
+	
 	//Liseners:
 	public void addOpdrachtSelectedListener(ListSelectionListener listenForSelectedRow)
 	{
-		table.getSelectionModel().addListSelectionListener(listenForSelectedRow);
+		tableAllOpdrachten.getSelectionModel().addListSelectionListener(listenForSelectedRow);
+	}
+	
+	public void addBtnVoegOpdrachtToeListener(ActionListener listenForBtnVoegOpdrachtToe)
+	{
+		btnVoegOpdrachtToe.addActionListener(listenForBtnVoegOpdrachtToe);
+	}
+	
+	public void addBtnVerwijderOpdrachtListener(ActionListener listenForBtnVerwijderOpdracht)
+	{
+		btnVerwijderOpdracht.addActionListener(listenForBtnVerwijderOpdracht);
+	}
+	
+	public void addBtnOpdrachtUpListener(ActionListener listenForBtnOpdrachtUp)
+	{
+		btnOpdrachtUp.addActionListener(listenForBtnOpdrachtUp);
+	}
+	
+	public void addBtnRegistreerLitener(ActionListener listenForRegistration)
+	{
+		btnRegistreer.addActionListener(listenForRegistration);
 	}
 }
+
