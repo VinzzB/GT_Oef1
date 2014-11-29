@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -13,7 +14,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import model.*;
-import persistency.*;
+import persistency.Database;
+import persistency.DatabaseHandler;
 import view.QuizView;
 
 public class QuizViewController
@@ -41,11 +43,7 @@ public class QuizViewController
 		
 		quizView = new QuizView(titleQuizView);
 		
-		this.quizView.addOpdrachtSelectedListener(new OpdrachtSelectionListener());
-		this.quizView.addBtnVoegOpdrachtToeListener(new BtnVoegOpdrachtToeListener());
-		this.quizView.addBtnVerwijderOpdrachtListener(new BtnVerwijderOpdrachtListener());
-		this.quizView.addBtnOpdrachtUpListener(new BtnOpdrachtUpListener());
-		this.quizView.addBtnRegistreerListener(new BtnRegistreerListener());
+		this.addListeners();
 	}
 	
 	public QuizViewController(String titleQuizView, DatabaseHandler db, QuizzenViewController qvc) throws Exception
@@ -59,11 +57,7 @@ public class QuizViewController
 		
 		quizView = new QuizView(titleQuizView);
 		
-		this.quizView.addOpdrachtSelectedListener(new OpdrachtSelectionListener());
-		this.quizView.addBtnVoegOpdrachtToeListener(new BtnVoegOpdrachtToeListener());
-		this.quizView.addBtnVerwijderOpdrachtListener(new BtnVerwijderOpdrachtListener());
-		this.quizView.addBtnOpdrachtUpListener(new BtnOpdrachtUpListener());
-		this.quizView.addBtnRegistreerListener(new BtnRegistreerListener());
+		this.addListeners();
 	}
 
 	public QuizViewController(Quiz quiz, DatabaseHandler db, QuizzenViewController qvc) throws Exception
@@ -78,13 +72,21 @@ public class QuizViewController
 		selectedOpdrachten = quiz.getOpdrachten();
 		quizView = new QuizView(quiz);
 		
+		this.addListeners();
+	}
+	
+	private void addListeners()
+	{
 		this.quizView.addOpdrachtSelectedListener(new OpdrachtSelectionListener());
 		this.quizView.addBtnVoegOpdrachtToeListener(new BtnVoegOpdrachtToeListener());
 		this.quizView.addBtnVerwijderOpdrachtListener(new BtnVerwijderOpdrachtListener());
 		this.quizView.addBtnOpdrachtUpListener(new BtnOpdrachtUpListener());
 		this.quizView.addBtnRegistreerListener(new BtnRegistreerListener());
-		this.quizView.addBtnNieuweOpdracht(new BtnNieuweOpdrachtListener());
+		this.quizView.addBtnNieuweOpdrachtListener(new BtnNieuweOpdrachtListener());
+		this.quizView.addCbxCategorieListener(new CategorieSelectionListener());
+		this.quizView.addCbxSorteringListener(new SorteringSelectionListener());
 	}
+	
 	class OpdrachtSelectionListener implements ListSelectionListener
 	{
 
@@ -210,6 +212,62 @@ public class QuizViewController
 			// TODO Auto-generated method stub
 			
 		}}
+	
+	class CategorieSelectionListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			TreeMap<Integer, Opdracht> opdrachten = new TreeMap<Integer, Opdracht>();
+			for(Opdracht opdracht : opdrachtCatalogus)
+			{
+				if(opdracht.getCategorie() == quizView.getSelectedOpdrachCategorie() || quizView.getSelectedOpdrachCategorie() == null)
+				{
+					opdrachten.put(opdrachten.size(), opdracht);
+				}
+			}
+			quizView.setGesoorteerdeOpdrachten(opdrachten);
+		}}
+	
+	class SorteringSelectionListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			TreeMap<Integer, Opdracht> opdrachten = new TreeMap<Integer, Opdracht>();	
+			ArrayList<Opdracht> sortedOpdrachten = quizView.getOpdrachtenInTable(quizView.getAllOpdrachtenTable());
+			switch(quizView.getSelectedSorterigType())
+			{
+			case "geen":
+				break;
+			case "categorie":
+				Collections.sort(sortedOpdrachten, new Comparator<Opdracht>(){
+
+					@Override
+					public int compare(Opdracht opdracht1, Opdracht opdracht2)
+					{
+						return opdracht1.compareCategorie(opdracht2);
+					}});
+				break;
+			case "vraag":
+				Collections.sort(sortedOpdrachten, new Comparator<Opdracht>(){
+
+					@Override
+					public int compare(Opdracht opdracht1, Opdracht opdracht2)
+					{
+						return opdracht1.compareVraag(opdracht2);
+					}});
+				break;
+			default:
+				break;
+			}
+			for(Opdracht opdracht : sortedOpdrachten)
+			{
+				opdrachten.put(opdrachten.size(), opdracht);
+			}
+			quizView.setGesoorteerdeOpdrachten(opdrachten);
+		}}
+	
 	
 	public static void main(String[] args) throws Exception
 	{

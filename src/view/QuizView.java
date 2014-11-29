@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import model.*;
 import model.quizStatus.*;
 import persistency.Database;
+import utils.ModelTable;
 
 public class QuizView extends JFrame
 {
@@ -52,8 +53,7 @@ public class QuizView extends JFrame
 	private JComboBox<OpdrachtCategorie> cbxCategorie;
 	private JComboBox<String> cbxSortering;
 	private JScrollPane paneAllOpdrachten, paneSelectedOpdrachten;
-	private ModelTable modelTableAllOpdrachten;
-	private DefaultTableModel modelTableSelectedOpdrachten;
+	private DefaultTableModel modelTableAllOpdrachten, modelTableSelectedOpdrachten;
 	private JTable tableAllOpdrachten, tableSelectedOpdrachten;
 	
 	
@@ -103,6 +103,11 @@ public class QuizView extends JFrame
 		this.setAuteur(quiz.getAuteur());
 		this.setStatus(quiz.getStatus());
 		
+		for(QuizOpdracht quizOpdracht : quiz.getQuizOpdrachten())
+		{
+			this.setMaxScorePerOpdracht(quizOpdracht.getOpdracht().getVraag(), quizOpdracht.getMaxScore());
+		}
+		
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setSize(size);
 		this.setVisible(true);
@@ -142,8 +147,10 @@ public class QuizView extends JFrame
 		//comboboxes
 		cbxLeerjaar = new JComboBox<Integer>(new Integer[] {1, 2, 3, 4, 5, 6});
 		cbxAuteur = new JComboBox<Leraar>(Leraar.values());
-		cbxStatus = new JComboBox<QuizStatus>(new QuizStatus[]{new Afgesloten(), new Afgewerkt(), new Inconstructie(), new LaatsteKans(), new Opengesteld()});
+		cbxStatus = new JComboBox<QuizStatus>(new QuizStatus[]{null, new Afgesloten(), new Afgewerkt(), new Inconstructie(), new LaatsteKans(), new Opengesteld()});
 		cbxCategorie = new JComboBox<OpdrachtCategorie>(OpdrachtCategorie.values());
+		cbxCategorie.insertItemAt(null, 0);
+		cbxCategorie.setSelectedItem(null);
 		cbxSortering = new JComboBox<String>(new String[] {"geen", "categorie", "vraag"});
 		
 		//buttons
@@ -259,7 +266,7 @@ public class QuizView extends JFrame
 
 	public QuizStatus getQuizStatus()
 	{
-		return (QuizStatus) cbxStatus.getSelectedItem();
+		return (QuizStatus)cbxStatus.getSelectedItem();
 	}
 	
 	public void setStatus(QuizStatus status)
@@ -295,6 +302,16 @@ public class QuizView extends JFrame
 			return opdrachten.getOpdracht(table.getValueAt(table.getSelectedRow(), 1).toString());
 	}
 	
+	public OpdrachtCategorie getSelectedOpdrachCategorie()
+	{
+		return (OpdrachtCategorie)this.cbxCategorie.getSelectedItem();
+	}
+	
+	public String getSelectedSorterigType()
+	{
+		return this.cbxSortering.getSelectedItem().toString();
+	}
+	
 	public int getMaxScorePerQuizOpdracht(Opdracht opdracht)
 	{
 		for(Integer i = 0; i <= modelTableSelectedOpdrachten.getRowCount(); i++)
@@ -307,14 +324,42 @@ public class QuizView extends JFrame
 		return 0;
 	}
 	
+	public void setMaxScorePerOpdracht(String vraag, int maxScore)
+	{
+		for(int i = 0; i < tableSelectedOpdrachten.getRowCount(); i++)
+		{
+			if(tableSelectedOpdrachten.getValueAt(i, 1) == vraag) 
+				tableSelectedOpdrachten.setValueAt(maxScore, i, 2);
+		}
+	}
+	
+	public ArrayList<Opdracht> getOpdrachtenInTable(JTable table)
+	{
+		ArrayList<Opdracht> opdrachten = new ArrayList<Opdracht>();
+		
+		for(int i = 0; i < table.getModel().getRowCount(); i++)
+		{
+			for(Opdracht opdracht : this.opdrachten.getOpdrachten().values())
+			{
+				if(table.getModel().getValueAt(i, 1) == opdracht.getVraag())
+				{
+					opdrachten.add(opdracht);
+				}
+			}
+		}	
+		return opdrachten;
+	}
+	
 	private void setOpdrachten(JScrollPane pane, OpdrachtCatalogus opdrachten)
 	{
-		ArrayList<Object[]> values = new ArrayList<Object[]>();
+		Object[][] values = new Object[opdrachten.getOpdrachten().size()][];
+		int i = 0;
 		for (Opdracht opdracht : opdrachten.getOpdrachten().values())
 		{
-			values.add(new Object[]{opdracht.getCategorie(), opdracht.getVraag()});
+			values[i] = new Object[]{opdracht.getCategorie(), opdracht.getVraag()};
+			i++;
 		}
-		modelTableAllOpdrachten = new ModelTable(values, new String[]{"Categorie", "Vraag"});
+		modelTableAllOpdrachten = new DefaultTableModel(values, new String[]{"Categorie", "Vraag"});
 		tableAllOpdrachten = new JTable(modelTableAllOpdrachten);
 		tableAllOpdrachten.getColumnModel().getColumn(0).setMaxWidth(100);
 		paneAllOpdrachten = new JScrollPane(tableAllOpdrachten);
@@ -334,6 +379,19 @@ public class QuizView extends JFrame
 		tableSelectedOpdrachten.getColumnModel().getColumn(0).setMaxWidth(100);
 		tableSelectedOpdrachten.getColumnModel().getColumn(2).setMaxWidth(50);
 		paneSelectedOpdrachten = new JScrollPane(tableSelectedOpdrachten);
+	}
+	
+	public void setGesoorteerdeOpdrachten(TreeMap<Integer, Opdracht> opdrachten)
+	{
+		for(int i = modelTableAllOpdrachten.getRowCount() - 1; i >= 0; i--)
+		{
+			modelTableAllOpdrachten.removeRow(i);
+		}
+
+		for(Opdracht opdracht : opdrachten.values())
+		{
+			modelTableAllOpdrachten.addRow(new String[] {opdracht.getCategorie().toString(), opdracht.getVraag()});
+		}
 	}
 
 	public void addSelectedOpdrachtToPane(Opdracht opdracht)
@@ -392,9 +450,19 @@ public class QuizView extends JFrame
 		btnRegistreer.addActionListener(listenForRegistration);
 	}
 	
-	public void addBtnNieuweOpdracht(ActionListener listenForNieuweOpdracht)
+	public void addBtnNieuweOpdrachtListener(ActionListener listenForNieuweOpdracht)
 	{
 		btnNieuweOpdracht.addActionListener(listenForNieuweOpdracht);
+	}
+	
+	public void addCbxCategorieListener(ActionListener listenForSelectCategorie)
+	{
+		cbxCategorie.addActionListener(listenForSelectCategorie);
+	}
+	
+	public void addCbxSorteringListener(ActionListener listenForSelectSortering)
+	{
+		cbxSortering.addActionListener(listenForSelectSortering);
 	}
 }
 
