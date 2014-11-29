@@ -5,4 +5,4 @@
  * @author Natalia
  *
  */
-package quizStatus;
+package model.quizStatus;

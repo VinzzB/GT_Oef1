@@ -2,12 +2,14 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.awt.peer.PanelPeer;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,7 +24,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import model.*;
-import model.quizStatus.QuizStatus;
+import model.quizStatus.*;
 import persistency.Database;
 
 public class QuizView extends JFrame
@@ -42,7 +44,8 @@ public class QuizView extends JFrame
 					lbOpdrachtenCategorie, lbOpdrachtenSorteren, lbAantal, lbOpdrachtAantal,
 					lbOpdrachtDetails;
 	private JTextField txtOnderwerp;
-	private JButton btnRegistreer, btnVoegOpdrachtToe, btnVerwijderOpdracht, btnOpdrachtUp;
+	private JButton btnRegistreer, btnVoegOpdrachtToe, btnVerwijderOpdracht, 
+					btnOpdrachtUp, btnNieuweOpdracht;
 	private JComboBox<Integer> cbxLeerjaar;
 	private JComboBox<Leraar> cbxAuteur;
 	private JComboBox<QuizStatus> cbxStatus;
@@ -57,8 +60,8 @@ public class QuizView extends JFrame
 	private Dimension size = new Dimension(900, 600);
 	
 	private OpdrachtCatalogus opdrachten = Database.getOpdrachtCatalogus();
-	private HashMap<Integer, Opdracht> selectedOpdrachten = new HashMap<Integer, Opdracht>();
-	
+	private TreeMap<Integer, Opdracht> selectedOpdrachten = new TreeMap<Integer, Opdracht>();
+	private Quiz quiz;
 	/**
 	 * Sole constructor
 	 */
@@ -81,7 +84,26 @@ public class QuizView extends JFrame
 	{
 		super(label);
 		initializeComponents();
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.setSize(size);
+		this.setVisible(true);
+	}
+	
+	public QuizView(Quiz quiz)
+	{
+		super("Quiz: " + quiz.getOnderwerp() + " update");
+
+		this.quiz = quiz;
+		selectedOpdrachten = quiz.getOpdrachten();
+		
+		initializeComponents();
+		
+		this.setOnderwerp(quiz.getOnderwerp());
+		this.setKlass(quiz.getLeerjaar());
+		this.setAuteur(quiz.getAuteur());
+		this.setStatus(quiz.getStatus());
+		
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setSize(size);
 		this.setVisible(true);
 	}
@@ -129,6 +151,7 @@ public class QuizView extends JFrame
 		btnVoegOpdrachtToe = new JButton(">>>");
 		btnVerwijderOpdracht = new JButton("<<<");
 		btnOpdrachtUp = new JButton("^^^^");
+		btnNieuweOpdracht = new JButton("Nieuwe opdracht maken");
 		
 		//scrollpanes
 		setOpdrachten(paneAllOpdrachten, opdrachten); 
@@ -182,11 +205,12 @@ public class QuizView extends JFrame
 		panelOpdrachtenRightUp.add(lbAantal, c);
 		c.gridwidth = GridBagConstraints.REMAINDER; // end row
 		panelOpdrachtenRightUp.add(lbOpdrachtAantal, c);
-		panelOpdrachtenRightUp.add(btnOpdrachtUp, c);
+		panelOpdrachtenRightUp.add(btnOpdrachtUp, c);		
 		
 		//Fill in Right bottom panel
 		panelOpdrachtenRight.add(panelOpdrachtenRightUp, BorderLayout.NORTH);
 		panelOpdrachtenRight.add(paneSelectedOpdrachten, BorderLayout.CENTER);
+		panelOpdrachtenRight.add(btnNieuweOpdracht, BorderLayout.SOUTH);
 		
 		//Fill in Bottom panel
 		c.gridwidth = 1; //reset to default
@@ -208,19 +232,39 @@ public class QuizView extends JFrame
 		return txtOnderwerp.getText();
 	}
 	
+	public void setOnderwerp(String onderwerp)
+	{
+		txtOnderwerp.setText(onderwerp);
+	}
+	
 	public Integer getKlas()
 	{
 		return Integer.parseInt(cbxLeerjaar.getSelectedItem().toString());
+	}
+	
+	public void setKlass(int klass)
+	{
+		cbxLeerjaar.setSelectedItem(klass);
 	}
 	
 	public Leraar getAuteur()
 	{
 		return (Leraar) cbxAuteur.getSelectedItem();
 	}
+	
+	public void setAuteur(Leraar leraar)
+	{
+		cbxAuteur.setSelectedItem(leraar);
+	}
 
 	public QuizStatus getQuizStatus()
 	{
 		return (QuizStatus) cbxStatus.getSelectedItem();
+	}
+	
+	public void setStatus(QuizStatus status)
+	{
+		cbxStatus.setSelectedItem(status);
 	}
 	
 	public OpdrachtCategorie getOpdrachtCategorie()
@@ -276,7 +320,7 @@ public class QuizView extends JFrame
 		paneAllOpdrachten = new JScrollPane(tableAllOpdrachten);
 	}
 	
-	private void setSelectedOpdrachten(JScrollPane pane, HashMap<Integer, Opdracht> selectedOpdrachten)
+	private void setSelectedOpdrachten(JScrollPane pane, TreeMap<Integer, Opdracht> selectedOpdrachten)
 	{
 		Object[][] values = new Object[selectedOpdrachten.size()][];
 		int i = 0;
@@ -343,9 +387,14 @@ public class QuizView extends JFrame
 		btnOpdrachtUp.addActionListener(listenForBtnOpdrachtUp);
 	}
 	
-	public void addBtnRegistreerLitener(ActionListener listenForRegistration)
+	public void addBtnRegistreerListener(ActionListener listenForRegistration)
 	{
 		btnRegistreer.addActionListener(listenForRegistration);
+	}
+	
+	public void addBtnNieuweOpdracht(ActionListener listenForNieuweOpdracht)
+	{
+		btnNieuweOpdracht.addActionListener(listenForNieuweOpdracht);
 	}
 }
 

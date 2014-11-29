@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author      Natalia Dyubankova <fornnd@gmail.com>
@@ -20,7 +22,7 @@ public class QuizCatalogus implements Iterable<Quiz>
 		quizCatalogus = new ArrayList<Quiz>();
 	}
 // getters en setters
-	public ArrayList <Quiz> getQuizzen()
+	public ArrayList<Quiz> getQuizzen()
 	{
 		return quizCatalogus;
 	}
@@ -67,19 +69,37 @@ public class QuizCatalogus implements Iterable<Quiz>
 		quiz.setQuizID(setQuizID());
 		quizCatalogus.add(quiz);
 	}
+	
+	public void voegQuizToe(int mapID, Quiz quiz)
+	{
+		quizCatalogus.add(quiz);		
+	}
 /**
  * Verwijdert een quiz va catalogus
  * 
  * @param quiz
  */
-	protected void verwijderQuiz(Quiz quiz)
+	public void verwijderQuiz(Quiz quiz)
 	{
+		List<QuizOpdracht> list = new CopyOnWriteArrayList<QuizOpdracht>();
+	 
+		for(QuizOpdracht quizOpdracht : quiz.getQuizOpdrachten())
+		{
+			list.add(quizOpdracht);
+		}
+		
+		for(QuizOpdracht quizOpdracht : list)
+		{
+			quiz.getQuizOpdrachten().remove(quizOpdracht);
+		}
+		
 		quizCatalogus.remove(quiz);
 	}
-@Override
-public Iterator<Quiz> iterator()
-{
-	Iterator<Quiz> quizzen = quizCatalogus.iterator(); 
-	return quizzen;
-}
+	
+	@Override
+	public Iterator<Quiz> iterator()
+	{
+		Iterator<Quiz> quizzen = quizCatalogus.iterator(); 
+		return quizzen;
+	}
 }

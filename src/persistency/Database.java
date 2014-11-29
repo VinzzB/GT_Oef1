@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import model.*;
 import model.quizStatus.*;
-
+import utils.date.gregorian.*;
 /**
  * Abstracte klasse om objecten te lesen en weg te schrijven
  * 
@@ -22,7 +22,7 @@ public abstract class Database implements IDatabaseStrategy
 	protected File quizOpdrachtDB;
 	protected static OpdrachtCatalogus opdrachten; 
 	protected static QuizCatalogus quizzen;
-	protected ArrayList<QuizOpdracht> quizOpdrachten;
+	protected static ArrayList<QuizOpdracht> quizOpdrachten;
 	
 	public Database() 
 	{
@@ -42,7 +42,7 @@ public abstract class Database implements IDatabaseStrategy
 		String [][] objecten = leesVanBestand(opdrachtenDB);
 		for (String[] object : objecten)
 		{
-			opdrachten.voegOpdrachtToe(new Opdracht(Integer.parseInt(object[0]), 
+			opdrachten.addOpdracht(new Opdracht(Integer.parseInt(object[0]), 
 					object[1], object[2], this.vanStringNaarOpdrachtCategorie(object[3]), object[4],
 					Integer.parseInt(object[5]), Integer.parseInt(object[6])));
 		}
@@ -61,7 +61,9 @@ public abstract class Database implements IDatabaseStrategy
 		{
 			String[] s = (String[]) object;
 			quizzen.voegQuizToe(new Quiz(Integer.parseInt(s[0]), s[1], Integer.parseInt(s[2]), 
-					Boolean.parseBoolean(s[3]), Boolean.parseBoolean(s[4]),	this.vanStringNaarQuizStatus(s[5])));
+					Boolean.parseBoolean(s[3]), Boolean.parseBoolean(s[4]),	
+					this.vanStringNaarQuizStatus(s[5]), this.vanStringNaarAuteur(s[6]),
+					new Datum(s[7])));
 		}
 	}
 
@@ -123,9 +125,9 @@ public abstract class Database implements IDatabaseStrategy
 		ArrayList<String> objecten = new ArrayList<String>();
 		for(Quiz quiz : quizzen.getQuizzen())
 		{
-			for(Opdracht opdracht : quiz.getOpdrachten())
+			for(QuizOpdracht quizopdracht : quiz.getQuizOpdrachten())
 			{
-				objecten.add(opdracht.getOpdracht(1).toBestand());
+				objecten.add(quizopdracht.toBestand());
 			}
 		}
 		schrijfNaarBestand(objecten.toArray(new String[objecten.size()]), quizOpdrachtDB);
@@ -167,6 +169,23 @@ public abstract class Database implements IDatabaseStrategy
 		}
 	}
 	
+	private Leraar vanStringNaarAuteur(String auterInString)
+	{
+		switch(auterInString)
+		{
+			case "A aa":
+				return Leraar.LERAAR1;
+			case "B bb":
+				return Leraar.LERAAR2;
+			case "C cc":
+				return Leraar.LERAAR3;
+			case "D dd":
+				return Leraar.LERAAR4;
+				default:
+					return null;
+		}
+	}
+	
 	public static QuizCatalogus getQuizCatalogus()
 	{
 		return quizzen;
@@ -175,6 +194,11 @@ public abstract class Database implements IDatabaseStrategy
 	public static OpdrachtCatalogus getOpdrachtCatalogus()
 	{
 		return opdrachten;
+	}
+	
+	public static ArrayList<QuizOpdracht> getQuizOpdrachten()
+	{
+		return quizOpdrachten;
 	}
 
 /**

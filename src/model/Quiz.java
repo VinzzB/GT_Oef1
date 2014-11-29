@@ -2,8 +2,11 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
+import javafx.collections.SetChangeListener;
 import model.quizStatus.*;
+import utils.date.gregorian.*;
 
 /**
  * @author Natalia Dyubankova <fornnd@gmail.com>
@@ -18,6 +21,8 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	private boolean isTest;
 	private boolean isUniek;
 	private QuizStatus status;
+	private Leraar auteur;
+	private Datum datumVanCreatie;
 	
 	// Statussen:
 	private Inconstructie statusInconstructie;
@@ -45,6 +50,8 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		statusLaatsteKans = new LaatsteKans(this);
 		statusAfgesloten = new Afgesloten(this);
 		status = statusInconstructie;
+		
+		setDatumVanCreatie(new Datum());
 	}
 
 	/**
@@ -106,6 +113,19 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		this(onderwerp, leerjaar, isTest, isUniek, status);
 		this.quizID = quizID;
 	}
+	
+	public Quiz(int quizID, String onderwerp, int leerjaar, boolean isTest, boolean isUniek, QuizStatus status, Leraar leraar) throws Exception
+	{
+		this(quizID, onderwerp, leerjaar, isTest, isUniek, status);
+		setAuteur(leraar);
+	}
+	
+	public Quiz(int quizID, String onderwerp, int leerjaar, boolean isTest, boolean isUniek, QuizStatus status, Leraar leraar, Datum datum) throws Exception
+	{
+		this(quizID, onderwerp, leerjaar, isTest, isUniek, status, leraar);
+		setDatumVanCreatie(datum);
+	}
+
 
 	/**
 	 * Copy constructor. Constructs a new instance of Quiz using other Quiz as parameter.
@@ -254,13 +274,13 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		return this.quizOpdrachten;
 	}
 
-	public ArrayList<Opdracht> getOpdrachten()
+	public TreeMap<Integer, Opdracht> getOpdrachten()
 	{
-		ArrayList<Opdracht> opdrachten = new ArrayList<Opdracht>();
+		TreeMap<Integer, Opdracht> opdrachten = new TreeMap<Integer, Opdracht>();
 
 		for (QuizOpdracht quizOpdracht : quizOpdrachten)
 		{
-			opdrachten.add(quizOpdracht.getOpdracht());
+			opdrachten.put(opdrachten.size(), quizOpdracht.getOpdracht());
 		}
 		return opdrachten;
 	}
@@ -270,6 +290,26 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		return quizOpdrachten.get(volgnr - 1);
 	}
 	
+
+	public Leraar getAuteur()
+	{
+		return auteur;
+	}
+
+	public void setAuteur(Leraar auteur)
+	{
+		this.auteur = auteur;
+	}
+
+	public Datum getDatumVanCreatie()
+	{
+		return datumVanCreatie;
+	}
+
+	public void setDatumVanCreatie(Datum datumVanCreatie)
+	{
+		this.datumVanCreatie = datumVanCreatie;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -371,7 +411,14 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	@Override
 	public String toString()
 	{
-		return "Quiz [onderwerp=" + onderwerp + ", leerjaar=" + leerjaar + ", isTest=" + isTest + ", isUniek=" + isUniek
+		return "Quiz "+ this.quizID + " [onderwerp: " + onderwerp + ", leerjaar: " + leerjaar + 
+				", isTest: " + isTest + ", isUniek: " + isUniek	+ ", status: " + 
+				status + "] auteur: " + auteur + " datum: " + datumVanCreatie;
+	}
+	
+	public String fullDescription()
+	{
+		return "Quiz "+ this.quizID + " [onderwerp=" + onderwerp + ", leerjaar=" + leerjaar + ", isTest=" + isTest + ", isUniek=" + isUniek
 				+ ", status=" + status + ", quizOpdrachten=" + quizOpdrachten + "]";
 	}
 
@@ -417,7 +464,9 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	 */
 	public String toBestand()
 	{
-		return quizID + "\t" + onderwerp + "\t" + leerjaar + "\t" + isTest + "\t" + isUniek + "\t" + status;
+		return this.quizID + "\t" + this.onderwerp + "\t" + this.leerjaar + "\t" + 
+				this.isTest + "\t" + this.isUniek + "\t" + this.status + "\t" + 
+				this.auteur + "\t" + datumVanCreatie.getEuropeanFormat();
 	}
 
 }

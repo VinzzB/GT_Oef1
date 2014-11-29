@@ -3,7 +3,10 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
@@ -18,9 +21,13 @@ public class QuizViewController
 	private QuizView quizView;
 	private QuizCatalogus quizCatalogus;
 	private OpdrachtCatalogus opdrachtCatalogus;
+	private ArrayList<QuizOpdracht> quizOpdrachten;
 	
 	private TreeMap<Integer, Opdracht> selectedOpdrachten = new TreeMap<Integer, Opdracht>();
+	
 	private DatabaseHandler db;
+	private Quiz quiz;
+	private QuizzenViewController qvc;
 
 	
 	public QuizViewController(String titleQuizView) throws Exception
@@ -30,6 +37,7 @@ public class QuizViewController
 		
 		quizCatalogus = Database.getQuizCatalogus();
 		opdrachtCatalogus = Database.getOpdrachtCatalogus();
+		quizOpdrachten = Database.getQuizOpdrachten();
 		
 		quizView = new QuizView(titleQuizView);
 		
@@ -37,9 +45,46 @@ public class QuizViewController
 		this.quizView.addBtnVoegOpdrachtToeListener(new BtnVoegOpdrachtToeListener());
 		this.quizView.addBtnVerwijderOpdrachtListener(new BtnVerwijderOpdrachtListener());
 		this.quizView.addBtnOpdrachtUpListener(new BtnOpdrachtUpListener());
-		this.quizView.addBtnRegistreerLitener(new BtnRegistreerListener());
+		this.quizView.addBtnRegistreerListener(new BtnRegistreerListener());
 	}
 	
+	public QuizViewController(String titleQuizView, DatabaseHandler db, QuizzenViewController qvc) throws Exception
+	{
+		this.db  = db;
+		this.qvc = qvc;
+		
+		quizCatalogus = Database.getQuizCatalogus();
+		opdrachtCatalogus = Database.getOpdrachtCatalogus();
+		quizOpdrachten = Database.getQuizOpdrachten();
+		
+		quizView = new QuizView(titleQuizView);
+		
+		this.quizView.addOpdrachtSelectedListener(new OpdrachtSelectionListener());
+		this.quizView.addBtnVoegOpdrachtToeListener(new BtnVoegOpdrachtToeListener());
+		this.quizView.addBtnVerwijderOpdrachtListener(new BtnVerwijderOpdrachtListener());
+		this.quizView.addBtnOpdrachtUpListener(new BtnOpdrachtUpListener());
+		this.quizView.addBtnRegistreerListener(new BtnRegistreerListener());
+	}
+
+	public QuizViewController(Quiz quiz, DatabaseHandler db, QuizzenViewController qvc) throws Exception
+	{
+		this.db = db;
+		this.qvc = qvc;
+		
+		quizCatalogus = Database.getQuizCatalogus();
+		opdrachtCatalogus = Database.getOpdrachtCatalogus();
+		
+		this.quiz = quiz;
+		selectedOpdrachten = quiz.getOpdrachten();
+		quizView = new QuizView(quiz);
+		
+		this.quizView.addOpdrachtSelectedListener(new OpdrachtSelectionListener());
+		this.quizView.addBtnVoegOpdrachtToeListener(new BtnVoegOpdrachtToeListener());
+		this.quizView.addBtnVerwijderOpdrachtListener(new BtnVerwijderOpdrachtListener());
+		this.quizView.addBtnOpdrachtUpListener(new BtnOpdrachtUpListener());
+		this.quizView.addBtnRegistreerListener(new BtnRegistreerListener());
+		this.quizView.addBtnNieuweOpdracht(new BtnNieuweOpdrachtListener());
+	}
 	class OpdrachtSelectionListener implements ListSelectionListener
 	{
 
@@ -121,28 +166,49 @@ public class QuizViewController
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			for(Quiz q : quizCatalogus)
-			{
-				System.out.println(q);
-			}
 			try
 			{
-				Quiz q = new Quiz(quizCatalogus.setQuizID(), quizView.getOnderwerp(), quizView.getKlas(), false, false, quizView.getQuizStatus());
-				for(Opdracht o : selectedOpdrachten.values())
+				int quizID = -1;
+				if (quiz == null)
 				{
-					QuizOpdracht.koppelOpdrachtAanQuiz(q, o, quizView.getMaxScorePerQuizOpdracht(o));
+					quiz = new Quiz(quizCatalogus.setQuizID(), quizView.getOnderwerp(), quizView.getKlas(), false, false, quizView.getQuizStatus(), quizView.getAuteur());
+					for(Opdracht opdracht : selectedOpdrachten.values())
+					{
+						QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, 
+								quizView.getMaxScorePerQuizOpdracht(opdracht));
+					}
 				}
-				quizCatalogus.voegQuizToe(q);
+				else
+				{
+					quizID = quiz.getQuizID();
+				              
+					quizCatalogus.verwijderQuiz(quiz);
+					quiz = new Quiz(quizID, quizView.getOnderwerp(), quizView.getKlas(), false, false, quizView.getQuizStatus(), quizView.getAuteur());
+					for(Opdracht opdracht : selectedOpdrachten.values())
+					{
+						QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, 
+								quizView.getMaxScorePerQuizOpdracht(opdracht));
+					}
+				}
+				quizCatalogus.voegQuizToe(quizID, quiz);
+				Collections.sort(quizCatalogus.getQuizzen());
 				db.safeCatalogus();
+				qvc.updateQuizzenView();
+				
 			} catch (Exception e1)
 			{
 				JOptionPane.showMessageDialog(null, "Fout bij Quiz Registratie", "alert", JOptionPane.ERROR_MESSAGE);
 				e1.printStackTrace();
 			}
-			for(Quiz q : quizCatalogus)
-			{
-				System.out.println(q);
-			}
+		}}
+	
+	class BtnNieuweOpdrachtListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			// TODO Auto-generated method stub
+			
 		}}
 	
 	public static void main(String[] args) throws Exception
@@ -158,8 +224,6 @@ public class QuizViewController
 		{
 			JOptionPane.showMessageDialog(null, e.getMessage(), "alert", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
-		}
-		
+		}	
 	}
-
 }
