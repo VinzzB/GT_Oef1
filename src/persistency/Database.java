@@ -42,8 +42,8 @@ public abstract class Database implements IDatabaseStrategy
 		String [][] objecten = leesVanBestand(opdrachtenDB);
 		for (String[] object : objecten)
 		{
-			opdrachten.addOpdracht(new Opdracht(Integer.parseInt(object[0]), 
-					object[1], object[2], this.vanStringNaarOpdrachtCategorie(object[3]), object[4],
+			opdrachten.voegOpdrachtToe(new Opdracht(Integer.parseInt(object[0]), 
+					object[1], object[2], OpdrachtCategorie.valueOf(object[3]), object[4],
 					Integer.parseInt(object[5]), Integer.parseInt(object[6])));
 		}
 	}
@@ -60,9 +60,9 @@ public abstract class Database implements IDatabaseStrategy
 		for (String[] object : objecten)
 		{
 			String[] s = (String[]) object;
-			quizzen.voegQuizToe(new Quiz(Integer.parseInt(s[0]), s[1], Integer.parseInt(s[2]), 
+			quizzen.voegQuizToe(Integer.parseInt(s[0]), new Quiz(Integer.parseInt(s[0]), s[1], Integer.parseInt(s[2]), 
 					Boolean.parseBoolean(s[3]), Boolean.parseBoolean(s[4]),	
-					this.vanStringNaarQuizStatus(s[5]), this.vanStringNaarAuteur(s[6]),
+					this.vanStringNaarQuizStatus(s[5]), Leraar.valueOf(s[6]),
 					new Datum(s[7])));
 		}
 	}
@@ -150,40 +150,6 @@ public abstract class Database implements IDatabaseStrategy
 		default:
 			return null;
 		}	
-	}
-	
-	private OpdrachtCategorie vanStringNaarOpdrachtCategorie(String opdrachtCategorieInString)
-	{
-		switch(opdrachtCategorieInString)
-		{
-		case "Aardrijkskunde":
-			return OpdrachtCategorie.Aardrijkskunde;
-		case "Wiskunde":
-			return OpdrachtCategorie.Wiskunde;
-		case "Nederlands":
-			return OpdrachtCategorie.Nederlands;
-		case "Wetenschappen":
-			return OpdrachtCategorie.Wetenschappen;
-		default:
-			return null;
-		}
-	}
-	
-	private Leraar vanStringNaarAuteur(String auterInString)
-	{
-		switch(auterInString)
-		{
-			case "A aa":
-				return Leraar.LERAAR1;
-			case "B bb":
-				return Leraar.LERAAR2;
-			case "C cc":
-				return Leraar.LERAAR3;
-			case "D dd":
-				return Leraar.LERAAR4;
-				default:
-					return null;
-		}
 	}
 	
 	public static QuizCatalogus getQuizCatalogus()
