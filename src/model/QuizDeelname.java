@@ -2,6 +2,7 @@ package model;
 
 import java.util.HashSet;
 import java.util.Set;
+import model.quizStatus.Afgewerkt;
 
 import utils.date.normal.Datum;
 
@@ -79,34 +80,11 @@ public class QuizDeelname implements Cloneable, Comparable<QuizDeelname>
 	}
 
 	/**
-	 * Linkt de Quiz aan de quizdeelname
-	 *
-	 * @param newOwner
-	 *            Quiz waaraan de quizdeelname moet gelinkt worden
-	 */
-	public void setOwnerQuiz(Quiz newOwner)
-	{
-		if (ownerQuiz != newOwner)
-		{
-			Quiz old = ownerQuiz;
-			ownerQuiz = newOwner;
-			if (newOwner != null)
-			{
-				newOwner.addQuizDeelname(this);
-			}
-			if (old != null)
-			{
-				old.removeQuizDeelname(this);
-			}
-		}
-	}
-
-	/**
 	 * Default Constructor
 	 */
 	public QuizDeelname()
 	{
-		this.opdrachtAntwoorden = new HashSet<OpdrachtAntwoord>();
+		this.opdrachtAntwoorden = new HashSet<>();
 		this.datumDeelname = new Datum();
 		this.ownerQuiz = new Quiz();
 	}
@@ -129,6 +107,7 @@ public class QuizDeelname implements Cloneable, Comparable<QuizDeelname>
 		this.opdrachtAntwoorden = opdrachtAntwoord;
 		this.datumDeelname = datumDeelname;
 		this.ownerQuiz = newOwnerQuiz;
+                this.ownerQuiz.setStatus(new Afgewerkt(ownerQuiz));
 	}
 
 	/**
@@ -177,23 +156,23 @@ public class QuizDeelname implements Cloneable, Comparable<QuizDeelname>
 	@Override
 	protected QuizDeelname clone() throws CloneNotSupportedException
 	{
-		Leerling l = ownerLeerling.clone();
-		Set<OpdrachtAntwoord> o = new HashSet<OpdrachtAntwoord>();
-		for (OpdrachtAntwoord item : opdrachtAntwoorden)
-		{
-			o.add(item);
-		}
-		Datum d = new Datum(this.datumDeelname);
-		Quiz q = new Quiz();
-		try
-		{
-			q = new Quiz(this.ownerQuiz);
-		} 
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return new QuizDeelname(l, o, d, q);
+            Leerling l = ownerLeerling.clone();
+            Set<OpdrachtAntwoord> o = new HashSet<>();
+            opdrachtAntwoorden.stream().forEach((item) ->
+            {
+                o.add(item);
+            });
+            Datum d = new Datum(this.datumDeelname);
+            Quiz q = new Quiz();
+            try
+            {
+		q = new Quiz(this.ownerQuiz);
+            } 
+            catch (Exception e)
+            {
+		e.printStackTrace();
+            }
+            return new QuizDeelname(l, o, d, q);
 	}
 
 }
