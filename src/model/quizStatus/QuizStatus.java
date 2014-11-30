@@ -3,7 +3,12 @@ package model.quizStatus;
 import model.QuizDeelname;
 import model.QuizOpdracht;
 
-public abstract class QuizStatus
+/**
+ * Abstracte classe die methods bevat die kunnen wijzigen naargelang de status
+ * van de quiz.
+ * @author silvia
+ */
+public abstract class QuizStatus implements Comparable, Cloneable
 {
 
 	public void voegQuizToe()
@@ -19,11 +24,6 @@ public abstract class QuizStatus
 	public void verwijderQuizOpdracht(QuizOpdracht q)
 	{
 		System.out.println("Quiz wijzigen is niet mogelijk");
-	}
-
-	public void bewaarQuiz()
-	{
-		System.out.println("De Quiz kan niet bewaard worden");
 	}
 
 	public void stelQuizOpen()
@@ -50,5 +50,31 @@ public abstract class QuizStatus
 	{
 		System.out.println("Quiz laatste kans geven is niet mogelijk");
 	}
-
+        
+        public boolean kanDeelnemen()
+        { 
+            return false;
+        }
+        
+        public boolean magOpdrachtWijzigen()
+        { 
+            return false; 
+        }
+        
+        public boolean magQuizWijzigen()
+        { 
+            return false; 
+        }
+        
+        public boolean magQuizVerwijderen()
+        { 
+            return false; 
+        }
+        
+        @Override
+        public String toString()
+        {
+            return "Quiz Status";
+        }
+        
 }
