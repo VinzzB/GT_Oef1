@@ -24,13 +24,6 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	private Leraar auteur;
 	private Datum datumVanCreatie;
 	
-	// Statussen:
-	private Inconstructie statusInconstructie;
-	private Afgewerkt statusAfgewerkt;
-	private Opengesteld statusOpengesteld;
-	private LaatsteKans statusLaatsteKans;
-	private Afgesloten statusAfgesloten;
-
 	private List<QuizOpdracht> quizOpdrachten;
 
 	@SuppressWarnings("unused")
@@ -42,14 +35,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	public Quiz()
 	{
 		quizOpdrachten = new ArrayList<QuizOpdracht>();
-		
-		// create state instances
-		statusInconstructie = new Inconstructie(this);
-		statusAfgewerkt = new Afgewerkt(this);
-		statusOpengesteld = new Opengesteld(this);
-		statusLaatsteKans = new LaatsteKans(this);
-		statusAfgesloten = new Afgesloten(this);
-		status = statusInconstructie;
+		status = new Inconstructie(this);
 		
 		setDatumVanCreatie(new Datum());
 	}
@@ -145,7 +131,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 
 		for (QuizOpdracht quizOpdracht : quiz.getQuizOpdrachten())
 		{
-			this.quizOpdrachten.add(quizOpdracht);
+			status.voegQuizOpdrachtToe(quizOpdracht);
 		}
 	}
 
@@ -201,57 +187,6 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	public void setStatus(QuizStatus status)
 	{
 		this.status = status;
-	}
-	
-	public void setAfgesloten()
-	{
-		this.status = statusAfgesloten;
-	}
-	
-	
-	public QuizStatus getAfgesloten()
-	{
-		return this.statusAfgesloten;
-	}
-	
-	public void setAfgewerkt()
-	{
-		this.status = statusAfgewerkt;
-	}
-	
-	public QuizStatus getAfgewerkt()
-	{
-		return this.statusAfgewerkt;
-	}
-	 
-	public void setInconstructie()
-	{
-		this.status = statusInconstructie;
-	}
-	
-	public QuizStatus getInconstructie()
-	{
-		return this.statusInconstructie;
-	}
-	
-	public void setLaatsteKans()
-	{
-		this.status = statusLaatsteKans;
-	}
-	
-	public QuizStatus getLaatsteKans()
-	{
-		return this.statusLaatsteKans;
-	}
-	
-	public void setOpengesteld()
-	{
-		this.status = statusOpengesteld;
-	}
-
-	public QuizStatus getOpengesteld()
-	{
-		return this.statusOpengesteld;
 	}
 	
 	public void setQuizID(int quizID)
@@ -434,27 +369,6 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 			e.printStackTrace();
 			return null;
 		}
-	}
-
-	/**
-	 * Voeg quizOpdracht instantie to List van quizOpdrachten als Quiz instantie werd gekoppeld met Opdracht
-	 *
-	 * @param quizOpdracht
-	 */
-	protected void voegQuizOpdrachtToe(QuizOpdracht quizOpdracht)
-	{
-		quizOpdrachten.add(quizOpdracht);
-	}
-
-	/**
-	 * Verwijdert quizOpdracht instrantie van List van quizOpdrachten bij verwijderen van koppeling van instantie van
-	 * Quiz met Opdracht
-	 *
-	 * @param quizOpdracht
-	 */
-	protected void verwijderQuizOpdracht(QuizOpdracht quizOpdracht)
-	{
-		quizOpdrachten.remove(quizOpdracht);
 	}
 
 	/**
