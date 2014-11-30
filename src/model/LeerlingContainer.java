@@ -14,16 +14,21 @@ import java.util.Set;
  */
 public class LeerlingContainer implements Iterable<Leerling>
 {
-	private Map<Integer, Leerling> leerlingContainer = new HashMap<>();
+	private Map<Integer, Leerling> leerlingContainer;
 
-	/**
+	public LeerlingContainer()
+        {
+            leerlingContainer = new HashMap<>();
+        }
+        /**
 	 * Constructor verwacht een Map object met een Integer als sleutel en Leerlingobjecten als value
 	 *
 	 * @param leerlingC
 	 */
 	public LeerlingContainer(Map<Integer, Leerling> leerlingC)
 	{
-		leerlingContainer = leerlingC;
+            this();
+            leerlingContainer = leerlingC;
 	}
 
 	public Map<Integer, Leerling> getLeerlingContainer()
@@ -69,10 +74,18 @@ public class LeerlingContainer implements Iterable<Leerling>
 
 	/**
 	 * voeg leerling toe aan map
+         * @param l
 	 */
 	public void voegLeerlingToe(Leerling l)
 	{
-		leerlingContainer.put(getMaxKey(), l);
+            if(l != null)
+            {
+                leerlingContainer.put(getMaxKey(), l);
+            }
+            else
+            {
+                throw new IllegalArgumentException("Leerling is nog niet aangemaakt");
+            }
 	}
 
 	/**
