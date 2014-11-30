@@ -60,11 +60,11 @@ public class QuizOpdracht implements Cloneable
 			this.quiz = quiz;
 			if (quiz != null) 
 			{
-				quiz.voegQuizOpdrachtToe(this);				
+				quiz.getStatus().voegQuizOpdrachtToe(this);				
 			}
 			if (oldQuiz != null)
 			{
-				oldQuiz.verwijderQuizOpdracht(this);
+				oldQuiz.getStatus().verwijderQuizOpdracht(this);
 			}
 		}
 	}
@@ -196,7 +196,7 @@ public class QuizOpdracht implements Cloneable
 	public static void koppelOpdrachtAanQuiz(Quiz quiz, Opdracht opdracht, int maxScore)
 	{
 		QuizOpdracht quizOpdracht = new QuizOpdracht(quiz, opdracht, maxScore);
-		quiz.voegQuizOpdrachtToe(quizOpdracht);
+		quiz.getStatus().voegQuizOpdrachtToe(quizOpdracht);
 		opdracht.voegQuizOpdrachtToe(quizOpdracht);
 	}
 
@@ -205,7 +205,7 @@ public class QuizOpdracht implements Cloneable
 	 */
 	public void ontKoppelOpdrachtVanQuiz()
 	{
-		quiz.verwijderQuizOpdracht(this);
+		quiz.getStatus().verwijderQuizOpdracht(this);
 		opdracht.verwijderQuizOpdracht(this);
 	}
 
