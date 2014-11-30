@@ -28,10 +28,6 @@ public class OpdrachtView extends JFrame {
 		 
 		 JScrollPane scrollPane = new JScrollPane(tabel);
 		 
-		 JTextField vraag = new JTextField(10);
-		 JTextField antwoord = new JTextField(10);
-		 JLabel b = new JLabel("+");
-		 
 		 opdrachtPanel = new OpdrachtPanel();
 		
 		//add swing components to content pane
