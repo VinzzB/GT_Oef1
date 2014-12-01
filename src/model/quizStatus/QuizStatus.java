@@ -1,5 +1,6 @@
 package model.quizStatus;
 
+import model.Quiz;
 import model.QuizDeelname;
 import model.QuizOpdracht;
 
@@ -8,10 +9,10 @@ import model.QuizOpdracht;
  * van de quiz.
  * @author silvia
  */
-public abstract class QuizStatus implements Comparable, Cloneable
+public abstract class QuizStatus
 {
 
-	public void voegQuizToe()
+	public void voegQuizToe(Quiz q)
 	{
 		System.out.println("Quiz toevoegen is niet mogelijk");
 	}
@@ -26,7 +27,7 @@ public abstract class QuizStatus implements Comparable, Cloneable
 		System.out.println("Quiz wijzigen is niet mogelijk");
 	}
 
-	public void stelQuizOpen()
+	public void stelQuizOpen(Quiz q)
 	{
 		System.out.println("Quiz openstellen is niet mogelijk");
 	}
@@ -41,12 +42,12 @@ public abstract class QuizStatus implements Comparable, Cloneable
 		System.out.println("Quiz verwijderen is niet mogelijk");
 	}
 
-	public void sluitQuizAf()
+	public void sluitQuizAf(Quiz q)
 	{
 		System.out.println("Quiz afsluiten is niet mogelijk");
 	}
 
-	public void geefLaatsteKans()
+	public void geefLaatsteKans(Quiz q)
 	{
 		System.out.println("Quiz laatste kans geven is niet mogelijk");
 	}
