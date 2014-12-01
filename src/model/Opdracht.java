@@ -136,7 +136,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 	
 	/* methods */
 	
-	protected void editOpdracht(String vraag, String juisteAntwoord, 
+	public void editOpdracht(String vraag, String juisteAntwoord, 
 			int maxAantalPogingen, int maxAntwoordTijdinSec) throws Exception
 	{
 		//if//eerst checken of opdracht mag gewijzigd worden (indien nog geen test werd afgelegd) anders exception

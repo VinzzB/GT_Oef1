@@ -13,6 +13,8 @@ import model.Opdracht;
 import model.OpdrachtCategorie;
 import model.Leraar;
 
+/** @author      Nathalie Mathieu*/
+
 public class OpdrachtPanel extends JPanel {
 	
 	private JLabel lbl_id;

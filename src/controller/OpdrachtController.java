@@ -4,8 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import model.Opdracht;
+import model.OpdrachtCategorie;
 import view.OpdrachtPanel;
 import view.OpdrachtView;
+
+/** @author      Nathalie Mathieu*/
 
 public class OpdrachtController {
 	
@@ -29,11 +32,15 @@ public class OpdrachtController {
 			String type = view.getOpdrachtPanel().getType();
 			String auteur = view.getOpdrachtPanel().getAuteur();
 			String registratie = view.getOpdrachtPanel().getRegistratieDatum();
-			//toevoegen: hints, maxtijd, maxpogingen, categorie
+			String hints = view.getOpdrachtPanel().getHint();
+			int maxTijd = view.getOpdrachtPanel().getMaxTijd();
+			int maxPogingen = view.getOpdrachtPanel().getMaxPogingen();
+			String categorie = view.getOpdrachtPanel().getCategorie();
 			
+			model.editOpdracht(vraag, antwoord, maxPogingen, maxTijd);
 			model.setOpdrachtID(id);
-			model.setVraag(vraag);
-			model.setJuisteAntwoord(antwoord);
+			model.setCategorie(OpdrachtCategorie.valueOf(categorie));
+			
 			//model.set hints, keuzen, maxtijd, maxpogingen,
 			//model.setCategorie(categorie);
 			
