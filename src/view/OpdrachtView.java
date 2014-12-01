@@ -43,7 +43,7 @@ public static void main(String[] args) {
 			public void run() 
 			{
 				JFrame frame = new OpdrachtView();
-				frame.setSize(800,700);
+				frame.setSize(800,900);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setVisible(true);
 			}
