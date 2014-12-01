@@ -33,8 +33,12 @@ public class OpdrachtView extends JFrame {
 		//add swing components to content pane
 		Container contPane = getContentPane();
 		contPane.add(scrollPane, BorderLayout.NORTH);
-		contPane.add(opdrachtPanel, BorderLayout.CENTER);
-		
+		contPane.add(opdrachtPanel, BorderLayout.CENTER);		
+	}
+	
+	public OpdrachtPanel getOpdrachtPanel()
+	{
+		return this.opdrachtPanel;
 	}
 	
 public static void main(String[] args) {
