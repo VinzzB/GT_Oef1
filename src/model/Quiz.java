@@ -35,7 +35,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	public Quiz()
 	{
 		quizOpdrachten = new ArrayList<QuizOpdracht>();
-		status = new Inconstructie(this);
+		status = Inconstructie.instance();
 		
 		setDatumVanCreatie(new Datum());
 	}
