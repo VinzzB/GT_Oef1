@@ -22,7 +22,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 									+ "een Quiz";
 	private OpdrachtCategorie categorie;
 	private List <QuizOpdracht> quizOpdrachten;
-	private List <String> antwoordHints; //meerdere hints per vraag mogelijk
+	private String antwoordHint; 
 	
 	/* Constructor*/
 	
@@ -40,7 +40,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 	{
 		this.vraag = vraag;
 		this.juisteAntwoord = juistAntwoord;
-		this.addAntwoordHints(antwoordHints);
+		this.antwoordHint = antwoordHints;
 		this.maxAantalPogingen = maxAantalPogingen;
 		this.maxAntwoordTijdInSec = maxAntwoordTijdInSec;
 		this.categorie = categorie;
@@ -56,10 +56,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		{
 			this.quizOpdrachten.add(quizOpdracht);
 		}
-		for(String antwoordHint : opdracht.getAntwoordHints())
-		{
-			this.antwoordHints.add(antwoordHint);
-		}
+		setAntwoordHint(opdracht.getAntwoordHint());
 	}
 	
 	/* getters en setters */
@@ -114,9 +111,14 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 			this.maxAantalPogingen = maxAantalPogingen;
 	}
 
-	public List<String> getAntwoordHints() 
+	public String getAntwoordHint() 
 	{
-		return antwoordHints;
+		return this.antwoordHint;
+	}
+	
+	public void setAntwoordHint(String hint)
+	{
+		this.antwoordHint = hint;
 	}
 
 	public int getMaxAntwoordTijdinSec() 		
@@ -161,18 +163,6 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		//mag enkel verwijderd worden indien nog niet gekoppeld aan test, anders gaat band verloren.
 		this.quizOpdrachten.remove(quizopdracht);
 	}
-		
-	protected void addAntwoordHints(String hints)
-	{
-		//mag wel gewijzigd worden indien reeds gekoppeld aan test
-		this.antwoordHints.add(hints);
-	}
-	
-	protected void removeAntwoordHints(String hints)
-	{
-		//mag wel verwijderd worden indien reeds gekoppeld aan test
-		this.antwoordHints.remove(hints);
-	}
 
 	protected boolean isJuisteAntwoord(String antwoord)
 	{
@@ -190,7 +180,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 	
 	public String toBestand()
 	{
-		return  this.opdrachtID + "\t" + this.vraag + "\t" + this.juisteAntwoord + "\t" + this.antwoordHints + "\t" +
+		return  this.opdrachtID + "\t" + this.vraag + "\t" + this.juisteAntwoord + "\t" + this.antwoordHint + "\t" +
 				maxAantalPogingen + "\t" + this.maxAntwoordTijdInSec;
 	}
 	
@@ -217,7 +207,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		result = prime * result
 				+ ((juisteAntwoord == null) ? 0 : juisteAntwoord.hashCode());
 		result = prime * result
-				+ ((antwoordHints == null) ? 0 : antwoordHints.hashCode());
+				+ ((antwoordHint == null) ? 0 : antwoordHint.hashCode());
 		result = prime * result + maxAantalPogingen;
 				result = prime * result
 				+ ((quizOpdrachten == null) ? 0 : quizOpdrachten.hashCode());
@@ -244,11 +234,11 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		} else if (!juisteAntwoord.equals(other.juisteAntwoord)) {
 			return false;
 		}
-		if (antwoordHints == null) {
-			if (other.antwoordHints != null) {
+		if (antwoordHint == null) {
+			if (other.antwoordHint != null) {
 				return false;
 			}
-		} else if (!antwoordHints.equals(other.antwoordHints)) {
+		} else if (!antwoordHint.equals(other.antwoordHint)) {
 			return false;
 		}
 		if (maxAantalPogingen != other.maxAantalPogingen) {

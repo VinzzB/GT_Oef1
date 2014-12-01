@@ -37,12 +37,16 @@ public class OpdrachtController {
 			int maxPogingen = view.getOpdrachtPanel().getMaxPogingen();
 			String categorie = view.getOpdrachtPanel().getCategorie();
 			
-			model.editOpdracht(vraag, antwoord, maxPogingen, maxTijd);
+			try 
+			{
+				model.editOpdracht(vraag, antwoord, maxPogingen, maxTijd);
+			} catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
 			model.setOpdrachtID(id);
 			model.setCategorie(OpdrachtCategorie.valueOf(categorie));
-			
-			//model.set hints, keuzen, maxtijd, maxpogingen,
-			//model.setCategorie(categorie);
+			model.setAntwoordHint(hints);
 			
 		}
 		
