@@ -6,6 +6,10 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * @author      Nathalie   
+ */
+
 public class Reproductie extends Opdracht {
 	
 private String juistAntwoord;
