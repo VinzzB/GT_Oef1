@@ -147,7 +147,7 @@ public class QuizView extends JFrame
 		//comboboxes
 		cbxLeerjaar = new JComboBox<Integer>(new Integer[] {1, 2, 3, 4, 5, 6});
 		cbxAuteur = new JComboBox<Leraar>(Leraar.values());
-		cbxStatus = new JComboBox<QuizStatus>(new QuizStatus[]{null, new Afgesloten(), new Afgewerkt(), new Inconstructie(), new LaatsteKans(), new Opengesteld()});
+		cbxStatus = new JComboBox<QuizStatus>(new QuizStatus[]{null, Afgesloten.instance(), Afgewerkt.instance(), Inconstructie.instance(), LaatsteKans.instance(), Opengesteld.instance()});
 		cbxCategorie = new JComboBox<OpdrachtCategorie>(OpdrachtCategorie.values());
 		cbxCategorie.insertItemAt(null, 0);
 		cbxCategorie.setSelectedItem(null);
