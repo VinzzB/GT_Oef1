@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author      Nathalie   
+ * @author      Nathalie Mathieu   
  */
 
 public class Reproductie extends Opdracht {

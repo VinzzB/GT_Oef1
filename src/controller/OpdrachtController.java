@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import model.Opdracht;
 import model.OpdrachtCategorie;
+import utils.date.gregorian.Datum;
 import view.OpdrachtPanel;
 import view.OpdrachtView;
 
@@ -21,6 +22,7 @@ public class OpdrachtController {
 		this.view = view;
 		
 		this.view.getOpdrachtPanel().addAddButtonListener(new ListenerAddButton());
+		this.view.getOpdrachtPanel().addDeleteButtonListener(new ListenerDeleteButton());
 	}
 	
 	class ListenerAddButton implements ActionListener{
@@ -47,11 +49,22 @@ public class OpdrachtController {
 			model.setOpdrachtID(id);
 			model.setCategorie(OpdrachtCategorie.valueOf(categorie));
 			model.setAntwoordHint(hints);
-			
+			model.setAuteur(auteur);
+			Datum gregDate = new Datum(registratie);			
+			model.setRegistratie(gregDate);
+			//todo: type,
 		}
 		
 		
 	}
+	
+	class ListenerDeleteButton implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}}
 	
 
 }

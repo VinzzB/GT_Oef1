@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import utils.date.gregorian.Datum;
+
 /**
  * @author      Nathalie Mathieu
  * @author      Natalia Dyubankova <fornnd@gmail.com>
@@ -23,6 +25,8 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 	private OpdrachtCategorie categorie;
 	private List <QuizOpdracht> quizOpdrachten;
 	private String antwoordHint; 
+	private String auteur;
+	private Datum registratie;
 	
 	/* Constructor*/
 	
@@ -69,6 +73,26 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 	public void setOpdrachtID(int id) 
 	{
 		this.opdrachtID = id;		
+	}
+	
+	public String getAuteur()
+	{
+		return auteur;
+	}
+	
+	public void setAuteur(String auteur)
+	{
+		this.auteur = auteur;
+	}
+	
+	public Datum getRegistratie()
+	{
+		return this.registratie;
+	}
+	
+	public void setRegistratie(Datum registratie)
+	{
+		this.registratie = registratie;
 	}
 	
 	public String getVraag()

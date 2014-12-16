@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.ScrollPane;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
@@ -17,6 +18,7 @@ public class OpdrachtView extends JFrame {
 	private Object[][] data = {{null, null, null, null, null, null}};
 	private JTable tabel;
 	private OpdrachtPanel opdrachtPanel;
+	private JScrollPane scrollPane;
 		
 	public OpdrachtView()
 	{	
@@ -26,7 +28,7 @@ public class OpdrachtView extends JFrame {
 		//create swing component
 		 JTable tabel = new JTable(data,columnNames);
 		 
-		 JScrollPane scrollPane = new JScrollPane(tabel);
+		 scrollPane = new JScrollPane(tabel);
 		 
 		 opdrachtPanel = new OpdrachtPanel();
 		
@@ -39,6 +41,11 @@ public class OpdrachtView extends JFrame {
 	public OpdrachtPanel getOpdrachtPanel()
 	{
 		return this.opdrachtPanel;
+	}
+	
+	public JScrollPane getScrollPane()
+	{
+		return this.scrollPane;
 	}
 	
 public static void main(String[] args) {

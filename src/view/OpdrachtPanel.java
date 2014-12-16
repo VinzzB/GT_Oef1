@@ -309,5 +309,9 @@ public class OpdrachtPanel extends JPanel {
 		btn_add.addActionListener(listenForAddButton);
 	}
 	
+	public void addDeleteButtonListener(ActionListener listenForDeleteButton)
+	{
+		btn_delete.addActionListener(listenForDeleteButton);
+	}
 
 }
