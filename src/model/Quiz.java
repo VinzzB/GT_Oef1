@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-import javafx.collections.SetChangeListener;
 import model.quizStatus.*;
 import utils.date.gregorian.*;
 
@@ -382,5 +381,22 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 				this.isTest + "\t" + this.isUniek + "\t" + this.status + "\t" + 
 				this.auteur + "\t" + datumVanCreatie.getEuropeanFormat();
 	}
-
+	public static QuizStatus vanStringNaarQuizStatus(String quizStatusInString)
+	{
+		switch(quizStatusInString)
+		{
+		case "Afgesloten":
+			return Afgesloten.instance();
+		case "Afgewerkt":
+			return Afgewerkt.instance();
+		case "In constructie":
+			return Inconstructie.instance();
+		case "Laatste Kans":
+			return LaatsteKans.instance();
+		case "Opengesteld":
+			return Opengesteld.instance();
+		default:
+			return null;
+		}	
+	}
 }
