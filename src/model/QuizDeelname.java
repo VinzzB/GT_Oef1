@@ -2,15 +2,19 @@ package model;
 
 import java.util.HashSet;
 import java.util.Set;
-import model.quizStatus.Afgewerkt;
 
-import utils.date.normal.Datum;
+import model.scoreStrategy.IScoreStrategy;
+import model.scoreStrategy.QuizScoreRegelsFactory;
+import src.model.opdracht.OpdrachtAntwoord;
+import src.utils.Datum;
 
 /**
- * Klasse Quizdeelname: Een quizdeelname is gelinkt aan 1 leerling en bevat 1 of meerdere opdrachtantwoorden en is ook
+ * Klasse Quizdeelname: Een quizdeelname is gelinkt aan 1 leerling en bevat 1 of 
+ * meerdere opdrachtantwoorden en is ook
  * gelinkt aan 1 quiz en bevat de datum van deelname.
  *
  * @author Silvia
+ * @author Natalia Dyubankova (score strategy)
  */
 public class QuizDeelname implements Cloneable, Comparable<QuizDeelname>
 {
@@ -18,6 +22,7 @@ public class QuizDeelname implements Cloneable, Comparable<QuizDeelname>
 	private Set<OpdrachtAntwoord> opdrachtAntwoorden;
 	private Datum datumDeelname;
 	private Quiz ownerQuiz;
+	private IScoreStrategy scoreStrategy;
 
 	/**
 	 * Linkt de leerling aan de quizdeelname
@@ -79,12 +84,22 @@ public class QuizDeelname implements Cloneable, Comparable<QuizDeelname>
 		return ownerQuiz;
 	}
 
+	public IScoreStrategy getScoreStrategy()
+	{
+		return scoreStrategy;
+	}
+
+	public void setScoreStrategy(IScoreStrategy scoreStrategy)
+	{
+		this.scoreStrategy = scoreStrategy;
+	}
+
 	/**
 	 * Default Constructor
 	 */
 	public QuizDeelname()
 	{
-		this.opdrachtAntwoorden = new HashSet<>();
+		this.opdrachtAntwoorden = new HashSet<OpdrachtAntwoord>();
 		this.datumDeelname = new Datum();
 		this.ownerQuiz = new Quiz();
 	}
@@ -107,7 +122,6 @@ public class QuizDeelname implements Cloneable, Comparable<QuizDeelname>
 		this.opdrachtAntwoorden = opdrachtAntwoord;
 		this.datumDeelname = datumDeelname;
 		this.ownerQuiz = newOwnerQuiz;
-                this.ownerQuiz.setStatus(new Afgewerkt(ownerQuiz));
 	}
 
 	/**
@@ -118,7 +132,7 @@ public class QuizDeelname implements Cloneable, Comparable<QuizDeelname>
 	public void addOpdrachtAntwoord(OpdrachtAntwoord opdrachtAntwoord)
 	{
 		this.opdrachtAntwoorden.add(opdrachtAntwoord);
-		opdrachtAntwoord.setOwnerQuizDeelname(this);
+		opdrachtAntwoord.setQuizDeelname(this);
 	}
 
 	/**
@@ -129,7 +143,7 @@ public class QuizDeelname implements Cloneable, Comparable<QuizDeelname>
 	public void removeOpdrachtAntwoord(OpdrachtAntwoord opdrAntw)
 	{
 		this.opdrachtAntwoorden.remove(opdrAntw);
-		opdrAntw.setOwnerQuizDeelname(null);
+		opdrAntw.setQuizDeelname(null);
 	}
 
 	@Override
@@ -154,25 +168,36 @@ public class QuizDeelname implements Cloneable, Comparable<QuizDeelname>
 	}
 
 	@Override
-	protected QuizDeelname clone() throws CloneNotSupportedException
+	public QuizDeelname clone() throws CloneNotSupportedException
 	{
-            Leerling l = ownerLeerling.clone();
-            Set<OpdrachtAntwoord> o = new HashSet<>();
-            opdrachtAntwoorden.stream().forEach((item) ->
-            {
-                o.add(item);
-            });
-            Datum d = new Datum(this.datumDeelname);
-            Quiz q = new Quiz();
-            try
-            {
-		q = new Quiz(this.ownerQuiz);
-            } 
-            catch (Exception e)
-            {
-		e.printStackTrace();
-            }
-            return new QuizDeelname(l, o, d, q);
+		Leerling l = ownerLeerling.clone();
+		Set<OpdrachtAntwoord> o = new HashSet<OpdrachtAntwoord>();
+		for (OpdrachtAntwoord item : opdrachtAntwoorden)
+		{
+			o.add(item);
+		}
+		Datum d = new Datum(this.datumDeelname);
+		Quiz q = new Quiz();
+		try
+		{
+			q = new Quiz(this.ownerQuiz);
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return new QuizDeelname(l, o, d, q);
+	}
+	
+	public int scoreBerekenen()
+	{
+		int score = 0;
+		for (OpdrachtAntwoord opdrachtAntwoord : opdrachtAntwoorden)
+		{
+			scoreStrategy = QuizScoreRegelsFactory.getScoreStrategy(opdrachtAntwoord);
+			score += scoreStrategy.scoreBerekenen(opdrachtAntwoord);
+		}
+		return score;
 	}
 
 }

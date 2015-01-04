@@ -1,15 +1,20 @@
 package model;
 
+import src.model.QuizDeelname;
+import src.model.QuizOpdracht;
+
 /**
- * Klasse OpdrachtAntwoord: bestaat uit antwoordtijd, laatsteantwoord en aantal pogingen. Een opdrachtantwoord is
+ * Klasse OpdrachtAntwoord: bestaat uit antwoordtijd, 
+ * laatsteantwoord en aantal pogingen. Een opdrachtantwoord is
  * gelinkt aan 1 quizdeelname en aan 1 quizopdracht.
  *
  * @author Silvia
+ * @author Natalia Dyubankova
  */
 public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord>, Cloneable
 {
-	private QuizDeelname ownerQuizDeelname;
-	private QuizOpdracht ownerQuizOpdracht;
+	private QuizDeelname quizDeelname;
+	private QuizOpdracht quizOpdracht;
 	private int antwoordTijd;
 	private String laatsteAntwoord;
 	private int aantalPogingen;
@@ -19,9 +24,9 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord>, Cloneable
 	 *
 	 * @return the value of ownerQuizDeelname
 	 */
-	public QuizDeelname getOwner()
+	public QuizDeelname getQuizDeelname()
 	{
-		return ownerQuizDeelname;
+		return quizDeelname;
 	}
 
 	/**
@@ -30,15 +35,15 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord>, Cloneable
 	 * @param newOwner
 	 *            Quizdeelname
 	 */
-	public void setOwnerQuizDeelname(QuizDeelname newOwner)
+	public void setQuizDeelname(QuizDeelname quizDeelname)
 	{
-		if (ownerQuizDeelname != newOwner)
+		if (this.quizDeelname != quizDeelname)
 		{
-			QuizDeelname old = ownerQuizDeelname;
-			ownerQuizDeelname = newOwner;
-			if (newOwner != null)
+			QuizDeelname old = this.quizDeelname;
+			this.quizDeelname = quizDeelname;
+			if (quizDeelname != null)
 			{
-				newOwner.addOpdrachtAntwoord(this);
+				quizDeelname.addOpdrachtAntwoord(this);
 			}
 			if (old != null)
 			{
@@ -47,28 +52,6 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord>, Cloneable
 		}
 	}
 
-	/**
-	 * Linkt opdrachtantwoord aan de QuizOpdracht
-	 *
-	 * @param newOwner
-	 *            QuizOpdracht
-	 */
-	public void setOwnerQuizOpdracht(QuizOpdracht newOwner)
-	{
-		if (ownerQuizOpdracht != newOwner)
-		{
-			QuizOpdracht old = ownerQuizOpdracht;
-			ownerQuizOpdracht = newOwner;
-			if (newOwner != null)
-			{
-				newOwner.addOpdrachtAntwoord(this);
-			}
-			if (old != null)
-			{
-				old.removeOpdrachtAntwoord(this);
-			}
-		}
-	}
 
 	/**
 	 * Geeft de antwoordTijd in seconden
@@ -132,12 +115,28 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord>, Cloneable
 	{
 		this.laatsteAntwoord = laatsteAntwoord;
 	}
+	
+	/**
+	 * @return the ownerQuizOpdracht
+	 */
+	public QuizOpdracht getQuizOpdracht()
+	{
+		return quizOpdracht;
+	}
 
-	public OpdrachtAntwoord(QuizDeelname ownerQuizDeelname, QuizOpdracht ownerQuizOpdracht, int antwoordTijd,
+	/**
+	 * @param ownerQuizOpdracht the ownerQuizOpdracht to set
+	 */
+	public void setQuizOpdracht(QuizOpdracht quizOpdracht)
+	{
+		this.quizOpdracht = quizOpdracht;
+	}
+
+	public OpdrachtAntwoord(QuizDeelname quizDeelname, QuizOpdracht quizOpdracht, int antwoordTijd,
 			String laatsteAntwoord, int aantalPogingen)
 	{
-		this.ownerQuizDeelname = ownerQuizDeelname;
-		this.ownerQuizOpdracht = ownerQuizOpdracht;
+		this.quizDeelname = quizDeelname;
+		this.quizOpdracht = quizOpdracht;
 		this.antwoordTijd = antwoordTijd;
 		this.laatsteAntwoord = laatsteAntwoord;
 		this.aantalPogingen = aantalPogingen;
@@ -167,7 +166,7 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord>, Cloneable
 	@Override
 	public OpdrachtAntwoord clone() throws CloneNotSupportedException
 	{
-		return new OpdrachtAntwoord(this.ownerQuizDeelname.clone(), this.ownerQuizOpdracht.clone(), this.antwoordTijd,
+		return new OpdrachtAntwoord(this.quizDeelname.clone(), this.quizOpdracht.clone(), this.antwoordTijd,
 				this.laatsteAntwoord, this.aantalPogingen);
 	}
 
