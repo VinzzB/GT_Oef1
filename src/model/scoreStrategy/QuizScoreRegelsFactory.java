@@ -1,9 +1,11 @@
 package model.scoreStrategy;
 
-import src.model.opdracht.OpdrachtAntwoord;
+import model.OpdrachtAntwoord;
 
 /**
  * Factory klasse om de gewenste implementatie van de strategy te initialiseren
+ * strategy naam kunt ingeladen worden van property-file of berekend afhankelik 
+ * van properties van gegeven OpdrachtAntwoord-object
  * 
  * @author Natalia
  *
@@ -26,6 +28,17 @@ public class QuizScoreRegelsFactory
 		else
 		{
 			return AntwoordenStrategy.getInstance();
+		}
+	}
+	
+	public static IScoreStrategy getScoreStrategy(String scoreStrategy)
+	{
+		switch(scoreStrategy)
+		{
+		case "GroupT":
+			return GroupTStrategy.getInstance();
+			default:
+				return null;
 		}
 	}
 }

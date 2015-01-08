@@ -2,6 +2,11 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -15,28 +20,24 @@ import persistency.DatabaseHandler;
 import view.QuizzenView;
 
 
-public class QuizzenViewController
-{
-	private DatabaseHandler db;
-	private QuizCatalogus quizCatalogus;
-	private OpdrachtCatalogus opdrachtCatalogus;
-	
+public class QuizzenViewController extends Controller
+{	
 	private QuizzenView quizzenView;
 	
 	public QuizzenViewController(String titleQuizzenView) throws Exception
-	{
-		db  = new DatabaseHandler();
-		db.vulCatalogus();
-		
-		quizCatalogus = Database.getQuizCatalogus();
-		opdrachtCatalogus = Database.getOpdrachtCatalogus();
-		
+	{		
 		quizzenView = new QuizzenView(titleQuizzenView);
 		
+		addListeners();
+	}
+	
+	private void addListeners()
+	{
 		quizzenView.addQuizSelectedListener(new QuizSelectionListener());
 		quizzenView.addBtnNieuweListener(new BtnNieuweListener());
 		quizzenView.addBtnUpdateListener(new BtnUpdateListener());
 		quizzenView.addBtnVerwijderListener(new BtnVerwijderListener());
+		quizzenView.addWindowClosingListener(new WindowClosedListener());
 	}
 	
 	public void updateQuizzenView()
@@ -77,7 +78,7 @@ public class QuizzenViewController
 		{
 			try
 			{
-				QuizViewController qvc = new QuizViewController("Maak nieuwe Quiz", db, QuizzenViewController.this);
+				QuizViewController qvc = new QuizViewController("Maak nieuwe Quiz", QuizzenViewController.this);
 			} catch (Exception e1)
 			{
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "alert", JOptionPane.ERROR_MESSAGE);
@@ -94,7 +95,7 @@ public class QuizzenViewController
 			{
 				if(quizzenView.getSelectedQuiz() != null)
 				{
-					QuizViewController qvc = new QuizViewController(quizzenView.getSelectedQuiz(), db, QuizzenViewController.this);
+					QuizViewController qvc = new QuizViewController(quizzenView.getSelectedQuiz(), QuizzenViewController.this);
 				}
 				else
 				{
@@ -115,10 +116,17 @@ public class QuizzenViewController
 		{
 			int i = quizzenView.getSelectedIndex();
 			quizCatalogus.verwijderQuiz(quizzenView.getSelectedQuiz());
-			db.safeCatalogus();
 			quizzenView.removeQuiz(i);
 
 		}}
+	
+	class WindowClosedListener extends WindowAdapter
+	{
+		@Override
+		public void windowClosing(WindowEvent e)
+		{
+		}
+	}
 
 	public static void main(String[] args)
 	{

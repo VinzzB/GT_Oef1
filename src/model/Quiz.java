@@ -1,9 +1,12 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
+import model.Opdracht;
 import model.quizStatus.*;
 import utils.date.gregorian.*;
 
@@ -22,7 +25,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	private QuizStatus status;
 	private Leraar auteur;
 	private Datum datumVanCreatie;
-	
+
 	private List<QuizOpdracht> quizOpdrachten;
 
 	@SuppressWarnings("unused")
@@ -34,6 +37,8 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	public Quiz()
 	{
 		quizOpdrachten = new ArrayList<QuizOpdracht>();
+		
+		// create state instances
 		status = Inconstructie.instance();
 		
 		setDatumVanCreatie(new Datum());
@@ -107,10 +112,41 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	
 	public Quiz(int quizID, String onderwerp, int leerjaar, boolean isTest, boolean isUniek, QuizStatus status, Leraar leraar, Datum datum) throws Exception
 	{
-		this(quizID, onderwerp, leerjaar, isTest, isUniek, status, leraar);
+		quizOpdrachten = new ArrayList<QuizOpdracht>();
+		this.quizID = quizID;
+		setOnderwerp(onderwerp);
+		setLeerjaar(leerjaar);
+		setIsTest(isTest);
+		setIsUniek(isUniek);
+		setAuteur(leraar);
+		setStatus(status);
 		setDatumVanCreatie(datum);
 	}
 
+	/**
+	 * Costructor om istantie Quiz te crieen van TXTdatabase
+	 * 
+	 * String array fields:
+	 * 0: quizID
+	 * 1: Onderwerp
+	 * 2: Is test
+	 * 3: Is uniek
+	 * 4: Status
+	 * 5: Auteur
+	 * 6: Creatie datum
+	 * 
+	 *  @return String met \t delimeters
+	 * @throws Exception 
+	 * @throws NumberFormatException 
+	 */
+	public Quiz(String[] vanTXTbestand) throws NumberFormatException, Exception
+	{
+		this(Integer.parseInt(vanTXTbestand[0]), vanTXTbestand[1], Integer.parseInt(vanTXTbestand[2]), 
+		Boolean.parseBoolean(vanTXTbestand[3]), Boolean.parseBoolean(vanTXTbestand[4]),	
+		vanStringNaarQuizStatus(vanTXTbestand[5]), Leraar.valueOf(vanTXTbestand[6]),
+		new Datum(vanTXTbestand[7]));
+	}
+	
 
 	/**
 	 * Copy constructor. Constructs a new instance of Quiz using other Quiz as parameter.
@@ -130,7 +166,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 
 		for (QuizOpdracht quizOpdracht : quiz.getQuizOpdrachten())
 		{
-			status.voegQuizOpdrachtToe(quizOpdracht);
+			this.quizOpdrachten.add(quizOpdracht);
 		}
 	}
 
@@ -218,12 +254,24 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		}
 		return opdrachten;
 	}
-
-	public QuizOpdracht getOpdracht(int volgnr)
-	{
-		return quizOpdrachten.get(volgnr - 1);
-	}
 	
+	public int getOpdrachtIndex(Opdracht opdracht)
+	{
+		for( Map.Entry<Integer, Opdracht> entry : getOpdrachten().entrySet())
+		{
+			if (entry.getValue() == opdracht)
+				return entry.getKey();
+		}
+		return -1;
+	}
+
+	public QuizOpdracht getQuizOpdracht(int volgnr)
+	{
+		if(quizOpdrachten.size() >= volgnr)
+			return quizOpdrachten.get(volgnr - 1);
+		else
+			return null;
+	}
 
 	public Leraar getAuteur()
 	{
@@ -347,7 +395,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	{
 		return "Quiz "+ this.quizID + " [onderwerp: " + onderwerp + ", leerjaar: " + leerjaar + 
 				", isTest: " + isTest + ", isUniek: " + isUniek	+ ", status: " + 
-				status + "] auteur: " + auteur + " datum: " + datumVanCreatie;
+				status + "] auteur: " + auteur + " datum: " + datumVanCreatie + ", vragen: " + quizOpdrachten.size();
 	}
 	
 	public String fullDescription()
@@ -371,16 +419,26 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	}
 
 	/**
-	 * Methode om String samen te stellen om instantie naar TXT bestand weg te schrijven
+	 * Voeg quizOpdracht instantie to List van quizOpdrachten als Quiz instantie werd gekoppeld met Opdracht
 	 *
-	 * @return String met \t delimeters
+	 * @param quizOpdracht
 	 */
-	public String toBestand()
+	protected void voegQuizOpdrachtToe(QuizOpdracht quizOpdracht)
 	{
-		return this.quizID + "\t" + this.onderwerp + "\t" + this.leerjaar + "\t" + 
-				this.isTest + "\t" + this.isUniek + "\t" + this.status + "\t" + 
-				this.auteur + "\t" + datumVanCreatie.getEuropeanFormat();
+		quizOpdrachten.add(quizOpdracht);
 	}
+
+	/**
+	 * Verwijdert quizOpdracht instrantie van List van quizOpdrachten bij verwijderen van koppeling van instantie van
+	 * Quiz met Opdracht
+	 *
+	 * @param quizOpdracht
+	 */
+	protected void verwijderQuizOpdracht(QuizOpdracht quizOpdracht)
+	{
+		quizOpdrachten.remove(quizOpdracht);
+	}
+	
 	public static QuizStatus vanStringNaarQuizStatus(String quizStatusInString)
 	{
 		switch(quizStatusInString)
@@ -399,4 +457,26 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 			return null;
 		}	
 	}
+
+	/**
+	 * Methode om String samen te stellen om instantie naar TXT bestand weg te schrijven
+	 *	
+	 * String array fields:
+	 * 0: quizID
+	 * 1: Onderwerp
+	 * 2: is test
+	 * 3: is uniek
+	 * 4: status
+	 * 5: Auteur
+	 * 6: Creatie datum
+	 * 
+	 *  @return String met \t delimeters
+	 */
+	public String toBestand()
+	{
+		return this.quizID + "\t" + this.onderwerp + "\t" + this.leerjaar + "\t" + 
+				this.isTest + "\t" + this.isUniek + "\t" + this.status + "\t" + 
+				this.auteur.name() + "\t" + datumVanCreatie.getEuropeanFormat();
+	}
+
 }

@@ -9,7 +9,7 @@ package model.scoreStrategy;
  *  @author Natalia Dyubankova
  */
 
-import src.model.opdracht.OpdrachtAntwoord;
+import model.OpdrachtAntwoord;
 
 public class PodingenStrategy implements IScoreStrategy
 {
@@ -27,7 +27,7 @@ public class PodingenStrategy implements IScoreStrategy
 	}
 	
 	@Override
-	public int scoreBerekenen(OpdrachtAntwoord opdrachtAntwoord)
+	public float scoreBerekenen(OpdrachtAntwoord opdrachtAntwoord)
 	{
 		return (opdrachtAntwoord.getAantalPogingen()/opdrachtAntwoord.getQuizOpdracht().getOpdracht().getMaxAantalPogingen())*opdrachtAntwoord.getQuizOpdracht().getMaxScore();
 	}

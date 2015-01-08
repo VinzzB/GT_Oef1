@@ -1,8 +1,8 @@
 package model.scoreStrategy;
 
-import src.model.opdracht.OpdrachtAntwoord;
+import model.OpdrachtAntwoord;
 
 public interface IScoreStrategy
 {
-	int scoreBerekenen(OpdrachtAntwoord opdrachtAntwoord);
+	float scoreBerekenen(OpdrachtAntwoord opdrachtAntwoord);
 }

@@ -11,28 +11,31 @@ import javax.sql.rowset.CachedRowSet;
 
 import com.sun.rowset.CachedRowSetImpl;
 
-import model.*;
-import model.quizStatus.QuizStatus;
-import utils.Constants;
-import utils.date.gregorian.*;
-import utils.LoadProperties;
+import src.controller.OpstartController;
+import src.model.Leraar;
+import src.model.Quiz;
+import src.model.QuizCatalogus;
+import src.model.QuizOpdracht;
+import src.model.opdracht.Opdracht;
+import src.model.opdracht.OpdrachtCatalogus;
+import src.model.opdracht.OpdrachtCategorie;
+import src.model.opdracht.OpdrachtMeerkeuze;
+import src.model.opdracht.OpdrachtOpsomming;
+import src.model.opdracht.OpdrachtTypen;
+import src.model.quizStatus.QuizStatus;
+import src.utils.Constants;
+import src.utils.GregorianDatum;
+import src.utils.LoadProperties;
 
 public class DatabaseMySQL extends Database
 {
 	private CachedRowSet rowSet;
-	
-	protected static LoadProperties properties;
-	
-		
-	public DatabaseMySQL() throws IOException
+	private LoadProperties properties;
+			
+	private DatabaseMySQL() throws IOException
 	{
-		quizOpdrachten = new ArrayList<QuizOpdracht>();
-		if (quizzen == null)	quizzen = new QuizCatalogus();
-		if (opdrachten == null) opdrachten = new OpdrachtCatalogus();
-		
-		properties = new LoadProperties(new File(Constants.SETTINGS_PATH + 
-				Constants.SETTINGS_FILE));
-
+		super();
+		this.properties = OpstartController.getProperties();
 	}
 	@Override
 	public void setCatalogus(OpdrachtCatalogus opdrachtCatalogus,
@@ -57,9 +60,9 @@ public class DatabaseMySQL extends Database
 										OpdrachtCategorie.valueOf(rowSet.getString("Categorie")),
 										rowSet.getString("Hints"), rowSet.getInt("maxAantalPogingen"),
 										rowSet.getInt("maxAntwoordTijd"), 
-										new Datum(rowSet.getDate("datumRegistratie").getTime()),
-										Leraar.valueOf(rowSet.getString("auteur"))
-										));
+										new GregorianDatum(rowSet.getDate("datumRegistratie").getTime()),
+										Leraar.valueOf(rowSet.getString("auteur")), 
+										OpdrachtTypen.valueOf(rowSet.getString("Type"))));
 			
 		}
 		rowSet.close();
@@ -72,18 +75,15 @@ public class DatabaseMySQL extends Database
 		leesVanBestand(null);
 		rowSet.setCommand("SELECT * FROM tblQuiz");
 		rowSet.execute();
-		System.out.println();
 		while(rowSet.next())
 		{
-			System.out.println(rowSet.getDate("datumVanCreatie", new GregorianCalendar()));
 			quizzen.voegQuizToe(rowSet.getInt("QuizID"), new Quiz(rowSet.getInt("QuizID"), 
 					rowSet.getString("Onderwerp"), rowSet.getInt("Leerjaren"),
 					rowSet.getBoolean("isTest"), rowSet.getBoolean("isuniekeDeelname"),
 					Quiz.vanStringNaarQuizStatus(rowSet.getString("Status")), Leraar.valueOf(rowSet.getString("Auteur")),
-					new Datum(rowSet.getDate("datumVanCreatie").getTime())));
+					new GregorianDatum(rowSet.getDate("datumVanCreatie").getTime())));
 		}
 		rowSet.close();
-		//
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class DatabaseMySQL extends Database
 		schrijfNaarBestand(null, null);
 
 		rowSet.setCommand("INSERT into tblOpdrachten "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		
 		for(Opdracht opdracht : opdrachten)
 		{
@@ -122,8 +122,35 @@ public class DatabaseMySQL extends Database
 			rowSet.setString(7, opdracht.getCategorie().toString());
 			rowSet.setDate(8, new java.sql.Date(opdracht.getCreatieDatum().getCalendar().getTimeInMillis()));
 			rowSet.setString(9, opdracht.getAuteur().toString());
+			rowSet.setString(10, opdracht.getType().name());
 
 			rowSet.execute();
+		}
+		rowSet.close();
+		
+		rowSet.setCommand("INSERT into tblopdrachtMeerkeuze "
+				+ "VALUES (?, ?)");
+		for(Opdracht opdracht : opdrachten)
+		{
+			if(opdracht.getType() == OpdrachtTypen.MEERKEUZE)
+			{
+				rowSet.setInt(1, opdracht.getOpdrachtID());
+				rowSet.setString(2, ((OpdrachtMeerkeuze)opdracht).getKeuzen());
+				rowSet.execute();
+			}
+		}
+		rowSet.close();
+		
+		rowSet.setCommand("INSERT into tblopdrachtOpsomming "
+				+ "VALUES (?, ?)");
+		for(Opdracht opdracht : opdrachten)
+		{
+			if(opdracht.getType() == OpdrachtTypen.OPSOMMING)
+			{
+				rowSet.setInt(1, opdracht.getOpdrachtID());
+				rowSet.setBoolean(2, ((OpdrachtOpsomming)opdracht).isInJuisteVolgorde());
+				rowSet.execute();
+			}
 		}
 		rowSet.close();
 	}
@@ -171,9 +198,9 @@ public class DatabaseMySQL extends Database
 		try
 		{
 			rowSet = new CachedRowSetImpl();
-	        rowSet.setUrl(properties.getProperty(Constants.URL));
-	        rowSet.setUsername(properties.getProperty(Constants.USER));
-	        rowSet.setPassword(properties.getProperty(Constants.PASSWORD));
+	        rowSet.setUrl(this.properties.getProperty(Constants.URL));
+	        rowSet.setUsername(this.properties.getProperty(Constants.USER));
+	        rowSet.setPassword(this.properties.getProperty(Constants.PASSWORD));
 		} 
 		catch (SQLException e)
 		{
@@ -196,5 +223,4 @@ public class DatabaseMySQL extends Database
 		rowSet.execute();
 		leesVanBestand(null);
 	}
-
 }

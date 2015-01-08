@@ -7,66 +7,43 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import model.*;
-import persistency.Database;
-import persistency.DatabaseHandler;
 import view.QuizView;
 
-public class QuizViewController
+public class QuizViewController extends Controller
 {
 	private QuizView quizView;
-	private QuizCatalogus quizCatalogus;
-	private OpdrachtCatalogus opdrachtCatalogus;
-	private ArrayList<QuizOpdracht> quizOpdrachten;
 	
 	private TreeMap<Integer, Opdracht> selectedOpdrachten = new TreeMap<Integer, Opdracht>();
 	
-	private DatabaseHandler db;
 	private Quiz quiz;
 	private QuizzenViewController qvc;
 
 	
 	public QuizViewController(String titleQuizView) throws Exception
-	{
-		db  = new DatabaseHandler();
-		db.vulCatalogus();
-		
-		quizCatalogus = Database.getQuizCatalogus();
-		opdrachtCatalogus = Database.getOpdrachtCatalogus();
-		quizOpdrachten = Database.getQuizOpdrachten();
-		
+	{		
 		quizView = new QuizView(titleQuizView);
 		
 		this.addListeners();
 	}
 	
-	public QuizViewController(String titleQuizView, DatabaseHandler db, QuizzenViewController qvc) throws Exception
+	public QuizViewController(String titleQuizView, QuizzenViewController qvc) throws Exception
 	{
-		this.db  = db;
 		this.qvc = qvc;
-		
-		quizCatalogus = Database.getQuizCatalogus();
-		opdrachtCatalogus = Database.getOpdrachtCatalogus();
-		quizOpdrachten = Database.getQuizOpdrachten();
 		
 		quizView = new QuizView(titleQuizView);
 		
 		this.addListeners();
 	}
 
-	public QuizViewController(Quiz quiz, DatabaseHandler db, QuizzenViewController qvc) throws Exception
+	public QuizViewController(Quiz quiz, QuizzenViewController qvc) throws Exception
 	{
-		this.db = db;
 		this.qvc = qvc;
-		
-		quizCatalogus = Database.getQuizCatalogus();
-		opdrachtCatalogus = Database.getOpdrachtCatalogus();
 		
 		this.quiz = quiz;
 		selectedOpdrachten = quiz.getOpdrachten();
@@ -87,6 +64,12 @@ public class QuizViewController
 		this.quizView.addCbxSorteringListener(new SorteringSelectionListener());
 	}
 	
+	public void updateQuizView()
+	{
+		quizView.getAllOpdrachtenTable().setRowSelectionAllowed(false);
+		quizView.getAllOpdrachtenTable().setRowSelectionAllowed(true);
+	}
+	
 	class OpdrachtSelectionListener implements ListSelectionListener
 	{
 
@@ -94,7 +77,8 @@ public class QuizViewController
 		public void valueChanged(ListSelectionEvent event)
 		{
 			if(event.getValueIsAdjusting()) return;
-			quizView.setLbOpdrachtDetails(quizView.getSelectedOpdracht(quizView.getAllOpdrachtenTable()));
+			if(quizView.getAllOpdrachtenTable().getRowSelectionAllowed())
+				quizView.setLbOpdrachtDetails(quizView.getSelectedOpdracht(quizView.getAllOpdrachtenTable()));
 		}		
 	}
 	
@@ -194,7 +178,6 @@ public class QuizViewController
 				}
 				quizCatalogus.voegQuizToe(quizID, quiz);
 				Collections.sort(quizCatalogus.getQuizzen());
-				db.safeCatalogus();
 				qvc.updateQuizzenView();
 				
 			} catch (Exception e1)
@@ -209,8 +192,13 @@ public class QuizViewController
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			// TODO Auto-generated method stub
-			
+			try
+			{
+				OpdrachtController ovc = new OpdrachtController("nieuwe opdracht", QuizViewController.this);
+			} catch (Exception e1)
+			{
+				e1.printStackTrace();
+			}		
 		}}
 	
 	class CategorieSelectionListener implements ActionListener{
@@ -218,6 +206,7 @@ public class QuizViewController
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
+			quizView.getAllOpdrachtenTable().setRowSelectionAllowed(false);
 			TreeMap<Integer, Opdracht> opdrachten = new TreeMap<Integer, Opdracht>();
 			for(Opdracht opdracht : opdrachtCatalogus)
 			{
@@ -227,6 +216,7 @@ public class QuizViewController
 				}
 			}
 			quizView.setGesoorteerdeOpdrachten(opdrachten);
+			quizView.getAllOpdrachtenTable().setRowSelectionAllowed(true);
 		}}
 	
 	class SorteringSelectionListener implements ActionListener{

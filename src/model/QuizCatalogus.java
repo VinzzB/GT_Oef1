@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import model.Quiz;
+
 /**
  * @author      Natalia Dyubankova <fornnd@gmail.com>
  * @version     1.0                 
@@ -101,5 +103,16 @@ public class QuizCatalogus implements Iterable<Quiz>
 	{
 		Iterator<Quiz> quizzen = quizCatalogus.iterator(); 
 		return quizzen;
+	}
+	
+	public ArrayList<Quiz> getQuizzenPerLeerjaar(int leerjaar)
+	{
+		ArrayList<Quiz> perLeerjaar = new ArrayList<Quiz>();
+		for(Quiz quiz : quizCatalogus)
+		{
+			if (quiz.getLeerjaar() == leerjaar)
+				perLeerjaar.add(quiz);
+		}
+		return perLeerjaar;
 	}
 }

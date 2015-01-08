@@ -3,11 +3,13 @@ package persistency;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.*;
-import model.quizStatus.*;
+import utils.Constants;
 import utils.date.gregorian.*;
+import utils.LoadProperties;
 /**
  * Abstracte klasse om objecten te lesen en weg te schrijven
  * 
@@ -17,18 +19,27 @@ import utils.date.gregorian.*;
  */
 public abstract class Database implements IDatabaseStrategy
 {
+	protected static Database instance;
+	
 	protected File opdrachtenDB;
 	protected File quizzenDB;
 	protected File quizOpdrachtDB;
-	protected static OpdrachtCatalogus opdrachten; 
-	protected static QuizCatalogus quizzen;
-	protected static ArrayList<QuizOpdracht> quizOpdrachten;
+
+	protected OpdrachtCatalogus opdrachten; 
+	protected QuizCatalogus quizzen;
+	protected ArrayList<QuizOpdracht> quizOpdrachten;
 	
-	public Database() 
+	protected static LoadProperties properties;
+	
+	public Database() throws IOException 
 	{
+		
 		quizOpdrachten = new ArrayList<QuizOpdracht>();
 		if (quizzen == null)	quizzen = new QuizCatalogus();
 		if (opdrachten == null) opdrachten = new OpdrachtCatalogus();
+		
+		properties = new LoadProperties(new File(Constants.SETTINGS_PATH + 
+				Constants.SETTINGS_FILE));
 	}
 
 /**
@@ -42,10 +53,10 @@ public abstract class Database implements IDatabaseStrategy
 		String [][] objecten = leesVanBestand(opdrachtenDB);
 		for (String[] object : objecten)
 		{
-			opdrachten.voegOpdrachtToe(new Opdracht(Integer.parseInt(object[0]), 
-					object[1], object[2], OpdrachtCategorie.valueOf(object[3]), object[4],
-					Integer.parseInt(object[5]), Integer.parseInt(object[6])));
+			opdrachten.voegOpdrachtToe(OpdrachtFactory.getOpdracht(OpdrachtTypen.valueOf(object[9]), object));
+//			opdrachten.voegOpdrachtToe(new Opdracht(object));
 		}
+		Catalogi.get().setOpdrachten(opdrachten);
 	}
 
 	/**
@@ -60,18 +71,17 @@ public abstract class Database implements IDatabaseStrategy
 		for (String[] object : objecten)
 		{
 			String[] s = (String[]) object;
-			quizzen.voegQuizToe(Integer.parseInt(s[0]), new Quiz(Integer.parseInt(s[0]), s[1], Integer.parseInt(s[2]), 
-					Boolean.parseBoolean(s[3]), Boolean.parseBoolean(s[4]),	
-					this.vanStringNaarQuizStatus(s[5]), Leraar.valueOf(s[6]),
-					new Datum(s[7])));
+			quizzen.voegQuizToe(Integer.parseInt(s[0]), new Quiz(s));
 		}
+		Catalogi.get().setQuizzen(quizzen);
 	}
 
 	/**
 	 * Leest quizOpdracht file en koppelt quizzen met opdrachten
+	 * @throws SQLException 
 	 */
 	@Override
-	public void kopelQuizOpdrachten() throws FileNotFoundException, IOException
+	public void kopelQuizOpdrachten() throws FileNotFoundException, IOException, SQLException
 	{
 		String[][] objecten = leesVanBestand(quizOpdrachtDB);
 		for (String[] object : objecten)
@@ -85,9 +95,12 @@ public abstract class Database implements IDatabaseStrategy
 
 /**
  * Schrijft array van opdrahten naar bestand
+ * @throws SQLException 
+ * @throws IOException 
+ * @throws FileNotFoundException 
  */
 	@Override
-	public void safeOpdrachten()
+	public void safeOpdrachten() throws SQLException, FileNotFoundException, IOException
 	{
 		int i = 0;
 		String[] objecten = new String[opdrachten.getOpdrachten().size()];
@@ -102,9 +115,12 @@ public abstract class Database implements IDatabaseStrategy
 
 	/**
 	 * Schrijft array van quizzen naar bestand
+	 * @throws SQLException 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
 	@Override
-	public void safeQuizen()
+	public void safeQuizen() throws SQLException, FileNotFoundException, IOException
 	{
 		int i = 0;
 		String[] objecten = new String[quizzen.getQuizzen().size()];
@@ -118,9 +134,12 @@ public abstract class Database implements IDatabaseStrategy
 
 	/**
 	 * Schrijft array van koppelings quiz-opdracht naar bestand
+	 * @throws SQLException 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
 	@Override
-	public void safeQuizOpdrachten()
+	public void safeQuizOpdrachten() throws SQLException, FileNotFoundException, IOException
 	{
 		ArrayList<String> objecten = new ArrayList<String>();
 		for(Quiz quiz : quizzen.getQuizzen())
@@ -133,39 +152,22 @@ public abstract class Database implements IDatabaseStrategy
 		schrijfNaarBestand(objecten.toArray(new String[objecten.size()]), quizOpdrachtDB);
 	}
 	
-	private QuizStatus vanStringNaarQuizStatus(String quizStatusInString)
-	{
-		switch(quizStatusInString)
-		{
-		case "Afgesloten":
-			return new Afgesloten();
-		case "Afgewerkt":
-			return new Afgewerkt();
-		case "In constructie":
-			return new Inconstructie();
-		case "Laatste Kans":
-			return new LaatsteKans();
-		case "Opengesteld":
-			return new Opengesteld();
-		default:
-			return null;
-		}	
-	}
+
 	
-	public static QuizCatalogus getQuizCatalogus()
-	{
-		return quizzen;
-	}
-	
-	public static OpdrachtCatalogus getOpdrachtCatalogus()
-	{
-		return opdrachten;
-	}
-	
-	public static ArrayList<QuizOpdracht> getQuizOpdrachten()
-	{
-		return quizOpdrachten;
-	}
+//	public QuizCatalogus getQuizCatalogus()
+//	{
+//		return quizzen;
+//	}
+//	
+//	public OpdrachtCatalogus getOpdrachtCatalogus()
+//	{
+//		return opdrachten;
+//	}
+//	
+//	public ArrayList<QuizOpdracht> getQuizOpdrachten()
+//	{
+//		return quizOpdrachten;
+//	}
 
 /**
  * Leest bestande catalogus
@@ -184,15 +186,19 @@ public abstract class Database implements IDatabaseStrategy
 	 * @return
 	 * @throws FileNotFoundException
 	 * @throws IOException
+	 * @throws SQLException 
 	 */
-	abstract String[][] leesVanBestand(File file) throws FileNotFoundException, IOException;
+	abstract String[][] leesVanBestand(File file) throws FileNotFoundException, IOException, SQLException;
 	
 /**
  * Abstracte methode om file weg te schrijven
 *  Moet geimplementeert worden in respectievelijke concrete klasse
  * @param objecten
  * @param file
+ * @throws SQLException 
+ * @throws IOException 
+ * @throws FileNotFoundException 
  */
-	abstract void schrijfNaarBestand(String[] objecten, File file);
+	abstract void schrijfNaarBestand(String[] objecten, File file) throws SQLException, FileNotFoundException, IOException;
 	
 }

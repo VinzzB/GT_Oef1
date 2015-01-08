@@ -5,16 +5,14 @@ import java.lang.reflect.InvocationTargetException;
 public class Test
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException
 	{
 		try
 		{
 			DatabaseHandler db = new DatabaseHandler();
 		} 
 		catch 
-		(InstantiationException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException | ClassNotFoundException e)
+		(IllegalArgumentException | SecurityException e)
 		{
 			e.printStackTrace();
 		}

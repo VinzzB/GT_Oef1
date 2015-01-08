@@ -1,4 +1,4 @@
-package src.utils.tijdObservation;
+package utils.tijdObservation;
 
 public interface ITijdObservable
 {

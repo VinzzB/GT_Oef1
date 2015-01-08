@@ -9,7 +9,8 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
-import src.view.StartView;
+import model.Leerling;
+import view.StartView;
 
 
 public class StartViewController extends Controller
@@ -59,6 +60,8 @@ public class StartViewController extends Controller
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			JOptionPane.showMessageDialog(startView, "Deel van leeringen is niet afgwerkt. Nog te bewerken");
+			JOptionPane.showMessageDialog(startView, "Hier moet nog inloggen logica an bod komen. Nog te bewerken");
+			//LeerlingCatalogus is niet afgewerkt. Om te testen leerling ler naam Leerling vn 1ste leerjaar is gemakt
+			StartLeerlingViewController slc = new StartLeerlingViewController(new Leerling("Leerling", 1));
 		}}
 }

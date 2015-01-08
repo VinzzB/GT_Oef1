@@ -1,12 +1,18 @@
 package view;
 
+/**
+ * StartView
+ * 
+ * @auteur Natalia Dyubankova
+ * 
+ */
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import src.utils.Constants;
+import utils.Constants;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -20,8 +26,7 @@ public class StartView extends View
 {
 	/**
 	 * @param args
-	 */
-	
+	 */	
 	private Dimension size = new Dimension(600, 400);
 	private JPanel main;
 	private JLabel lbWelcome, lbLogo, lbDatabaseInfo, lbAuteurs;

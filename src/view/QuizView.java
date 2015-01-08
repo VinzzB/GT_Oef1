@@ -23,18 +23,15 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import controller.OpstartController;
 import model.*;
 import model.quizStatus.*;
 import persistency.Database;
-import utils.ModelTable;
 
-public class QuizView extends JFrame
+@SuppressWarnings("serial")
+public class QuizView extends View
 {
-
-	/**
-	 * Generated version UID
-	 */
-	private static final long serialVersionUID = 846842690361655830L;
+	
 	/*
 	 * displayfields
 	 */
@@ -59,7 +56,6 @@ public class QuizView extends JFrame
 	
 	private Dimension size = new Dimension(900, 600);
 	
-	private OpdrachtCatalogus opdrachten = Database.getOpdrachtCatalogus();
 	private TreeMap<Integer, Opdracht> selectedOpdrachten = new TreeMap<Integer, Opdracht>();
 	private Quiz quiz;
 	/**
@@ -102,6 +98,7 @@ public class QuizView extends JFrame
 		this.setKlass(quiz.getLeerjaar());
 		this.setAuteur(quiz.getAuteur());
 		this.setStatus(quiz.getStatus());
+		this.setLbOpdrachtenAantal(quiz.getOpdrachten().size());
 		
 		for(QuizOpdracht quizOpdracht : quiz.getQuizOpdrachten())
 		{
@@ -161,7 +158,7 @@ public class QuizView extends JFrame
 		btnNieuweOpdracht = new JButton("Nieuwe opdracht maken");
 		
 		//scrollpanes
-		setOpdrachten(paneAllOpdrachten, opdrachten); 
+		setOpdrachten(paneAllOpdrachten, opdrachtCatalogus); 
 		setSelectedOpdrachten(paneSelectedOpdrachten, selectedOpdrachten);
 		
 		//set constants for GridBagLayout
@@ -291,7 +288,7 @@ public class QuizView extends JFrame
 	
 	public Opdracht getOpdracht(int index)
 	{
-		return opdrachten.getOpdracht(index);
+		return opdrachtCatalogus.getOpdracht(index);
 	}
 	
 	public Opdracht getSelectedOpdracht(JTable table)
@@ -299,7 +296,7 @@ public class QuizView extends JFrame
 		if (table.getSelectedRowCount() == 0)
 			return null;
 		else
-			return opdrachten.getOpdracht(table.getValueAt(table.getSelectedRow(), 1).toString());
+			return opdrachtCatalogus.getOpdracht(table.getValueAt(table.getSelectedRow(), 1).toString());
 	}
 	
 	public OpdrachtCategorie getSelectedOpdrachCategorie()
@@ -333,13 +330,18 @@ public class QuizView extends JFrame
 		}
 	}
 	
+	public int getLbOpdrachtenAantal()
+	{
+		return Integer.parseInt(lbOpdrachtAantal.getText());
+	}
+	
 	public ArrayList<Opdracht> getOpdrachtenInTable(JTable table)
 	{
 		ArrayList<Opdracht> opdrachten = new ArrayList<Opdracht>();
 		
 		for(int i = 0; i < table.getModel().getRowCount(); i++)
 		{
-			for(Opdracht opdracht : this.opdrachten.getOpdrachten().values())
+			for(Opdracht opdracht : this.opdrachtCatalogus.getOpdrachten().values())
 			{
 				if(table.getModel().getValueAt(i, 1) == opdracht.getVraag())
 				{
@@ -404,10 +406,6 @@ public class QuizView extends JFrame
 	{
 		modelTableSelectedOpdrachten.removeRow(opdrachtRow);
 	}
-	public void setOpdrachtCatalogus(OpdrachtCatalogus opdrachtCatalogus)
-	{
-		this.opdrachten = opdrachtCatalogus;
-	}
 	
 	public void setLbOpdrachtDetails(Opdracht opdracht)
 	{
@@ -422,6 +420,20 @@ public class QuizView extends JFrame
 	public void moveUp(Integer row)
 	{
 		modelTableSelectedOpdrachten.moveRow(row, row, row-1);
+	}
+	
+	public void updateAllOpdrachtenView()
+	{
+//		for(int i = modelTableAllOpdrachten.getRowCount() - 1; i >=0; i--)
+//		{
+//			modelTableAllOpdrachten.removeRow(i); 
+//		}
+		modelTableAllOpdrachten.setRowCount(0);
+		for(Opdracht opdracht : opdrachtCatalogus)
+		{
+			modelTableAllOpdrachten.addRow(new Object[]{opdracht.getCategorie(), opdracht.getVraag()});
+		}
+		modelTableAllOpdrachten.fireTableDataChanged();
 	}
 	
 	//Liseners:

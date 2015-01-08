@@ -1,4 +1,4 @@
-package src.utils.tijdObservation;
+package utils.tijdObservation;
 
 /**
  * Timer om antwoordTijd te volgen
@@ -6,32 +6,26 @@ package src.utils.tijdObservation;
  * @author Natalia Dyubankova
  * 
  */
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import model.Opdracht;
+import javax.swing.Timer;
 
 public class AntwoordStopwatch implements ITijdObservable
 {
 	private int antwoordTijd = 0;
-	private int maxAntwoordTijd;
 	private Timer timer;
 	
 	private Set<ITijdObserver> observers;
 
 	public AntwoordStopwatch()
 	{
-		this.timer = new Timer();
-		this.timer.schedule(new Task(), 1000);
+		this.timer = new Timer(1000, new TimerListener());
 		this.observers = new HashSet<ITijdObserver>();
-	}
-	public AntwoordStopwatch(Opdracht opdracht)
-	{
-		this();
-		this.maxAntwoordTijd = opdracht.getMaxAntwoordTijdinSec();
+		timer.start();
 	}
 	
 
@@ -41,6 +35,11 @@ public class AntwoordStopwatch implements ITijdObservable
 	public int getAntwoordTijd()
 	{
 		return this.antwoordTijd;
+	}
+	
+	public void stop()
+	{
+		timer.stop();
 	}
 
 	@Override
@@ -65,20 +64,12 @@ public class AntwoordStopwatch implements ITijdObservable
 		}
 	}
 	
-	private class Task extends TimerTask
-	{
-		@Override
-		public void run() 
-		{
-			while(antwoordTijd < maxAntwoordTijd)
-			{
-				antwoordTijd++; 				
-			}
-			if (antwoordTijd >= maxAntwoordTijd)
-			{
-				notifyObservers();
-			}
-		}
-	}
+	class TimerListener implements ActionListener{
 
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			antwoordTijd++;
+			notifyObservers();
+		}}
 }

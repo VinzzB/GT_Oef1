@@ -21,11 +21,11 @@ public class QuizJUnitTest
 	public void setUp() throws Exception 
 	{
 		q1 = new Quiz();
-		q2 = new Quiz(2, "Hoofdsteden", 3, false, false, "test");
+		q2 = new Quiz(2, "Hoofdsteden", 3, false, false);
 		q3 = new Quiz(q2);
-		q4 = new Quiz("Hoofdsteden", 3, false, false, "test");
+		q4 = new Quiz("Hoofdsteden");
 		q5 = q4.clone();
-		q6 = new Quiz(3, "Bieren", 4, false, false, "test");
+		q6 = new Quiz(3, "Bieren", 4, false, false);
 	}
 	
 	@Test public void copyConstructor_Test()

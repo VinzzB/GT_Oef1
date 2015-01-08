@@ -3,10 +3,8 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -20,30 +18,20 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionListener;
 
-import model.Opdracht;
-import model.Quiz;
-import model.QuizCatalogus;
-import persistency.Database;
+import model.*;
 
-public class QuizzenView extends JFrame
+@SuppressWarnings("serial")
+public class QuizzenView extends View
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2468692264785643435L;
-	
 	private Dimension size = new Dimension(900, 600);
 	
-	private JPanel northPanel, centerPanel, buttonsPanel, centerPanelNorth;
+	private JPanel main, northPanel, centerPanel, buttonsPanel, centerPanelNorth;
 	private JLabel lbAuteur, lbCreatieDatum;
 	private JButton btnNieuwe, btnUpdate, btnVerwijder;
 	private JScrollPane paneQuizzen, paneOpdrachten;
 	private JList viewQuizzen;
 	private JTextArea viewOpdrachten;
-	DefaultListModel model;
-	
-	private QuizCatalogus quizCatalogus = Database.getQuizCatalogus();
+	private DefaultListModel model;
 	
 	/**
 	 * Sole constructor
@@ -52,7 +40,7 @@ public class QuizzenView extends JFrame
 	{
 		super();
 		initializeComponents();
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setSize(size);
 		this.setVisible(true);
 	}
@@ -66,7 +54,7 @@ public class QuizzenView extends JFrame
 	{
 		super(label);
 		initializeComponents();
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setSize(size);
 		this.setVisible(true);
 	}
@@ -74,7 +62,7 @@ public class QuizzenView extends JFrame
 	private void initializeComponents()
 	{
 		// main panel with BorderLayout
-		JPanel main = (JPanel) this.getContentPane();
+		main = (JPanel) this.getContentPane();
 		main.setLayout(new BorderLayout());
 		
 		northPanel = new JPanel(new BorderLayout());
@@ -205,5 +193,10 @@ public class QuizzenView extends JFrame
 	public void addBtnVerwijderListener(ActionListener listenForBtnVerwijderListener)
 	{
 		btnVerwijder.addActionListener(listenForBtnVerwijderListener);
+	}
+	
+	public void addWindowClosingListener(WindowListener listenForWindowClose)
+	{
+		this.addWindowListener(listenForWindowClose);
 	}
 }

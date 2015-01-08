@@ -5,8 +5,8 @@ import java.util.Set;
 
 import model.scoreStrategy.IScoreStrategy;
 import model.scoreStrategy.QuizScoreRegelsFactory;
-import src.model.opdracht.OpdrachtAntwoord;
-import src.utils.Datum;
+import model.OpdrachtAntwoord;
+import utils.date.normal.*;
 
 /**
  * Klasse Quizdeelname: Een quizdeelname is gelinkt aan 1 leerling en bevat 1 of 

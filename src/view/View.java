@@ -1,25 +1,17 @@
 package view;
 
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.Formatter;
-
 import javax.swing.JFrame;
 
-import src.controller.Controller;
-import src.driver.Driver;
-import src.model.QuizCatalogus;
-import src.model.QuizOpdracht;
-import src.model.opdracht.OpdrachtCatalogus;
-import src.persistency.DatabaseHandler;
+import controller.*;
+import model.*;
+import persistency.*;
 
 @SuppressWarnings("serial")
 public class View extends JFrame
 {	
-	protected DatabaseHandler db = Driver.getDatabaseStrategy();
-	protected QuizCatalogus quizCatalogus = Driver.getQuizCatalogus();
-	protected OpdrachtCatalogus opdrachtCatalogus = Driver.getOpdrachtCatalogus();
-	protected ArrayList<QuizOpdracht> quizOpdrachten = Driver.getQuizOpdrachten();
+	protected DatabaseHandler db = OpstartController.getDatabaseStrategy();
+	protected QuizCatalogus quizCatalogus = Catalogi.get().getQuizzen();
+	protected OpdrachtCatalogus opdrachtCatalogus = Catalogi.get().getOpdrachten();
 	
 	private Controller controller;
 

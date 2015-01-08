@@ -4,8 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 
-import view.LeesDatabaseGui;
+import src.view.LeesDatabaseGui;
 
 /**
  * Facade klasse. Gebruik om manieren 
@@ -20,21 +21,8 @@ import view.LeesDatabaseGui;
 public class DatabaseHandler
 {
 	private IDatabaseStrategy db; 
-	/**
-	 * @return the db
-	 */
-	public IDatabaseStrategy getDb()
-	{
-		return db;
-	}
 		
-	public DatabaseHandler() throws InstantiationException, IllegalAccessException, 
-									IllegalArgumentException, InvocationTargetException, 
-									NoSuchMethodException, SecurityException, 
-									ClassNotFoundException 
-	{
-		setDatabaseStrategy();
-	}
+	public DatabaseHandler(){}
 
 /**
  * Leest objecten van de files en voelt database in.
@@ -49,36 +37,26 @@ public class DatabaseHandler
 	}
 /**
  * Schrijft huidige objecten weg in de files	
+ * @throws SQLException 
+ * @throws IOException 
+ * @throws FileNotFoundException 
  */
-	public void safeCatalogus()
+	public void safeCatalogus() throws SQLException, FileNotFoundException, IOException
 	{
 		db.safeOpdrachten();
 		db.safeQuizen();
 		db.safeQuizOpdrachten();
 	}
 	
-/**
- * Roept een GUI om gebruiker te vragen over welke manier van
- * van opslagen en lezen van objecten hij wilt gebruiken.
- *  	
- * @throws InstantiationException
- * @throws IllegalAccessException
- * @throws IllegalArgumentException
- * @throws InvocationTargetException
- * @throws NoSuchMethodException
- * @throws SecurityException
- * @throws ClassNotFoundException
- */
-	public void setDatabaseStrategy() throws InstantiationException, IllegalAccessException, 
-											IllegalArgumentException, InvocationTargetException, 
-											NoSuchMethodException, SecurityException, 
-											ClassNotFoundException
+	/**
+	 * @return the db
+	 */
+	public IDatabaseStrategy getDatabaseStrategy()
 	{
-		LeesDatabaseGui ldb = new LeesDatabaseGui();
-		Class<?> dataBase = Class.forName(ldb.kiesDatabaseStrategy());
-		Constructor<?> ctor = dataBase.getConstructor();
-		this.db = (IDatabaseStrategy)ctor.newInstance();
-		
-		System.out.print(db.getClass() + "\n");
+		return db;
+	}
+	public void setDatabaseStrategy(IDatabaseStrategy db)
+	{
+		this.db =db;
 	}
 }

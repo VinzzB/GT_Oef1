@@ -4,4 +4,4 @@
  * @author Natalia
  *
  */
-package src.utils.tijdObservation;
+package utils.tijdObservation;

@@ -2,26 +2,25 @@ package controller;
 
 import java.util.ArrayList;
 
-import src.driver.Driver;
-import src.model.opdracht.OpdrachtCatalogus;
-import src.model.QuizCatalogus;
-import src.persistency.DatabaseHandler;
-import src.model.QuizOpdracht;
+import model.OpdrachtCatalogus;
+import model.QuizCatalogus;
+import persistency.Catalogi;
+import persistency.DatabaseHandler;
+import model.QuizOpdracht;
 
 public abstract class Controller
 {
-	protected DatabaseHandler db = Driver.getDatabaseStrategy();
-	protected QuizCatalogus quizCatalogus = Driver.getQuizCatalogus();
-	protected OpdrachtCatalogus opdrachtCatalogus = Driver.getOpdrachtCatalogus();
-	protected ArrayList<QuizOpdracht> quizOpdrachten = Driver.getQuizOpdrachten();
+	protected DatabaseHandler db = OpstartController.getDatabaseStrategy();
+	protected QuizCatalogus quizCatalogus = Catalogi.get().getQuizzen();
+	protected OpdrachtCatalogus opdrachtCatalogus = Catalogi.get().getOpdrachten();
 	
 	/**
 	 * @return the db
 	 */
-	public DatabaseHandler getDb()
-	{
-		return db;
-	}
+//	public DatabaseHandler getDb()
+//	{
+//		return db;
+//	}
 
 	/**
 	 * @return the quizCatalogus
@@ -38,12 +37,12 @@ public abstract class Controller
 	{
 		return opdrachtCatalogus;
 	}
-	
-	/**
-	 * @return the quizOpdrachten
-	 */
-	public ArrayList<QuizOpdracht> getQuizOpdrachten()
-	{
-		return quizOpdrachten;
-	}
+//	
+//	/**
+//	 * @return the quizOpdrachten
+//	 */
+//	public ArrayList<QuizOpdracht> getQuizOpdrachten()
+//	{
+//		return quizOpdrachten;
+//	}
 }

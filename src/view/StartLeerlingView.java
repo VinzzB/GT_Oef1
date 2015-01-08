@@ -8,20 +8,19 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class StartLeraarView extends View
+public class StartLeerlingView extends View
 {
 	/**
 	 * @param args
 	 */
 	private Dimension size = new Dimension(600, 400);
 	private JPanel main;
-	private JButton btnOpdrachten, btnQuizzen, btnScores, btnQuizLijsten, btnInstellingen, btnQuit;
+	private JButton btnDeelnemen, btnQuizRapport, btnInstellingen, btnQuit;
 	
-	public StartLeraarView()
+	public StartLeerlingView()
 	{
 		super();
 		initializeComponents();
@@ -36,10 +35,8 @@ public class StartLeraarView extends View
 		main = (JPanel) this.getContentPane();
 		main.setLayout(new GridBagLayout());
 		
-		btnOpdrachten = new JButton("Beheren van opdrachten ");
-		btnQuizzen = new JButton("Beheren van quizzen/testen");
-		btnScores = new JButton("Overzicht scores");
-		btnQuizLijsten = new JButton("Quiz Lijsten");
+		btnDeelnemen = new JButton("Deelnemen aan quiz ");
+		btnQuizRapport = new JButton("Quiz rapport ");
 		btnInstellingen = new JButton("Instellingen van de quiz applicatie");
 		btnQuit = new JButton("Sluit");
 		
@@ -49,42 +46,28 @@ public class StartLeraarView extends View
 		c.weighty = 0.1;
 		c.gridwidth = GridBagConstraints.REMAINDER; // end row
 		
-		main.add(btnOpdrachten, c);
-		main.add(btnQuizzen, c);
-		main.add(btnScores, c);
-		main.add(btnQuizLijsten, c);
+		main.add(btnDeelnemen, c);
+		main.add(btnQuizRapport, c);
 		main.add(btnInstellingen, c);
 		main.add(btnQuit, c);
 	}
 	
-	
-	//Listeners:
-	public void addBtnOpdrachten(ActionListener listenForBtnOpdrachten)
+	public void addBtnDeelnemenListener(ActionListener listenForBtnDeelnemen)
 	{
-		btnOpdrachten.addActionListener(listenForBtnOpdrachten);
+		btnDeelnemen.addActionListener(listenForBtnDeelnemen);
 	}
 	
-	public void addBtnQuizzen(ActionListener listenForBtnQuizzen)
+	public void addBtnQuizRapportListener(ActionListener listenForBtnQuizRapport)
 	{
-		btnQuizzen.addActionListener(listenForBtnQuizzen);
+		btnQuizRapport.addActionListener(listenForBtnQuizRapport);
 	}
-	
-	public void addBtnScoresListener(ActionListener listnForBtnScores)
-	{
-		btnScores.addActionListener(listnForBtnScores);
-	}
-	
-	public void addBtnQuizLijsten(ActionListener listenForBtnQuizLijsten)
-	{
-		btnQuizLijsten.addActionListener(listenForBtnQuizLijsten);
-	}
-	
-	public void addBtnInstellingen(ActionListener listenForBtnInstellingen)
+	public void addBtnInstellingenListener(ActionListener listenForBtnInstellingen)
 	{
 		btnInstellingen.addActionListener(listenForBtnInstellingen);
 	}
-	public void addBtnQuit(ActionListener listenForBtnQuit)
+	
+	public void addBtnQuitListener(ActionListener listenForBtnQuit)
 	{
 		btnQuit.addActionListener(listenForBtnQuit);
-	}
+	}	
 }

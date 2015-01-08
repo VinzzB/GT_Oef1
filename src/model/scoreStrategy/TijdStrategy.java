@@ -7,7 +7,7 @@ package model.scoreStrategy;
  *  
  *  @author Natalia Dyubankova
  */
-import src.model.opdracht.OpdrachtAntwoord;
+import model.OpdrachtAntwoord;
 
 public class TijdStrategy implements IScoreStrategy
 {
@@ -25,7 +25,7 @@ public class TijdStrategy implements IScoreStrategy
 	}
 
 	@Override
-	public int scoreBerekenen(OpdrachtAntwoord opdrachtAntwoord)
+	public float scoreBerekenen(OpdrachtAntwoord opdrachtAntwoord)
 	{
 		return (opdrachtAntwoord.getAntwoordTijd()/opdrachtAntwoord.getQuizOpdracht().getOpdracht().getMaxAntwoordTijdInSec())*opdrachtAntwoord.getQuizOpdracht().getMaxScore();
 

@@ -3,10 +3,7 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import src.controller.StartViewController.BtnLeerlingListener;
-import src.controller.StartViewController.BtnLeraarListener;
-import src.controller.StartViewController.WindowClosedListener;
-import src.view.StartLeraarView;
+import view.StartLeraarView;
 
 public class StartLeraarViewController extends Controller
 {
@@ -22,7 +19,8 @@ public class StartLeraarViewController extends Controller
 	{
 		this.startLeraarView.addBtnOpdrachten(new BtnOpdrachtenListener());
 		this.startLeraarView.addBtnQuizzen(new BtnQuizzenListener());
-		this.startLeraarView.addBtnScores(new BtnScoresListener());
+		this.startLeraarView.addBtnScoresListener(new BtnScoresListener());
+		this.startLeraarView.addBtnQuizLijsten(new BtnQuizLijstenListener());
 		this.startLeraarView.addBtnInstellingen(new BtnInstellingenListener());
 		this.startLeraarView.addBtnQuit(new BtnQuitListener());
 	}
@@ -31,8 +29,18 @@ public class StartLeraarViewController extends Controller
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			OpdrachtenViewController ovc = new OpdrachtenViewController();			
+			OpdrachtenController ovc = new OpdrachtenController();			
 		}}
+	
+	class BtnScoresListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			// TODO Auto-generated method stub
+			
+		}}
+	
 	class BtnQuizzenListener implements ActionListener{
 
 		@Override
@@ -46,12 +54,12 @@ public class StartLeraarViewController extends Controller
 				e1.printStackTrace();
 			}			
 		}}
-	class BtnScoresListener implements ActionListener{
+	class BtnQuizLijstenListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			// TODO Auto-generated method stub
+			QuizLijstenViewController rc = new QuizLijstenViewController();
 			
 		}}
 	class BtnInstellingenListener implements ActionListener{
@@ -59,15 +67,13 @@ public class StartLeraarViewController extends Controller
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			// TODO Auto-generated method stub
-			
+			InstellingenViewController ivc = new InstellingenViewController();
 		}}
 	class BtnQuitListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			// TODO Auto-generated method stub
-			
+			startLeraarView.dispose();
 		}}
 }

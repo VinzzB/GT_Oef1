@@ -222,12 +222,10 @@ public class QuizOpdracht implements Cloneable
 	public void addOpdrachtAntwoord(OpdrachtAntwoord opdrachtAntwoord)
 	{
 		opdrachtantwoorden.add(opdrachtAntwoord);
-		opdrachtAntwoord.setOwnerQuizOpdracht(this);
 	}
 
 	public void removeOpdrachtAntwoord(OpdrachtAntwoord opdrachtAntwoord)
 	{
 		opdrachtantwoorden.remove(opdrachtAntwoord);
-		opdrachtAntwoord.setOwnerQuizOpdracht(null);
 	}
 }

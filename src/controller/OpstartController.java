@@ -1,32 +1,37 @@
-package driver;
-
+package controller;
+/**
+ * Deze klasse bevat een main methode om project op te starten: 
+ * Het menu wordt getoond en bij elke menukeuze wordt de overeenkomstige 
+ * controllerklasse geactiveerd.
+ * De opstartcontroller zal ook de OpdrachtCatalogus, de QuizCatalogus en 
+ * de LeerlingContainer opvullen met objecten (afkomstig uit de databank) . 
+ * De opstartcontroller zal tevens (bij het gebruik van design patterns) met 
+ * behulp van Factory klassen de juiste strategieën inpluggen (vb rekenregel 
+ * voor berekenen quiz score)
+ *
+ *@author Natalia Dyubankova
+ */
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 
-import src.controller.QuizzenViewController;
-import src.controller.StartViewController;
-import src.model.opdracht.OpdrachtCatalogus;
-import src.model.QuizCatalogus;
-import src.model.QuizOpdracht;
-import src.persistency.*;
-import src.view.LeesDatabaseGui;
+import persistency.*;
+import utils.Constants;
+import utils.LoadProperties;
+import view.LeesDatabaseGui;
 
-public class Driver
+public class OpstartController
 {
-	private static DatabaseHandler db;	
-	private static OpdrachtCatalogus opdrachten; 
-	private static QuizCatalogus quizzen;
-	private static ArrayList<QuizOpdracht> quizOpdrachten;
+	private static DatabaseHandler db;
+	private static LoadProperties properties;
 	
-	public Driver() throws Exception
+	public OpstartController() throws Exception
 	{
 		db  = new DatabaseHandler();
 		this.setDatabaseStrategy();
 		db.vulCatalogus();
-		opdrachten = db.getDatabaseStrategy().getOpdrachtCatalogus();
-		quizzen = db.getDatabaseStrategy().getQuizCatalogus();
-		quizOpdrachten =db.getDatabaseStrategy().getQuizOpdrachten();
+		properties = new LoadProperties(new File(Constants.SETTINGS_PATH + 
+				Constants.SETTINGS_FILE));
 		
 		StartViewController start = new StartViewController();
 	}
@@ -58,24 +63,14 @@ public class Driver
 		return db;
 	}
 	
-	public static QuizCatalogus getQuizCatalogus()
+	public static LoadProperties getProperties()
 	{
-		return quizzen;
-	}
-	
-	public static OpdrachtCatalogus getOpdrachtCatalogus()
-	{
-		return opdrachten;
-	}
-	
-	public static ArrayList<QuizOpdracht> getQuizOpdrachten()
-	{
-		return quizOpdrachten;
+		return properties;
 	}
 
 	public static void main(String[] args) throws Exception
 	{
-		Driver d = new Driver();
+		OpstartController d = new OpstartController();
 	}
 
 }

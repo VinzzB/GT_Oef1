@@ -1,7 +1,8 @@
 package model;
 
-import src.model.QuizDeelname;
-import src.model.QuizOpdracht;
+import src.model.opdracht.Opdracht;
+import model.QuizDeelname;
+import model.QuizOpdracht;
 
 /**
  * Klasse OpdrachtAntwoord: bestaat uit antwoordtijd, 
@@ -130,6 +131,10 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord>, Cloneable
 	public void setQuizOpdracht(QuizOpdracht quizOpdracht)
 	{
 		this.quizOpdracht = quizOpdracht;
+	}
+	public Opdracht getOpdacht()
+	{
+		return this.quizOpdracht.getOpdracht();
 	}
 
 	public OpdrachtAntwoord(QuizDeelname quizDeelname, QuizOpdracht quizOpdracht, int antwoordTijd,
