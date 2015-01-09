@@ -9,6 +9,17 @@ import java.util.Collections;
 
 public class Meerkeuze extends Opdracht implements Valideerbaar{
 	
+	/* (non-Javadoc)
+	 * @see model.Opdracht#getType()
+	 */
+	@Override
+	public OpdrachtTypen getType()
+	{
+		// TODO Auto-generated method stub
+		return OpdrachtTypen.MEERKEUZE;
+	}
+
+
 	private String keuzen = "";
 	private ArrayList<String> keuzelijst = new ArrayList<String>();
 	

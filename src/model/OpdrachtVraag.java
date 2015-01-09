@@ -20,9 +20,12 @@ public class OpdrachtVraag extends Opdracht
 	 * @throws Exception 
 	 */
 	public OpdrachtVraag(Leraar auteur, OpdrachtCategorie categorie,
-			String vraag, String antwoord) throws Exception 
+			String vraag, String antwoord)  
+					throws Exception  
 	{
-		super(vraag, antwoord, categorie, auteur);
+		super(vraag,antwoord);
+		super.setCategorie(categorie);
+		super.setAuteur(auteur);		
 	}
 	
 	/**
@@ -34,14 +37,13 @@ public class OpdrachtVraag extends Opdracht
 	public OpdrachtVraag(String[] vanTXTBestand) 
 			throws NumberFormatException, Exception 
 	{
-		super(vanTXTBestand);
-		
+		super(vanTXTBestand);		
 	}
 	
 	@Override
 	public boolean isJuisteAntwoord(String antwoord) 
 	{
-		return getAntwoord().equals(antwoord);	
+		return super.isJuisteAntwoord(antwoord);	
 	}
 
 	@Override

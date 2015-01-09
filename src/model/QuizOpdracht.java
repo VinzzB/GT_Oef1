@@ -197,7 +197,7 @@ public class QuizOpdracht implements Cloneable
 	{
 		QuizOpdracht quizOpdracht = new QuizOpdracht(quiz, opdracht, maxScore);
 		quiz.getStatus().voegQuizOpdrachtToe(quizOpdracht);
-		opdracht.voegQuizOpdrachtToe(quizOpdracht);
+		opdracht.addQuizOpdracht(quizOpdracht);
 	}
 
 	/**
@@ -206,7 +206,7 @@ public class QuizOpdracht implements Cloneable
 	public void ontKoppelOpdrachtVanQuiz()
 	{
 		quiz.getStatus().verwijderQuizOpdracht(this);
-		opdracht.verwijderQuizOpdracht(this);
+		opdracht.removeQuizOpdracht(this);
 	}
 
 	/**

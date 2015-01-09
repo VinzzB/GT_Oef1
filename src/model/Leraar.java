@@ -30,4 +30,5 @@ public enum Leraar
 	{
 		return this.naam + " " + this.voornaam;
 	}
+	
 }

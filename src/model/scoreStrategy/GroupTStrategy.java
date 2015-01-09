@@ -37,7 +37,7 @@ public class GroupTStrategy implements IScoreStrategy
 	{
 		int maxTime = opdrachtAntwoord.getQuizOpdracht().getOpdracht().getMaxAntwoordTijdInSec();
 		
-		if (opdrachtAntwoord.getQuizOpdracht().getOpdracht().isJuisteAntwoord(opdrachtAntwoord.getLaatsteAntwoord()) 
+		if (opdrachtAntwoord.isJuisteAntwoord() 
 			&& (maxTime == 0 || opdrachtAntwoord.getAntwoordTijd() <= maxTime))
 		{			
 			if (opdrachtAntwoord.getAantalPogingen() == 1)

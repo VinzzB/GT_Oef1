@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import utils.date.gregorian.Datum;
 
 /**
@@ -12,7 +11,7 @@ import utils.date.gregorian.Datum;
  * @version     1.0                 
  * @since       2014-11-12  
  */
-public class Opdracht implements Comparable<Opdracht>, Cloneable
+public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 {
 	private int opdrachtID = 0;
 	private String vraag;
@@ -25,8 +24,10 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 	private OpdrachtCategorie categorie;
 	private List <QuizOpdracht> quizOpdrachten;
 	private String antwoordHint; 
-	private String auteur;
+	private Leraar auteur;
 	private Datum registratie;
+	
+	public abstract OpdrachtTypen getType();
 	
 	/* Constructor*/
 	
@@ -55,7 +56,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		setVraag(opdracht.getVraag());
 		setJuisteAntwoord(opdracht.getJuisteAntwoord());
 		setMaxAantalPogingen(opdracht.getMaxAantalPogingen());
-		setMaxAntwoordTijdinSec(opdracht.getMaxAntwoordTijdinSec());		
+		setMaxAntwoordTijdinSec(opdracht.getMaxAntwoordTijdInSec());		
 		for(QuizOpdracht quizOpdracht : opdracht.getQuizOpdrachten())
 		{
 			this.quizOpdrachten.add(quizOpdracht);
@@ -75,12 +76,12 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		this.opdrachtID = id;		
 	}
 	
-	public String getAuteur()
+	public Leraar getAuteur()
 	{
 		return auteur;
 	}
 	
-	public void setAuteur(String auteur)
+	public void setAuteur(Leraar auteur)
 	{
 		this.auteur = auteur;
 	}
@@ -145,7 +146,7 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		this.antwoordHint = hint;
 	}
 
-	public int getMaxAntwoordTijdinSec() 		
+	public int getMaxAntwoordTijdInSec() 		
 	{
 		return this.maxAntwoordTijdInSec;
 	}
@@ -285,21 +286,22 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		return true;
 	}
 	
-	@Override
-	public Opdracht clone() throws CloneNotSupportedException
-	{
-		Opdracht opdracht;
-		try
-		{
-			opdracht = new Opdracht(this);
-			return opdracht;
-		} 
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			return null;
-		}
-	}
+	//temp disabled -> Class is abstract
+//	@Override
+//	public Opdracht clone() throws CloneNotSupportedException
+//	{
+//		Opdracht opdracht;
+//		try
+//		{
+//			opdracht = new this.getClass().. Opdracht(this);
+//			return opdracht;
+//		} 
+//		catch (Exception e)
+//		{
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
 
 	@Override
 	public int compareTo(Opdracht opdracht)
@@ -318,6 +320,12 @@ public class Opdracht implements Comparable<Opdracht>, Cloneable
 		{
 			return this.vraag.compareTo(opdracht.vraag);
 		}
+	}
+
+	public String getAntwoord()
+	{
+		// TODO Auto-generated method stub
+		return juisteAntwoord;
 	}
 	
 

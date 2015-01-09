@@ -12,6 +12,16 @@ import java.util.List;
 
 public class Reproductie extends Opdracht {
 	
+/* (non-Javadoc)
+	 * @see model.Opdracht#getType()
+	 */
+	@Override
+	public OpdrachtTypen getType()
+	{
+		// TODO Auto-generated method stub
+		return OpdrachtTypen.REPRODUCTIE;
+	}
+
 private String juistAntwoord;
 private HashSet<String> trefwoorden;
 private int minAantalJuisteTrefwoorden = 0;

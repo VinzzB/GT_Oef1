@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import model.*;
 import utils.Constants;
-import utils.date.gregorian.*;
 import utils.LoadProperties;
 /**
  * Abstracte klasse om objecten te lesen en weg te schrijven
@@ -53,7 +52,7 @@ public abstract class Database implements IDatabaseStrategy
 		String [][] objecten = leesVanBestand(opdrachtenDB);
 		for (String[] object : objecten)
 		{
-			opdrachten.voegOpdrachtToe(OpdrachtFactory.getOpdracht(OpdrachtTypen.valueOf(object[9]), object));
+			opdrachten.addOpdracht(OpdrachtFactory.getOpdracht(OpdrachtTypen.valueOf(object[9]), object));
 //			opdrachten.voegOpdrachtToe(new Opdracht(object));
 		}
 		Catalogi.get().setOpdrachten(opdrachten);

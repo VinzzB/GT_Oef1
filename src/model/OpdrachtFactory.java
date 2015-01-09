@@ -20,9 +20,9 @@ public class OpdrachtFactory
 		case VRAAG: // "OpdrachtVraag":
 			return new OpdrachtVraag(TXTbestand);		
 		case MEERKEUZE: // "OpdrachtMeerkeuze":
-			return new OpdrachtMeerkeuze(TXTbestand);
+			return new Meerkeuze(TXTbestand);
 		case OPSOMMING: // "OpdrachtOpsomming":
-			return new OpdrachtOpsomming(TXTbestand);
+			return new Opsomming(TXTbestand);
 		case REPRODUCTIE:
 			return new Reproductie(TXTbestand);
 		default:

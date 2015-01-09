@@ -6,7 +6,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 
-import src.view.LeesDatabaseGui;
+import view.LeesDatabaseGui;
 
 /**
  * Facade klasse. Gebruik om manieren 

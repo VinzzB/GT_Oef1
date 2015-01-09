@@ -1,6 +1,6 @@
 package model;
 
-import src.model.opdracht.Opdracht;
+import model.Opdracht;
 import model.QuizDeelname;
 import model.QuizOpdracht;
 
@@ -175,4 +175,9 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord>, Cloneable
 				this.laatsteAntwoord, this.aantalPogingen);
 	}
 
+	public boolean isJuisteAntwoord()
+	{
+		return getQuizOpdracht().getOpdracht().isJuisteAntwoord(laatsteAntwoord);
+		
+	}
 }

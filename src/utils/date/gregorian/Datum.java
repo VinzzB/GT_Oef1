@@ -2,6 +2,7 @@ package utils.date.gregorian;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -25,6 +26,13 @@ public class Datum implements Comparable<Datum>
 	{
 		calendar = new GregorianCalendar();
 	}
+	
+	public Datum(Date date)
+	{
+		this();
+		this.calendar.set(date.getYear(), date.getMonth(), date.getDay());			
+	}
+	
 	
 	/**
 	 * Een constructor met een GregorianDatum object als parameter 

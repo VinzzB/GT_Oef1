@@ -10,6 +10,16 @@ import java.util.LinkedHashSet;
 
 public class Opsomming extends Opdracht implements Valideerbaar {
 
+	/* (non-Javadoc)
+	 * @see model.Opdracht#getType()
+	 */
+	@Override
+	public OpdrachtTypen getType()
+	{
+		// TODO Auto-generated method stub
+		return OpdrachtTypen.OPSOMMING;
+	}
+
 	String[] arrayAntwoord;
 	
 	public Opsomming(String vraag, String juisteAntwoord, int maxAantalPogingen, String antwoordHints, 
