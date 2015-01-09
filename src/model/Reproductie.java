@@ -1,10 +1,8 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+
 
 /**
  * @author      Nathalie Mathieu   
@@ -32,6 +30,12 @@ private int minAantalJuisteTrefwoorden = 0;
 		super(vraag,juisteAntwoord,antwoordHints,maxAantalPogingen,maxAntwoordTijdinSec,categorie);
 		this.juistAntwoord = juisteAntwoord;		
 		this.minAantalJuisteTrefwoorden = minAantalJuisteTrefwoorden;
+	}
+	
+	public Reproductie(String[] vanTXTBestand) throws NumberFormatException, Exception
+	{
+		super(vanTXTBestand);
+		this.minAantalJuisteTrefwoorden = Integer.parseInt(vanTXTBestand[10]);
 	}
 	
 	public void setTrefwoorden()

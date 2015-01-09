@@ -1,10 +1,10 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 
 /**
  * @author      Nathalie   
+ * @Revision 	Vincent (10/01/2015)
  */
 
 public class Meerkeuze extends Opdracht implements Valideerbaar{
@@ -14,93 +14,42 @@ public class Meerkeuze extends Opdracht implements Valideerbaar{
 	 */
 	@Override
 	public OpdrachtTypen getType()
-	{
-		// TODO Auto-generated method stub
-		return OpdrachtTypen.MEERKEUZE;
-	}
+	{ return OpdrachtTypen.MEERKEUZE; }
 
+	private String[] keuzen;
 
-	private String keuzen = "";
-	private ArrayList<String> keuzelijst = new ArrayList<String>();
-	
 	/* constructor*/
-	
-	public Meerkeuze(){}
 	
 	public Meerkeuze (String vraag, String juisteAntwoord,String antwoordHints, 
 			int maxAantalPogingen, int maxAntwoordTijdinSec, 
-			OpdrachtCategorie categorie, String keuzen) throws Exception
+			OpdrachtCategorie categorie, String[] keuzen) throws Exception
 	{
 		super(vraag,juisteAntwoord,antwoordHints,maxAantalPogingen,
 				maxAntwoordTijdinSec,categorie);
 		this.keuzen = keuzen; 
 	}
 	
+	public Meerkeuze(String[] vanTXTBestand) throws NumberFormatException, Exception
+	{
+		super(vanTXTBestand);
+		this.keuzen = vanTXTBestand[10].split(";");
+	}
+	
 	/* getters and setters*/
 	
-	public String getkeuze()
-	{
-		// in willekeurige volgorde
-		this.keuzelijst = super.splitTekst(this.keuzen);
-		Collections.shuffle(this.keuzelijst);
-		this.keuzen = this.setListToString(this.keuzelijst);
-		return this.keuzen;
+	public String[] getKeuzen() {
+		return keuzen;
 	}
+	public void setKeuzen(String[] keuzen)
+	{ this.keuzen = keuzen; }
 	
-	public void setKeuze(String keuze)
-	{
-		//enkel als nog geen test afgelegd***************
-		this.keuzen = keuze;
-	}
-	
-	/* methods */
-	
-	public void addKeuze(String keuze)
-	{
-		//enkel als nog geen test afgelegd***************
-		this.keuzelijst = super.splitTekst(this.keuzen);
-		this.keuzelijst.add(keuze);
-		this.keuzen = this.setListToString(this.keuzelijst);	
-	} 
-	
-	public void removeKeuze(String keuze)
-	{
-		//enkel als nog geen test afgelegd***************
-		this.keuzelijst = super.splitTekst(this.keuzen);
-		this.keuzelijst.remove(keuze);
-		this.keuzen = this.setListToString(this.keuzelijst);
-	}
-	
-	public String setListToString(ArrayList<String> list)
-	{
-		String string = "";
-		for (String keuze:list)
-		{
-			int i = 0;
-			if (i == 0)
-			{
-				string += keuze;
-				i++;
-			}		
-			else
-			{
-				string += ";" + keuze;
-				i++;
-			}
-		}
-		return string;
-	}	
-	
+		
 	/* override methods*/
 	
 	@Override
 	protected boolean isJuisteAntwoord(String antwoord)
 	{
-		if (super.getJuisteAntwoord() == antwoord)
-		{
-			return true;
-		}
-		return false;
+		return getJuisteAntwoord().equals(antwoord);
 	}
 
 	//Hoe kan gecheckt worden of antwoord valide is (m.a.w of er een juist nummer gekozen werd,
@@ -108,50 +57,64 @@ public class Meerkeuze extends Opdracht implements Valideerbaar{
 	@Override
 	public boolean isValide(String antwoord)
 	{		                                          
-		/*if (super.getJuisteAntwoord() == antwoord)
+		try		
 		{
-			return true;
-		}*/
-		return false;
+			int value = Integer.parseInt(antwoord); 
+			return value > 0 && value <= keuzen.length;
+		}
+		catch(Exception e)
+		{ return false;}
 	}
-	
+		
 	@Override
 	public String getValideerTekst()
 	{
-		return "Het antwoord moet een nummer zijn dat overeenkomt met één van de nummers uit de mogelijke oplossingen.";
+		return "Geef een nummer tussen 1 t/m " + keuzen.length;
 	}
 
 	@Override
-	public int hashCode() {
+	public String getVraag()
+	{
+		String vraag = super.getVraag();
+		for (int i = 0; i < keuzen.length; i++)
+		{ vraag += " - " + (i+1) + ": " + keuzen[i] + "\r\n"; } 
+		return vraag;
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode()
+	{
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result
-				+ ((keuzelijst == null) ? 0 : keuzelijst.hashCode());
-		result = prime * result + ((keuzen == null) ? 0 : keuzen.hashCode());
+		result = prime * result + Arrays.hashCode(keuzen);
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Meerkeuze))
 			return false;
 		Meerkeuze other = (Meerkeuze) obj;
-		if (keuzelijst == null) {
-			if (other.keuzelijst != null)
-				return false;
-		} else if (!keuzelijst.equals(other.keuzelijst))
-			return false;
-		if (keuzen == null) {
-			if (other.keuzen != null)
-				return false;
-		} else if (!keuzen.equals(other.keuzen))
+		if (!Arrays.equals(keuzen, other.keuzen))
 			return false;
 		return true;
 	}
+
+
+	
+	
 
 	
 	

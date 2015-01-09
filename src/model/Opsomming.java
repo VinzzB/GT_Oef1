@@ -24,9 +24,14 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 	{
 		super(vraag,juisteAntwoord,antwoordHints,maxAantalPogingen,maxAntwoordTijdinSec,categorie);
 		//this.arrayAntwoord = juisteAntwoord.split(";");
-	}		
+	}	
 	
-
+	public Opsomming(String[] vanTXTBestand) throws NumberFormatException, Exception
+	{
+		super(vanTXTBestand);
+		this.inJuisteVolgorde = Boolean.parseBoolean(vanTXTBestand[10]);
+	}
+	
 	/** Override */
 	
 	@Override
