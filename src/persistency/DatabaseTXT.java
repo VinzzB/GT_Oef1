@@ -6,9 +6,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-import src.model.Quiz;
-import src.model.QuizOpdracht;
-import src.model.opdracht.Opdracht;
+import model.Quiz;
+import model.QuizOpdracht;
+import model.Opdracht;
+import utils.Constants;
 
 /**
  * Maakt mogelijk txt-bestant lesen en schrijven om QUIZ programma laten runnen
@@ -22,9 +23,9 @@ public class DatabaseTXT extends Database
 	public DatabaseTXT() throws IOException
 	{
 		super();
-		opdrachtenDB = new File("bestanden\\opdrachten.txt");
-		quizzenDB = new File("bestanden\\quizzen.txt");
-		quizOpdrachtDB = new File("bestanden\\quizopdrachten.txt");
+		opdrachtenDB = new File(Constants.BESTAND_PATH + properties.getProperty("opdrachten"));
+		quizzenDB = new File(Constants.BESTAND_PATH + properties.getProperty("quizzen"));
+		quizOpdrachtDB = new File(Constants.BESTAND_PATH + properties.getProperty("quizOpdrachten"));
 	}
 	
 /**
