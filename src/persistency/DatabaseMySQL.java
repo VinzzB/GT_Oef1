@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 import javax.sql.rowset.CachedRowSet;
 
@@ -26,16 +25,32 @@ import model.quizStatus.QuizStatus;
 import utils.Constants;
 import utils.date.gregorian.Datum;
 import utils.LoadProperties;
+import model.*;
+import utils.Constants;
+import utils.date.gregorian.*;
+import model.*;
+import utils.Constants;
+import utils.date.gregorian.*;
+import model.*;
+import utils.Constants;
+import utils.date.gregorian.*;
+import model.*;
+import utils.Constants;
+import utils.date.gregorian.*;
+import model.*;
+import utils.Constants;
+import utils.date.gregorian.*;
+import model.*;
+import utils.Constants;
+import utils.date.gregorian.*;
 
 public class DatabaseMySQL extends Database
 {
 	private CachedRowSet rowSet;
-	private LoadProperties properties;
 			
-	private DatabaseMySQL() throws IOException
+	public DatabaseMySQL() throws IOException
 	{
 		super();
-		this.properties = OpstartController.getProperties();
 	}
 	@Override
 	public void setCatalogus(OpdrachtCatalogus opdrachtCatalogus,
@@ -55,17 +70,19 @@ public class DatabaseMySQL extends Database
 		
 		while(rowSet.next())
 		{
-			opdrachten.addOpdracht(new Opdracht(rowSet.getInt("OpdrachtID"), 
+			opdrachten.voegOpdrachtToe(new Opdracht(rowSet.getInt("OpdrachtID"), 
 										rowSet.getString("Vraag"), rowSet.getString("JuisteAntwoord"),
 										OpdrachtCategorie.valueOf(rowSet.getString("Categorie")),
 										rowSet.getString("Hints"), rowSet.getInt("maxAantalPogingen"),
 										rowSet.getInt("maxAntwoordTijd"), 
 										new Datum(rowSet.getDate("datumRegistratie")),
+										new Datum(rowSet.getDate("datumRegistratie").getTime()),
 										Leraar.valueOf(rowSet.getString("auteur")), 
 										OpdrachtTypen.valueOf(rowSet.getString("Type"))));
 			
 		}
 		rowSet.close();
+		Catalogi.get().setOpdrachten(opdrachten);
 	}
 
 	@Override
@@ -81,9 +98,10 @@ public class DatabaseMySQL extends Database
 					rowSet.getString("Onderwerp"), rowSet.getInt("Leerjaren"),
 					rowSet.getBoolean("isTest"), rowSet.getBoolean("isuniekeDeelname"),
 					Quiz.vanStringNaarQuizStatus(rowSet.getString("Status")), Leraar.valueOf(rowSet.getString("Auteur")),
-					new Datum(rowSet.getDate("datumVanCreatie"))));
+					new GregorianDatum(rowSet.getDate("datumVanCreatie").getTime())));
 		}
 		rowSet.close();
+		Catalogi.get().setQuizzen(quizzen);
 	}
 
 	@Override
@@ -121,7 +139,7 @@ public class DatabaseMySQL extends Database
 			rowSet.setInt(6, opdracht.getMaxAntwoordTijdInSec());
 			rowSet.setString(7, opdracht.getCategorie().toString());
 			rowSet.setDate(8, new java.sql.Date(opdracht.getRegistratie().getCalendar().getTimeInMillis()));
-			rowSet.setString(9, opdracht.getAuteur().toString());
+			rowSet.setString(9, opdracht.getAuteur().name());
 			rowSet.setString(10, opdracht.getType().name());
 
 			rowSet.execute();
@@ -169,7 +187,7 @@ public class DatabaseMySQL extends Database
 			rowSet.setString(4, quiz.getAuteur().name());
 			rowSet.setBoolean(5, quiz.isTest());
 			rowSet.setBoolean(6, quiz.isUniek());
-			rowSet.setString(7, quiz.getStatus().toString());
+			rowSet.setString(7, quiz.getStatus() == null ? null : quiz.getStatus().toString());
 			rowSet.setDate(8, new java.sql.Date(quiz.getDatumVanCreatie().getCalendar().getTimeInMillis()));
 			rowSet.execute();
 		}
@@ -179,14 +197,17 @@ public class DatabaseMySQL extends Database
 	@Override
 	public void safeQuizOpdrachten() throws SQLException, FileNotFoundException, IOException
 	{
-
 		rowSet.setCommand("INSERT into tblQuizOpdrachten "
 				+ "VALUES (?, ?, ?)");
-		for(QuizOpdracht quizopdracht : quizOpdrachten)
+		for(Quiz quiz : quizzen)
 		{
-			rowSet.setInt(1, quizopdracht.getQuiz().getQuizID());
-			rowSet.setInt(2, quizopdracht.getOpdracht().getOpdrachtID());
-			rowSet.setInt(3, quizopdracht.getMaxScore());
+			for(QuizOpdracht quizopdracht : quiz.getQuizOpdrachten())
+			{
+				rowSet.setInt(1, quizopdracht.getQuiz().getQuizID());
+				rowSet.setInt(2, quizopdracht.getOpdracht().getOpdrachtID());
+				rowSet.setInt(3, quizopdracht.getMaxScore());
+				rowSet.execute();
+			}
 		}
 		rowSet.close();
 	}
@@ -198,9 +219,9 @@ public class DatabaseMySQL extends Database
 		try
 		{
 			rowSet = new CachedRowSetImpl();
-	        rowSet.setUrl(this.properties.getProperty(Constants.URL));
-	        rowSet.setUsername(this.properties.getProperty(Constants.USER));
-	        rowSet.setPassword(this.properties.getProperty(Constants.PASSWORD));
+	        rowSet.setUrl(properties.getProperty(Constants.URL));
+	        rowSet.setUsername(properties.getProperty(Constants.USER));
+	        rowSet.setPassword(properties.getProperty(Constants.PASSWORD));
 		} 
 		catch (SQLException e)
 		{
