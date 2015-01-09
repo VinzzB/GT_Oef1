@@ -64,6 +64,37 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 		setAntwoordHint(opdracht.getAntwoordHint());
 	}
 	
+		/**
+	* Constructor for Opdracht instance from TXTdatabase
+	* String array fields:
+	* 0: opdrachtID
+	* 1: Vraag
+	* 2: Antwoord
+	* 3: Categorie
+	* 4: antwoordHint
+	* 5: maxAantalPogingen
+	* 6: maxAntwoordTijdInSec
+	* 7: Creatie datum
+	* 8: Auteur
+	* 9: OpdrachtType
+	* @throws Exception
+	* @throws NumberFormatException
+	*/
+	public Opdracht(String[] vanTXTBestand) throws NumberFormatException, Exception
+	{
+		opdrachtID = Integer.parseInt(vanTXTBestand[0]);
+		vraag = vanTXTBestand[1];
+		juisteAntwoord =  vanTXTBestand[2];
+		categorie = OpdrachtCategorie.valueOf(vanTXTBestand[3]);
+		antwoordHint = vanTXTBestand[4];
+		maxAantalPogingen = Integer.parseInt(vanTXTBestand[5]);
+		maxAntwoordTijdInSec = Integer.parseInt(vanTXTBestand[6]);
+		registratie =  new Datum(vanTXTBestand[7]);
+		auteur = Leraar.valueOf(vanTXTBestand[8]);
+		// OpdrachtTypen.valueOf(vanTXTBestand[9]));
+	}
+	
+	
 	/* getters en setters */
 	
 	public int getOpdrachtID()

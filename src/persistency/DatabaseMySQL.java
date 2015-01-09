@@ -11,37 +11,12 @@ import javax.sql.rowset.CachedRowSet;
 import com.sun.rowset.CachedRowSetImpl;
 
 import controller.OpstartController;
-import model.Leraar;
-import model.Quiz;
-import model.QuizCatalogus;
-import model.QuizOpdracht;
-import model.Opdracht;
-import model.OpdrachtCatalogus;
-import model.OpdrachtCategorie;
-import model.Meerkeuze;
-import model.Opsomming;
-import model.OpdrachtTypen;
+
 import model.quizStatus.QuizStatus;
 import utils.Constants;
 import utils.date.gregorian.Datum;
 import utils.LoadProperties;
 import model.*;
-import utils.Constants;
-import utils.date.gregorian.*;
-import model.*;
-import utils.Constants;
-import utils.date.gregorian.*;
-import model.*;
-import utils.Constants;
-import utils.date.gregorian.*;
-import model.*;
-import utils.Constants;
-import utils.date.gregorian.*;
-import model.*;
-import utils.Constants;
-import utils.date.gregorian.*;
-import model.*;
-import utils.Constants;
 import utils.date.gregorian.*;
 
 public class DatabaseMySQL extends Database
@@ -70,13 +45,13 @@ public class DatabaseMySQL extends Database
 		
 		while(rowSet.next())
 		{
-			opdrachten.voegOpdrachtToe(new Opdracht(rowSet.getInt("OpdrachtID"), 
+			opdrachten.voegOpdrachtToe(new OpdrachtVraag(rowSet.getInt("OpdrachtID"), 
 										rowSet.getString("Vraag"), rowSet.getString("JuisteAntwoord"),
 										OpdrachtCategorie.valueOf(rowSet.getString("Categorie")),
 										rowSet.getString("Hints"), rowSet.getInt("maxAantalPogingen"),
 										rowSet.getInt("maxAntwoordTijd"), 
 										new Datum(rowSet.getDate("datumRegistratie")),
-										new Datum(rowSet.getDate("datumRegistratie").getTime()),
+										new Datum(rowSet.getDate("datumRegistratie")),
 										Leraar.valueOf(rowSet.getString("auteur")), 
 										OpdrachtTypen.valueOf(rowSet.getString("Type"))));
 			
@@ -98,7 +73,7 @@ public class DatabaseMySQL extends Database
 					rowSet.getString("Onderwerp"), rowSet.getInt("Leerjaren"),
 					rowSet.getBoolean("isTest"), rowSet.getBoolean("isuniekeDeelname"),
 					Quiz.vanStringNaarQuizStatus(rowSet.getString("Status")), Leraar.valueOf(rowSet.getString("Auteur")),
-					new GregorianDatum(rowSet.getDate("datumVanCreatie").getTime())));
+					new Datum(rowSet.getDate("datumVanCreatie"))));
 		}
 		rowSet.close();
 		Catalogi.get().setQuizzen(quizzen);

@@ -1,8 +1,6 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 
 /**
  * @author      Nathalie   
@@ -16,17 +14,16 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 	@Override
 	public OpdrachtTypen getType()
 	{
-		// TODO Auto-generated method stub
 		return OpdrachtTypen.OPSOMMING;
 	}
 
-	String[] arrayAntwoord;
+	private boolean inJuisteVolgorde;
 	
 	public Opsomming(String vraag, String juisteAntwoord, int maxAantalPogingen, String antwoordHints, 
 			int maxAntwoordTijdinSec, OpdrachtCategorie categorie) throws Exception
 	{
 		super(vraag,juisteAntwoord,antwoordHints,maxAantalPogingen,maxAntwoordTijdinSec,categorie);
-		this.arrayAntwoord = juisteAntwoord.split(";");
+		//this.arrayAntwoord = juisteAntwoord.split(";");
 	}		
 	
 
@@ -35,69 +32,71 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 	@Override
 	protected boolean isJuisteAntwoord(String antwoord)
 	{
-		//(linkedlist -> equals method houdt geen rekening met volgorde)
-		String[] antwoorden = antwoord.split(";");
-		if (this.arrayAntwoord.equals(antwoorden)) 
+		//split de antwoorden
+		String[] antwArray = antwoord.split(";");
+		String[] juistAntwArray = getJuisteAntwoord().split(";");
+		//Antwoorden moeten niet in dezelfde volgorde gegeven worden? -> Sorteer beide lijsten.		
+		if (!inJuisteVolgorde)
 		{
-			return true;
-		}
-		else return false;
+			Arrays.sort(antwArray);
+			Arrays.sort(juistAntwArray);
+		}		
+		// Controleer de juiste antwoorden tegenover de gegeven antwoorden. 
+		//Arrays.equals is hoofdlettergevoelig en de aantallen moeten overeenkomen.
+		return Arrays.equals(antwArray, juistAntwArray);		
 	}
 	
 	/** Kijk na of format gegeven antwoord valide is. De antwoorden moeten gescheiden zijn door ;*/
 	@Override
 	public boolean isValide(String antwoord)
 	{		
-		if (antwoord != null) 
+		try
 		{
-			String[] antwoorden = antwoord.split(";");
-			if (antwoorden.length > 1) 
-			{
-				for(String s : antwoorden)
-				{ 
-					if (s.contains(",") || s.contains(".") || s.contains("/"))
-					{
-						 return false;
-					}					
-				}				
-			}
-		}	
-		return true;		
+			String[] answer = antwoord.split(";");		
+			return answer.length > 0;
+		}
+		catch(Exception e)
+		{ return false; }		
 	}
 
 	@Override
 	public String getValideerTekst() 
 	{		
-		return "Typ je antwoorden achter elkaar gescheiden door \";\"";
+		return "Typ je antwoorden " 
+				+ (inJuisteVolgorde ? "in de juiste volgorde" : "achter elkaar") 
+				+ " gescheiden door een ';' (zonder aanhalingstekens)";
 	}
 
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime
-				* result
-				+ ((arrayAntwoord == null) ? 0 : arrayAntwoord.hashCode());
+		result = prime * result + (inJuisteVolgorde ? 1231 : 1237);
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Opsomming))
 			return false;
 		Opsomming other = (Opsomming) obj;
-		if (arrayAntwoord == null) {
-			if (other.arrayAntwoord != null)
-				return false;
-		} else if (!arrayAntwoord.equals(other.arrayAntwoord))
+		if (inJuisteVolgorde != other.inJuisteVolgorde)
 			return false;
 		return true;
 	}
-	
 	
 
 }

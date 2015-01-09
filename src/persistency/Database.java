@@ -52,7 +52,7 @@ public abstract class Database implements IDatabaseStrategy
 		String [][] objecten = leesVanBestand(opdrachtenDB);
 		for (String[] object : objecten)
 		{
-			opdrachten.addOpdracht(OpdrachtFactory.getOpdracht(OpdrachtTypen.valueOf(object[9]), object));
+			opdrachten.voegOpdrachtToe(OpdrachtFactory.getOpdracht(OpdrachtTypen.valueOf(object[9]), object));
 //			opdrachten.voegOpdrachtToe(new Opdracht(object));
 		}
 		Catalogi.get().setOpdrachten(opdrachten);

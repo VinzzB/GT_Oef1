@@ -41,7 +41,7 @@ public class OpdrachtCatalogus implements /*Comparable<OpdrachtCatalogus>*/ Iter
 	
 	//methods
 	
-	public void addOpdracht(Opdracht o)
+	public void voegOpdrachtToe(Opdracht o)
 	{
 		o.setOpdrachtID(this.getLastID()+1);
 		this.opdrachten.put(o.getOpdrachtID(), o);
@@ -93,7 +93,7 @@ public class OpdrachtCatalogus implements /*Comparable<OpdrachtCatalogus>*/ Iter
 		OpdrachtCatalogus clone = new OpdrachtCatalogus();
 		for(Opdracht o : this.opdrachten.values()) 
 		{
-			clone.addOpdracht(o);
+			clone.voegOpdrachtToe(o);
 		}
 		return clone;		
 	}
