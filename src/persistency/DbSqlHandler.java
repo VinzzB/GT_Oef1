@@ -107,7 +107,7 @@ public abstract class DbSqlHandler implements IDatabaseStrategy
 		{			
 		rowSet.setInt(1, dbQ.getId());
 		rowSet.setString(2, dbQ.getOnderwerp());
-		rowSet.setString(3, Arrays.Join(";",dbQ.getLeerjaren()));
+		rowSet.setInt(3, dbQ.getLeerjaar());
 		rowSet.setString(4, dbQ.getAuteur().name());
 		rowSet.setBoolean(5, dbQ.isTest());
 		rowSet.setBoolean(6, dbQ.isUniekeDeelname());

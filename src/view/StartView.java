@@ -11,9 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import persistency.DatabaseHandler;
 import utils.Constants;
-
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -54,7 +53,7 @@ public class StartView extends View
 		lbWelcome = new JLabel("Welcome to Quiz Applicatie");
 		lbLogo = new JLabel(new ImageIcon(Constants.IMAGE_PATH + "groept.jpg"));
 		lbAuteurs = new JLabel(String.format("<html>Applicatie team: <br> Natalia Dyubankova, Vincent, <br> Nathalie, Silvia, Isaak, <br> Wouter</html>"));
-		lbDatabaseInfo = new JLabel("<html> Gelezen database: <br> " + db.getDatabaseStrategy().getClass() + "</html>");
+		lbDatabaseInfo = new JLabel("<html> Gelezen database: <br> " + DatabaseHandler.instance().getClass() + "</html>");
 		
 		//buttons
 		btnLeraar = new JButton("Ik ben leraar");

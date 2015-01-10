@@ -63,7 +63,7 @@ public class QuizCatalogus implements Iterable<Entry<Integer, Quiz>>
  */
 	public void voegQuizToe(Quiz quiz)
 	{
-		quiz.setQuizCatalogus(this);
+		//quiz.setQuizCatalogus(this);
 		int newId = getLastQuizID();
 		quiz.setQuizID(newId);
 		quizCatalogus.put(newId, quiz);
@@ -106,7 +106,7 @@ public class QuizCatalogus implements Iterable<Entry<Integer, Quiz>>
 		ArrayList<Quiz> perLeerjaar = new ArrayList<Quiz>();
 		for(Entry<Integer, Quiz> quiz : quizCatalogus.entrySet())
 		{
-			if (quiz.getValue().isValidLeerjaar(leerjaar))
+			if (quiz.getValue().getLeerjaar() == leerjaar)
 				perLeerjaar.add(quiz.getValue());
 		}
 		return perLeerjaar;

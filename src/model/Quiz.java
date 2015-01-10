@@ -21,7 +21,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 {
 	private int quizID;
 	private String onderwerp;
-	private int[] leerjaren;
+	private int leerjaar;
 	private boolean isTest;
 	private boolean isUniek;
 	private QuizStatus status;
@@ -29,9 +29,6 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	private Datum datumVanCreatie;
 
 	private List<QuizOpdracht> quizOpdrachten;
-
-	@SuppressWarnings("unused")
-	private QuizCatalogus quizCatalogus;
 
 	/**
 	 * Sole constructor. (For invocation by constructors with parameters.)
@@ -60,7 +57,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	{
 		this();
 		setOnderwerp(onderwerp);
-		setLeerjaren(new int[] { leerjaar });
+		setLeerjaar(leerjaar);
 		setIsTest(isTest);
 		setIsUniek(isUniek);
 		this.quizID = quizID;
@@ -81,7 +78,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	{
 		this();
 		setOnderwerp(onderwerp);
-		setLeerjaren(new int[] { leerjaar });
+		setLeerjaar(leerjaar);
 		setIsTest(isTest);
 		setIsUniek(isUniek);
 		setStatus(status);
@@ -116,7 +113,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		quizOpdrachten = new ArrayList<QuizOpdracht>();
 		this.quizID = quizID;
 		setOnderwerp(onderwerp);
-		setLeerjaren(new int[] { leerjaar });
+		setLeerjaar(leerjaar);
 		setIsTest(isTest);
 		setIsUniek(isUniek);
 		setAuteur(leraar);
@@ -169,7 +166,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		this();
 		setQuizID(quiz.getQuizID());
 		setOnderwerp(quiz.getOnderwerp());
-		setLeerjaren(quiz.getLeerjaren());
+		setLeerjaar(quiz.getLeerjaar());
 		setIsTest(quiz.isTest());
 		setIsUniek(quiz.isUniek());
 
@@ -193,24 +190,16 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		this.onderwerp = onderwerp;
 	}
 
-	public int[] getLeerjaren()
+	public int getLeerjaar()
 	{
-		return (int[])leerjaren.clone();
+		return leerjaar;
 	}
 
-	public void setLeerjaren(int[] leerjaren) throws Exception
+	public void setLeerjaar(int leerjaar) throws Exception
 	{
-		this.leerjaren = leerjaren;
+		this.leerjaar = leerjaar;
 	}
 	
-	protected boolean isValidLeerjaar(int leerjaar)
-	{ 
-		for (int i = 0; i < this.leerjaren.length; i++) {
-			if (this.leerjaren[i] == leerjaar)
-			{ return true; }
-		}
-		return false; // leerjaren.contains(leerjaar); 
-	}	
 
 	public boolean isTest()
 	{
@@ -252,10 +241,10 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		return quizID;
 	}
 
-	public void setQuizCatalogus(QuizCatalogus quizCatalogus)
-	{
-		this.quizCatalogus = quizCatalogus;
-	}
+//	public void setQuizCatalogus(QuizCatalogus quizCatalogus)
+//	{
+//		this.quizCatalogus = quizCatalogus;
+//	}
 
 	public List<QuizOpdracht> getQuizOpdrachten()
 	{
@@ -311,90 +300,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		this.datumVanCreatie = datumVanCreatie;
 	}	
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (isTest ? 1231 : 1237);
-		result = prime * result + (isUniek ? 1231 : 1237);
-		result = prime * result + ((onderwerp == null) ? 0 : leerjaren.hashCode());
-		result = prime * result + ((onderwerp == null) ? 0 : onderwerp.hashCode());
-		result = prime * result + ((quizOpdrachten == null) ? 0 : quizOpdrachten.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		return result;
-	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-		{
-			return true;
-		}
-		if (obj == null)
-		{
-			return false;
-		}
-		if (!(obj instanceof Quiz))
-		{
-			return false;
-		}
-		Quiz other = (Quiz) obj;
-		if (isTest != other.isTest)
-		{
-			return false;
-		}
-		if (isUniek != other.isUniek)
-		{
-			return false;
-		}
-		if (leerjaren != other.leerjaren)
-		{
-			return false;
-		}
-		if (onderwerp == null)
-		{
-			if (other.onderwerp != null)
-			{
-				return false;
-			}
-		} else if (!onderwerp.equals(other.onderwerp))
-		{
-			return false;
-		}
-		if (quizOpdrachten == null)
-		{
-			if (other.quizOpdrachten != null)
-			{
-				return false;
-			}
-		} else if (!quizOpdrachten.equals(other.quizOpdrachten))
-		{
-			return false;
-		}
-		if (status == null)
-		{
-			if (other.status != null)
-			{
-				return false;
-			}
-		} else if (!status.equals(other.status))
-		{
-			return false;
-		}
-		return true;
-	}
 
 	@Override
 	public int compareTo(Quiz quiz)
@@ -411,14 +317,14 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	@Override
 	public String toString()
 	{
-		return "Quiz "+ this.quizID + " [onderwerp: " + onderwerp + ", leerjaar: " + leerjaren + 
+		return "Quiz "+ this.quizID + " [onderwerp: " + onderwerp + ", leerjaar: " + leerjaar + 
 				", isTest: " + isTest + ", isUniek: " + isUniek	+ ", status: " + 
 				status + "] auteur: " + auteur + " datum: " + datumVanCreatie + ", vragen: " + quizOpdrachten.size();
 	}
 	
 	public String fullDescription()
 	{
-		return "Quiz "+ this.quizID + " [onderwerp=" + onderwerp + ", leerjaar=" + leerjaren + ", isTest=" + isTest + ", isUniek=" + isUniek
+		return "Quiz "+ this.quizID + " [onderwerp=" + onderwerp + ", leerjaar=" + leerjaar + ", isTest=" + isTest + ", isUniek=" + isUniek
 				+ ", status=" + status + ", quizOpdrachten=" + quizOpdrachten + "]";
 	}
 
@@ -492,9 +398,69 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	 */
 	public String toBestand()
 	{
-		return this.quizID + "\t" + this.onderwerp + "\t" + this.leerjaren + "\t" + 
+		return this.quizID + "\t" + this.onderwerp + "\t" + this.leerjaar + "\t" + 
 				this.isTest + "\t" + this.isUniek + "\t" + this.status.getEnumType() + "\t" + 
 				this.auteur.name() + "\t" + datumVanCreatie.getEuropeanFormat();
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((auteur == null) ? 0 : auteur.hashCode());
+		result = prime * result
+				+ ((datumVanCreatie == null) ? 0 : datumVanCreatie.hashCode());
+		result = prime * result + (isTest ? 1231 : 1237);
+		result = prime * result + (isUniek ? 1231 : 1237);
+		result = prime * result + leerjaar;
+		result = prime * result
+				+ ((onderwerp == null) ? 0 : onderwerp.hashCode());
+		result = prime * result + quizID;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Quiz))
+			return false;
+		Quiz other = (Quiz) obj;
+		if (auteur != other.auteur)
+			return false;
+		if (datumVanCreatie == null)
+		{
+			if (other.datumVanCreatie != null)
+				return false;
+		}
+		else if (!datumVanCreatie.equals(other.datumVanCreatie))
+			return false;
+		if (isTest != other.isTest)
+			return false;
+		if (isUniek != other.isUniek)
+			return false;
+		if (leerjaar != other.leerjaar)
+			return false;
+		if (onderwerp == null)
+		{
+			if (other.onderwerp != null)
+				return false;
+		}
+		else if (!onderwerp.equals(other.onderwerp))
+			return false;
+		if (quizID != other.quizID)
+			return false;
+		return true;
 	}
 
 }

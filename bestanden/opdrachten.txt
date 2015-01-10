@@ -1,22 +1,22 @@
-1	Wat is de hoofdstad van Franrijk?	Parijs	Aardrijkskunde	null	10	5	1/1/2001	LERAAR1	VRAAG
-2	Wat is de hoofdstad van Spanje?	Madrid	Aardrijkskunde	null	10	5	2/2/2002	LERAAR2	VRAAG
-3	Hoeveel voeten heeft spin?	8	Wetenschappen	null	10	5	3/3/2003	LERAAR3	VRAAG
-4	5+5	10	Wiskunde	Voeg antwoord hint toe	1	5	17/12/2014	LERAAR1	VRAAG
-5	5+6	11	Wiskunde	Voeg antwoord hint toe	1	5	17/12/2014	LERAAR1	VRAAG
-6	5+6	11	Wiskunde	Voeg antwoord hint toe	1	5	17/12/2014	LERAAR1	VRAAG
-7	de huis / het huis	het huis	Nederlands	Voeg antwoord hint toe	1	5	17/12/2014	LERAAR1	VRAAG
-8	Voeg vraag toe	a2	Aardrijkskunde	h2	1	5	17/12/2014	LERAAR1	VRAAG
-9	Voeg vraag toe	Voeg antwoord(en) toe	Aardrijkskunde	Voeg antwoord hint toe	1	5	17/12/2014	LERAAR1	VRAAG
-10	v789	Voeg antwoord(en) toe	Aardrijkskunde	Voeg antwoord hint toe	1	5	17/12/2014	LERAAR1	VRAAG
-11	Voeg vraag toe	Voeg antwoord(en) toe	Aardrijkskunde	Voeg antwoord hint toe	1	5	17/12/2014	LERAAR1	VRAAG
-12	Voeg vraag toe	Voeg antwoord(en) toe	Aardrijkskunde	Voeg antwoord hint toe	1	5	17/12/2014	LERAAR1	VRAAG
-13	v67987	Voeg antwoord(en) toe	Nederlands	Voeg antwoord hint toe	1	5	17/12/2014	LERAAR1	VRAAG
-14	Voeg vraag toe	Voeg antwoord(en) toe	Nederlands	Voeg antwoord hint toe	1	5	17/12/2014	LERAAR1	VRAAG
-15	Wat is e hoofdstad van Rusland?	Moscow	Aardrijkskunde	M	2	5	17/12/2014	LERAAR1	VRAAG
-16	Voeg vraag toe	Voeg antwoord(en) toe	Aardrijkskunde	Voeg antwoord hint toe	1	2	17/12/2014	LERAAR1	VRAAG
-17	1+2	3	Wiskunde	Voeg antwoord hint toe	1	2	17/12/2014	LERAAR1	VRAAG
-18	1+2	3	Wiskunde	Voeg antwoord hint toe	1	2	17/12/2014	LERAAR1	VRAAG
-19	bom / boom	Voeg antwoord(en) toe	Nederlands	Voeg antwoord hint toe	1	10	17/12/2014	LERAAR1	VRAAG
-20	qwerty	Voeg antwoord(en) toe	Aardrijkskunde	Voeg antwoord hint toe	1	2	4/1/2015	LERAAR1	VRAAG
-21	vraag1	Voeg antwoord(en) toe	Nederlands	Voeg antwoord hint toe	1	5	7/1/2015	LERAAR1	VRAAG
-22	v78	Voeg antwoord(en) toe	Aardrijkskunde	Voeg antwoord hint toe	1	5	9/1/2015	LERAAR1	VRAAG
+1	Wat is de hoofdstad van Franrijk?	Parijs	Aardrijkskunde	null	0	5	01/01/2001	LERAAR1	VRAAG
+2	Wat is de hoofdstad van Spanje?	Madrid	Aardrijkskunde	null	0	5	02/02/2002	LERAAR2	VRAAG
+3	Hoeveel voeten heeft spin?	8	Wetenschappen	null	0	5	03/03/2003	LERAAR3	VRAAG
+4	5+5	10	Wiskunde	Voeg antwoord hint toe	0	5	17/12/2014	LERAAR1	VRAAG
+5	5+6	11	Wiskunde	Voeg antwoord hint toe	0	5	17/12/2014	LERAAR1	VRAAG
+6	5+6	11	Wiskunde	Voeg antwoord hint toe	0	5	17/12/2014	LERAAR1	VRAAG
+7	de huis / het huis	het huis	Nederlands	Voeg antwoord hint toe	0	5	17/12/2014	LERAAR1	VRAAG
+8	Voeg vraag toe	a2	Aardrijkskunde	h2	0	5	17/12/2014	LERAAR1	VRAAG
+9	Voeg vraag toe	Voeg antwoord(en) toe	Aardrijkskunde	Voeg antwoord hint toe	0	5	17/12/2014	LERAAR1	VRAAG
+10	v789	Voeg antwoord(en) toe	Aardrijkskunde	Voeg antwoord hint toe	0	5	17/12/2014	LERAAR1	VRAAG
+11	Voeg vraag toe	Voeg antwoord(en) toe	Aardrijkskunde	Voeg antwoord hint toe	0	5	17/12/2014	LERAAR1	VRAAG
+12	Voeg vraag toe	Voeg antwoord(en) toe	Aardrijkskunde	Voeg antwoord hint toe	0	5	17/12/2014	LERAAR1	VRAAG
+13	v67987	Voeg antwoord(en) toe	Nederlands	Voeg antwoord hint toe	0	5	17/12/2014	LERAAR1	VRAAG
+14	Voeg vraag toe	Voeg antwoord(en) toe	Nederlands	Voeg antwoord hint toe	0	5	17/12/2014	LERAAR1	VRAAG
+15	Wat is e hoofdstad van Rusland?	Moscow	Aardrijkskunde	M	0	5	17/12/2014	LERAAR1	VRAAG
+16	Voeg vraag toe	Voeg antwoord(en) toe	Aardrijkskunde	Voeg antwoord hint toe	0	2	17/12/2014	LERAAR1	VRAAG
+17	1+2	3	Wiskunde	Voeg antwoord hint toe	0	2	17/12/2014	LERAAR1	VRAAG
+18	1+2	3	Wiskunde	Voeg antwoord hint toe	0	2	17/12/2014	LERAAR1	VRAAG
+19	bom / boom	Voeg antwoord(en) toe	Nederlands	Voeg antwoord hint toe	0	10	17/12/2014	LERAAR1	VRAAG
+20	qwerty	Voeg antwoord(en) toe	Aardrijkskunde	Voeg antwoord hint toe	0	2	04/01/2015	LERAAR1	VRAAG
+21	vraag1	Voeg antwoord(en) toe	Nederlands	Voeg antwoord hint toe	0	5	07/01/2015	LERAAR1	VRAAG
+22	v78	Voeg antwoord(en) toe	Aardrijkskunde	Voeg antwoord hint toe	0	5	09/01/2015	LERAAR1	VRAAG

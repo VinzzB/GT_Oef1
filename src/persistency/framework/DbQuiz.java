@@ -17,7 +17,7 @@ public class DbQuiz {
 	Leraar auteur;
 	boolean isTest;
 	boolean isUniekeDeelname;
-	int[] leerjaren;
+	int leerjaar;
 	Statussen status;
 	List<DbQuizOpdracht> quizOpdrachten;
 	
@@ -36,7 +36,7 @@ public class DbQuiz {
 	{
 		this.id = Integer.parseInt(dataRow[0]);
 		this.onderwerp = dataRow[1];		
-		setLeerjaren(dataRow[2]);		
+		this.leerjaar = Integer.parseInt(dataRow[2]);	
 		this.isTest = Boolean.parseBoolean(dataRow[3]);
 		this.isUniekeDeelname = Boolean.parseBoolean(dataRow[4]);
 		this.status = Statussen.valueOf(dataRow[5]);
@@ -55,7 +55,7 @@ public class DbQuiz {
 	{
 		this.id = dataRow.getInt("QuizID"); // Integer.parseInt(dataRow[0]);		
 		this.onderwerp = dataRow.getString("Onderwerp"); // dataRow[1];		
-		setLeerjaren(dataRow.getString("Leerjaren"));// dataRow[2]);		
+		this.leerjaar = dataRow.getInt("Leerjaren");// dataRow[2]);		
 		this.isTest = dataRow.getBoolean("isTest"); // Boolean.parseBoolean(dataRow[3]);
 		this.isUniekeDeelname = dataRow.getBoolean("isuniekeDeelname");// Boolean.parseBoolean(dataRow[4]);
 		this.datumRegistratie = new Datum(dataRow.getDate("datumVanCreatie"));
@@ -92,7 +92,7 @@ public class DbQuiz {
 	{
 		this.id = id;
 		this.onderwerp = q.getOnderwerp();
-		this.leerjaren = q.getLeerjaren();
+		this.leerjaar = q.getLeerjaar();
 		this.isTest = q.isTest();
 		this.isUniekeDeelname = q.isUniek();
 		this.status = q.getStatus().getEnumType();
@@ -124,8 +124,8 @@ public class DbQuiz {
 	public boolean isUniekeDeelname() {
 		return isUniekeDeelname;
 	}
-	public int[] getLeerjaren() {
-		return leerjaren;
+	public int getLeerjaar() {
+		return leerjaar;
 	}
 	public Statussen getStatus() {
 		return status;
@@ -136,7 +136,7 @@ public class DbQuiz {
 		String[] data = new String[8];
 		data[0] = Integer.toString(id);
 		data[1] = getOnderwerp();
-		data[2] = Arrays.Join(",", getLeerjaren());
+		data[2] = Integer.toString(leerjaar);
 		data[3] = Boolean.toString(isTest());
 		data[4] = Boolean.toString(isUniekeDeelname());
 		data[5] = getStatus().name();
@@ -144,14 +144,6 @@ public class DbQuiz {
 		data[7] = getDatumRegistratie().getEuropeanFormat();		
 		return data;
 				
-	}
-	
-	private void setLeerjaren(String leerjaren)
-	{
-		String[] tmpL = leerjaren.split(","); //split param value
-		this.leerjaren = new int[tmpL.length]; //allocate array
-		for (int i = 0; i < tmpL.length; i++)  //iterate and fill array
-		{ this.leerjaren[i] = Integer.parseInt(tmpL[i]); }
-	}
+	}	
 	
 }
