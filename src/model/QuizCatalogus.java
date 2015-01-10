@@ -1,10 +1,11 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import model.Quiz;
 
 /**
@@ -12,21 +13,21 @@ import model.Quiz;
  * @version     1.0                 
  * @since       2014-11-12          
  */
-public class QuizCatalogus implements Iterable<Quiz>
+public class QuizCatalogus implements Iterable<Entry<Integer, Quiz>>
 {
-	private ArrayList<Quiz> quizCatalogus;
+	private HashMap<Integer, Quiz> quizCatalogus;
 
 	/**
 	 * Sole constructor. 
 	 */
 	public QuizCatalogus()
 	{
-		quizCatalogus = new ArrayList<Quiz>();
+		quizCatalogus = new HashMap<Integer, Quiz>();
 	}
 // getters en setters
-	public ArrayList<Quiz> getQuizzen()
+	public List<Quiz> getQuizzen()
 	{
-		return quizCatalogus;
+		return (List<Quiz>) quizCatalogus.values();
 	}
 
 /**
@@ -34,12 +35,12 @@ public class QuizCatalogus implements Iterable<Quiz>
  * 
  * @return quizID
  */
-	public int setQuizID()
+	public int getLastQuizID()
 	{
 		int maxID = 0;
-		for (Quiz quiz : quizCatalogus)
+		for (Entry<Integer, Quiz> quiz : quizCatalogus.entrySet())
 		{
-			if(quiz.getQuizID() > maxID) maxID = quiz.getQuizID();
+			if(quiz.getKey() > maxID) maxID = quiz.getKey();
 		}
 	    return maxID + 1;
 	}
@@ -52,12 +53,7 @@ public class QuizCatalogus implements Iterable<Quiz>
  */
 	public Quiz getQuiz(int quizID)
 	{
-		for(Quiz quiz : quizCatalogus)
-		{
-			if(quiz.getQuizID() == quizID)
-				return quiz;
-		}
-		return null;
+		return quizCatalogus.get(quizID);		
 	}
 	
 /**
@@ -68,13 +64,14 @@ public class QuizCatalogus implements Iterable<Quiz>
 	public void voegQuizToe(Quiz quiz)
 	{
 		quiz.setQuizCatalogus(this);
-		quiz.setQuizID(setQuizID());
-		quizCatalogus.add(quiz);
+		int newId = getLastQuizID();
+		quiz.setQuizID(newId);
+		quizCatalogus.put(newId, quiz);
 	}
 	
 	public void voegQuizToe(int mapID, Quiz quiz)
 	{
-		quizCatalogus.add(quiz);		
+		quizCatalogus.put(mapID, quiz);		
 	}
 /**
  * Verwijdert een quiz va catalogus
@@ -99,19 +96,18 @@ public class QuizCatalogus implements Iterable<Quiz>
 	}
 	
 	@Override
-	public Iterator<Quiz> iterator()
-	{
-		Iterator<Quiz> quizzen = quizCatalogus.iterator(); 
-		return quizzen;
+	public Iterator<Entry<Integer, Quiz>> iterator()
+	{ 
+		return quizCatalogus.entrySet().iterator();
 	}
 	
 	public ArrayList<Quiz> getQuizzenPerLeerjaar(int leerjaar)
 	{
 		ArrayList<Quiz> perLeerjaar = new ArrayList<Quiz>();
-		for(Quiz quiz : quizCatalogus)
+		for(Entry<Integer, Quiz> quiz : quizCatalogus.entrySet())
 		{
-			if (quiz.getLeerjaar() == leerjaar)
-				perLeerjaar.add(quiz);
+			if (quiz.getValue().isValidLeerjaar(leerjaar))
+				perLeerjaar.add(quiz.getValue());
 		}
 		return perLeerjaar;
 	}

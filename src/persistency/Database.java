@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import model.*;
+import model.quizStatus.QuizStatus;
 import utils.Constants;
 import utils.LoadProperties;
 /**
@@ -64,7 +64,7 @@ public abstract class Database implements IDatabaseStrategy
 	 * @throws NumberFormatException 
 	 */
 	@Override
-	public void leesQuzen() throws NumberFormatException, Exception
+	public void leesQuizen() throws NumberFormatException, Exception
 	{
 		String [][] objecten  = leesVanBestand(quizzenDB);
 		for (String[] object : objecten)
@@ -80,8 +80,9 @@ public abstract class Database implements IDatabaseStrategy
 	 * @throws SQLException 
 	 */
 	@Override
-	public void kopelQuizOpdrachten() throws FileNotFoundException, IOException, SQLException
+	public void koppelQuizOpdrachten() throws FileNotFoundException, IOException, SQLException
 	{
+	//	QuizStatus currentState = 
 		String[][] objecten = leesVanBestand(quizOpdrachtDB);
 		for (String[] object : objecten)
 		{

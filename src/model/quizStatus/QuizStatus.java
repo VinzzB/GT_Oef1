@@ -20,7 +20,7 @@ public abstract class QuizStatus
 //	public void laatsteKans(Quiz q) 
 //	{ System.out.println("Quiz kan niet naar omgezet worden naar de status 'laatsteKans'"); }			
 
-	public abstract Statussen getType();
+	public abstract Statussen getEnumType();
 	
 	public void voegQuizToe(Quiz q)
 	{

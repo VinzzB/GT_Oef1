@@ -3,7 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
+import java.util.Map.Entry;
+import persistency.DatabaseHandler;
 import com.sun.javafx.collections.MappingChange.Map;
 
 /**
@@ -12,7 +13,7 @@ import com.sun.javafx.collections.MappingChange.Map;
  * @version     1.0                 
  * @since       2014-11-12  
  */
-public class OpdrachtCatalogus implements /*Comparable<OpdrachtCatalogus>*/ Iterable<Opdracht>,Cloneable
+public class OpdrachtCatalogus implements /*Comparable<OpdrachtCatalogus>*/ Iterable<Entry<Integer,Opdracht>>,Cloneable
 {
 	private HashMap<Integer,Opdracht> opdrachten;
 	
@@ -43,11 +44,15 @@ public class OpdrachtCatalogus implements /*Comparable<OpdrachtCatalogus>*/ Iter
 	
 	public void voegOpdrachtToe(Opdracht o)
 	{
-		o.setOpdrachtID(this.getLastID()+1);
+		o.setOpdrachtID(this.getLastID()+1); //is in principe niet nodig om dit op te slaan in opdracht class...
 		this.opdrachten.put(o.getOpdrachtID(), o);
 	}
-	
-	public void removeOpdracht(Opdracht o) throws Exception
+	public void voegOpdrachtToe(int index, Opdracht o)
+	{
+		o.setOpdrachtID(index); //is in principe niet nodig om dit op te slaan in opdracht class...
+		this.opdrachten.put(index, o);
+	}
+	public void verwijderOpdracht(Opdracht o) throws Exception
 	{
 		//enkel mogelijk als nog niet gekoppeld aan test
 		this.opdrachten.remove(o.getOpdrachtID()); 
@@ -55,27 +60,34 @@ public class OpdrachtCatalogus implements /*Comparable<OpdrachtCatalogus>*/ Iter
 	
 	public int getLastID()
 	{
-		int id = 0;
-		//get max value of keys in opdrachten
-		for (Integer key : this.opdrachten.keySet()) 
-		{
-			id++;
-			if (id == this.opdrachten.keySet().size()) 
-			{
-				id = key;
-			}
+		int value = 0;
+		for (int key : opdrachten.keySet()) {
+			if (value < key) { value = key;}
 		}
-		return id;
+		return value;
 	}
 	 
 	public Opdracht getOpdracht(int opdrachtID)
 	{
-		for(java.util.Map.Entry<Integer, Opdracht> entry : this.opdrachten.entrySet())
+		return opdrachten.get(opdrachtID);
+	}
+	
+	/**
+	 * zoekt het indexnummer van een opdracht object in deze catalogus.
+	 * @param opdracht Het opdracht object waar op gezocht moet worden.
+	 * @return Retourneert een integer value als index. -1 indien de opdracht niet gevonden werd.
+	 */
+	
+	public int getIndex(Opdracht opdracht)
+	{
+		if (opdrachten.containsValue(opdracht))
 		{
-			if(entry.getKey() == opdrachtID)
-				return entry.getValue();
+			for (Entry<Integer, Opdracht> item : opdrachten.entrySet()) {
+				if (item.getValue().equals(opdracht))
+				{ return item.getKey(); }
+			}
 		}
-		return null;
+		return -1; //not found
 	}
 
 	/*@Override
@@ -99,8 +111,10 @@ public class OpdrachtCatalogus implements /*Comparable<OpdrachtCatalogus>*/ Iter
 	}
 	
 	@Override
-	public Iterator<Opdracht> iterator() 
+	public Iterator<Entry<Integer,Opdracht>> iterator() 
 	{
-		return opdrachten.values().iterator();
+		return opdrachten.entrySet().iterator();
 	}
+	
+
 }

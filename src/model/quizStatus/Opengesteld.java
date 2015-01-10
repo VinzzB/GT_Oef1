@@ -11,7 +11,7 @@ public class Opengesteld extends QuizStatus
     Opengesteld(){ /* Singleton via enumeration */ }
     
     @Override
-    public Statussen getType()
+    public Statussen getEnumType()
     { return Statussen.Opengesteld; }
     
     @Override

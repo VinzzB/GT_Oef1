@@ -5,14 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javax.sql.rowset.CachedRowSet;
-
 import com.sun.rowset.CachedRowSetImpl;
-
 import controller.OpstartController;
-
 import model.quizStatus.QuizStatus;
+import model.quizStatus.Statussen;
 import utils.Constants;
 import utils.date.gregorian.Datum;
 import utils.LoadProperties;
@@ -40,20 +37,22 @@ public class DatabaseMySQL extends Database
 			NumberFormatException, Exception
 	{
 		leesVanBestand(null);
+		//TODO: Union selects met Typekolom!
 		rowSet.setCommand("SELECT * FROM tblOpdrachten");
 		rowSet.execute();
 		
 		while(rowSet.next())
 		{
-			opdrachten.voegOpdrachtToe(new OpdrachtVraag(rowSet.getInt("OpdrachtID"), 
-										rowSet.getString("Vraag"), rowSet.getString("JuisteAntwoord"),
-										OpdrachtCategorie.valueOf(rowSet.getString("Categorie")),
-										rowSet.getString("Hints"), rowSet.getInt("maxAantalPogingen"),
-										rowSet.getInt("maxAntwoordTijd"), 
-										new Datum(rowSet.getDate("datumRegistratie")),
-										new Datum(rowSet.getDate("datumRegistratie")),
-										Leraar.valueOf(rowSet.getString("auteur")), 
-										OpdrachtTypen.valueOf(rowSet.getString("Type"))));
+			//TODO: factory
+//			opdrachten.voegOpdrachtToe(new OpdrachtVraag(rowSet.getInt("OpdrachtID"), 
+//										rowSet.getString("Vraag"), rowSet.getString("JuisteAntwoord"),
+//										OpdrachtCategorie.valueOf(rowSet.getString("Categorie")),
+//										rowSet.getString("Hints"), rowSet.getInt("maxAantalPogingen"),
+//										rowSet.getInt("maxAntwoordTijd"), 
+//										new Datum(rowSet.getDate("datumRegistratie")),
+//										new Datum(rowSet.getDate("datumRegistratie")),
+//										Leraar.valueOf(rowSet.getString("auteur")), 
+//										OpdrachtTypen.valueOf(rowSet.getString("Type"))));
 			
 		}
 		rowSet.close();
@@ -61,7 +60,7 @@ public class DatabaseMySQL extends Database
 	}
 
 	@Override
-	public void leesQuzen() throws FileNotFoundException, IOException,
+	public void leesQuizen() throws FileNotFoundException, IOException,
 			NumberFormatException, Exception
 	{
 		leesVanBestand(null);
@@ -72,7 +71,7 @@ public class DatabaseMySQL extends Database
 			quizzen.voegQuizToe(rowSet.getInt("QuizID"), new Quiz(rowSet.getInt("QuizID"), 
 					rowSet.getString("Onderwerp"), rowSet.getInt("Leerjaren"),
 					rowSet.getBoolean("isTest"), rowSet.getBoolean("isuniekeDeelname"),
-					Quiz.vanStringNaarQuizStatus(rowSet.getString("Status")), Leraar.valueOf(rowSet.getString("Auteur")),
+				Statussen.valueOf(rowSet.getString("Status")).Instance(), Leraar.valueOf(rowSet.getString("Auteur")),
 					new Datum(rowSet.getDate("datumVanCreatie"))));
 		}
 		rowSet.close();
@@ -80,7 +79,7 @@ public class DatabaseMySQL extends Database
 	}
 
 	@Override
-	public void kopelQuizOpdrachten() throws FileNotFoundException,
+	public void koppelQuizOpdrachten() throws FileNotFoundException,
 			IOException, SQLException
 	{
 		leesVanBestand(null);
@@ -128,7 +127,8 @@ public class DatabaseMySQL extends Database
 			if(opdracht.getType() == OpdrachtTypen.MEERKEUZE)
 			{
 				rowSet.setInt(1, opdracht.getOpdrachtID());
-				rowSet.setString(2, ((Meerkeuze)opdracht).getkeuze());
+				//TODO
+			//	rowSet.setString(2, ((Meerkeuze)opdracht).getkeuze());
 				rowSet.execute();
 			}
 		}

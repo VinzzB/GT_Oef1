@@ -12,7 +12,7 @@ public class Inconstructie extends QuizStatus
     Inconstructie(){ /* Singleton via Enumeration! */ }
     
     @Override
-    public Statussen getType()
+    public Statussen getEnumType()
     { return Statussen.InConstructie; }
             
     @Override

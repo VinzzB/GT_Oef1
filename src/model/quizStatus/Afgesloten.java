@@ -9,6 +9,6 @@ public class Afgesloten extends QuizStatus
     Afgesloten() { /* Singleton via Enumeration! */ }
     
     @Override
-    public Statussen getType()
+    public Statussen getEnumType()
     { return Statussen.Afgesloten; }
 }

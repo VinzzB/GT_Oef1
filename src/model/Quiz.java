@@ -5,7 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
+import persistency.Catalogi;
+import persistency.framework.DbQuiz;
+import persistency.framework.DbQuizOpdracht;
 import model.Opdracht;
 import model.quizStatus.*;
 import utils.date.gregorian.*;
@@ -19,7 +21,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 {
 	private int quizID;
 	private String onderwerp;
-	private int leerjaar;
+	private int[] leerjaren;
 	private boolean isTest;
 	private boolean isUniek;
 	private QuizStatus status;
@@ -58,7 +60,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	{
 		this();
 		setOnderwerp(onderwerp);
-		setLeerjaar(leerjaar);
+		setLeerjaren(new int[] { leerjaar });
 		setIsTest(isTest);
 		setIsUniek(isUniek);
 		this.quizID = quizID;
@@ -79,7 +81,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	{
 		this();
 		setOnderwerp(onderwerp);
-		setLeerjaar(leerjaar);
+		setLeerjaren(new int[] { leerjaar });
 		setIsTest(isTest);
 		setIsUniek(isUniek);
 		setStatus(status);
@@ -114,7 +116,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		quizOpdrachten = new ArrayList<QuizOpdracht>();
 		this.quizID = quizID;
 		setOnderwerp(onderwerp);
-		setLeerjaar(leerjaar);
+		setLeerjaren(new int[] { leerjaar });
 		setIsTest(isTest);
 		setIsUniek(isUniek);
 		setAuteur(leraar);
@@ -138,15 +140,23 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	 * @throws Exception 
 	 * @throws NumberFormatException 
 	 */
-	public Quiz(String[] vanTXTbestand) throws NumberFormatException, Exception
+	public Quiz(DbQuiz vanTXTbestand) throws NumberFormatException, Exception
 	{
-		this(Integer.parseInt(vanTXTbestand[0]), vanTXTbestand[1], Integer.parseInt(vanTXTbestand[2]), 
-		Boolean.parseBoolean(vanTXTbestand[3]), Boolean.parseBoolean(vanTXTbestand[4]), 
-		Statussen.valueOf(vanTXTbestand[5]).Instance(), Leraar.valueOf(vanTXTbestand[6]),
-		new Datum(vanTXTbestand[7]));
+		quizID = vanTXTbestand.getId();
+		onderwerp = vanTXTbestand.getOnderwerp();
+		isTest = vanTXTbestand.isTest();
+		isUniek = vanTXTbestand.isUniekeDeelname();
+		auteur = vanTXTbestand.getAuteur();
+		datumVanCreatie = vanTXTbestand.getDatumRegistratie();
+		
+		for (DbQuizOpdracht dbo : vanTXTbestand.getQuizOpdrachten())
+		{
+			Opdracht o = Catalogi.getOpdrachten().getOpdracht(dbo.getOpdrachtIndex());
+			QuizOpdracht.koppelOpdrachtAanQuiz(this, o, dbo.getMaxScore());
+		}		
+		status = vanTXTbestand.getStatus().Instance();				
 	}
 	
-
 	/**
 	 * Copy constructor. Constructs a new instance of Quiz using other Quiz as parameter.
 	 *
@@ -158,7 +168,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		this();
 		setQuizID(quiz.getQuizID());
 		setOnderwerp(quiz.getOnderwerp());
-		setLeerjaar(quiz.getLeerjaar());
+		setLeerjaren(quiz.getLeerjaren());
 		setIsTest(quiz.isTest());
 		setIsUniek(quiz.isUniek());
 		setStatus(quiz.getStatus());
@@ -181,17 +191,24 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		this.onderwerp = onderwerp;
 	}
 
-	public int getLeerjaar()
+	public int[] getLeerjaren()
 	{
-		return leerjaar;
+		return (int[])leerjaren.clone();
 	}
 
-	public void setLeerjaar(int leerjaar) throws Exception
+	public void setLeerjaren(int[] leerjaren) throws Exception
 	{
-		if (leerjaar <= 0 || leerjaar > 6)
-			throw new Exception ("Leerjaar moet tusse 1 en 6 zijn");
-		this.leerjaar = leerjaar;
+		this.leerjaren = leerjaren;
 	}
+	
+	protected boolean isValidLeerjaar(int leerjaar)
+	{ 
+		for (int i = 0; i < this.leerjaren.length; i++) {
+			if (this.leerjaren[i] == leerjaar)
+			{ return true; }
+		}
+		return false; // leerjaren.contains(leerjaar); 
+	}	
 
 	public boolean isTest()
 	{
@@ -304,7 +321,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		int result = 1;
 		result = prime * result + (isTest ? 1231 : 1237);
 		result = prime * result + (isUniek ? 1231 : 1237);
-		result = prime * result + leerjaar;
+		result = prime * result + ((onderwerp == null) ? 0 : leerjaren.hashCode());
 		result = prime * result + ((onderwerp == null) ? 0 : onderwerp.hashCode());
 		result = prime * result + ((quizOpdrachten == null) ? 0 : quizOpdrachten.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
@@ -340,7 +357,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		{
 			return false;
 		}
-		if (leerjaar != other.leerjaar)
+		if (leerjaren != other.leerjaren)
 		{
 			return false;
 		}
@@ -392,14 +409,14 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	@Override
 	public String toString()
 	{
-		return "Quiz "+ this.quizID + " [onderwerp: " + onderwerp + ", leerjaar: " + leerjaar + 
+		return "Quiz "+ this.quizID + " [onderwerp: " + onderwerp + ", leerjaar: " + leerjaren + 
 				", isTest: " + isTest + ", isUniek: " + isUniek	+ ", status: " + 
 				status + "] auteur: " + auteur + " datum: " + datumVanCreatie + ", vragen: " + quizOpdrachten.size();
 	}
 	
 	public String fullDescription()
 	{
-		return "Quiz "+ this.quizID + " [onderwerp=" + onderwerp + ", leerjaar=" + leerjaar + ", isTest=" + isTest + ", isUniek=" + isUniek
+		return "Quiz "+ this.quizID + " [onderwerp=" + onderwerp + ", leerjaar=" + leerjaren + ", isTest=" + isTest + ", isUniek=" + isUniek
 				+ ", status=" + status + ", quizOpdrachten=" + quizOpdrachten + "]";
 	}
 
@@ -473,8 +490,8 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	 */
 	public String toBestand()
 	{
-		return this.quizID + "\t" + this.onderwerp + "\t" + this.leerjaar + "\t" + 
-				this.isTest + "\t" + this.isUniek + "\t" + this.status.getType() + "\t" + 
+		return this.quizID + "\t" + this.onderwerp + "\t" + this.leerjaren + "\t" + 
+				this.isTest + "\t" + this.isUniek + "\t" + this.status.getEnumType() + "\t" + 
 				this.auteur.name() + "\t" + datumVanCreatie.getEuropeanFormat();
 	}
 

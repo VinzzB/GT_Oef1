@@ -3,7 +3,7 @@ package model.Lijsten;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-
+import java.util.Map.Entry;
 import controller.OpstartController;
 import model.Quiz;
 import model.QuizCatalogus;
@@ -12,7 +12,7 @@ import persistency.Catalogi;
 
 public class QuizGemenschappelijkeOpdracht implements ILijst
 {
-	QuizCatalogus quizzen = Catalogi.get().getQuizzen();
+	QuizCatalogus quizzen = Catalogi.getQuizzen();
 	Quiz quiz;
 	String output = "";
 	
@@ -27,18 +27,18 @@ public class QuizGemenschappelijkeOpdracht implements ILijst
 		output += quiz.toString();
 		output += set1.toString();
 		output += quiz.getOnderwerp()+"\n\n";
-		for (Quiz quiztmp : quizzen)
+		for (Entry<Integer, Quiz> quiztmp : quizzen)
 		{
-			if (!quiztmp.equals(quiz))
+			if (!quiztmp.getValue().equals(quiz))
 			{
 				set1 = new HashSet<Opdracht>((Collection<? extends Opdracht>) quiz.getOpdrachten());
-				set2 = new HashSet<Opdracht>((Collection<? extends Opdracht>) quiztmp.getOpdrachten());
+				set2 = new HashSet<Opdracht>((Collection<? extends Opdracht>) quiztmp.getValue().getOpdrachten());
 				set1.retainAll(set2);
-				output += quiztmp.getOnderwerp()+"  "+set2.toString();
+				output += quiztmp.getValue().getOnderwerp()+"  "+set2.toString();
 				output += set1.toString();
 				if (set1.size() > 0)
 				{
-					output += quiztmp.getOnderwerp()+"\n"+ set1+"\n";
+					output += quiztmp.getValue().getOnderwerp()+"\n"+ set1+"\n";
 				}
 			}
 		}

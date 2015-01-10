@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import persistency.framework.DbOpdrachtBase;
 import utils.date.gregorian.Datum;
 
 /**
@@ -13,7 +14,7 @@ import utils.date.gregorian.Datum;
  */
 public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 {
-	private int opdrachtID = 0;
+	private int opdrachtID = 0; //is in principe niet nodig om dit op te slaan in opdracht class... Zou uit Catalogi gehaald kunnen worden.
 	private String vraag;
 	private String juisteAntwoord;
 	private int maxAantalPogingen = 1;
@@ -80,17 +81,17 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 	* @throws Exception
 	* @throws NumberFormatException
 	*/
-	public Opdracht(String[] vanTXTBestand) throws NumberFormatException, Exception
+	public Opdracht(DbOpdrachtBase dbRow) throws NumberFormatException, Exception
 	{
-		opdrachtID = Integer.parseInt(vanTXTBestand[0]);
-		vraag = vanTXTBestand[1];
-		juisteAntwoord =  vanTXTBestand[2];
-		categorie = OpdrachtCategorie.valueOf(vanTXTBestand[3]);
-		antwoordHint = vanTXTBestand[4];
-		maxAantalPogingen = Integer.parseInt(vanTXTBestand[5]);
-		maxAntwoordTijdInSec = Integer.parseInt(vanTXTBestand[6]);
-		registratie =  new Datum(vanTXTBestand[7]);
-		auteur = Leraar.valueOf(vanTXTBestand[8]);
+		opdrachtID = dbRow.getId();// Integer.parseInt(vanTXTBestand[0]);
+		vraag = dbRow.getVraag(); // vanTXTBestand[1];
+		juisteAntwoord = dbRow.getJuisteAntwoord(); // vanTXTBestand[2];
+		categorie = dbRow.getCategorie(); // OpdrachtCategorie.valueOf(vanTXTBestand[3]);
+		antwoordHint = dbRow.getHint(); // vanTXTBestand[4];
+		maxAantalPogingen = dbRow.getMaxAantalPogingen(); // Integer.parseInt(vanTXTBestand[5]);
+		maxAntwoordTijdInSec = dbRow.getMaxAntwoordTijd(); // Integer.parseInt(vanTXTBestand[6]);
+		registratie = dbRow.getDatumRegistratie(); //  new Datum(vanTXTBestand[7]);
+		auteur = dbRow.getAuteur(); // Leraar.valueOf(vanTXTBestand[8]);
 		// OpdrachtTypen.valueOf(vanTXTBestand[9]));
 	}
 	
@@ -321,7 +322,6 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 		}
 		return true;
 	}
-	
 	//temp disabled -> Class is abstract
 //	@Override
 //	public Opdracht clone() throws CloneNotSupportedException

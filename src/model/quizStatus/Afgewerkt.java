@@ -11,7 +11,7 @@ public class Afgewerkt extends QuizStatus
     Afgewerkt(){ /* Singleton via Enumeration! */ }
     
     @Override
-    public Statussen getType()
+    public Statussen getEnumType()
     { return Statussen.Afgewerkt; }
     
     @Override

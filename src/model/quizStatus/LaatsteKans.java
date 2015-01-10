@@ -11,7 +11,7 @@ public class LaatsteKans extends QuizStatus
     LaatsteKans(){/* Singleton via Enumeration! */ }
 
     @Override
-    public Statussen getType()
+    public Statussen getEnumType()
     { return Statussen.LaatsteKans; }
     
     @Override

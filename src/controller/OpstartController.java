@@ -23,13 +23,14 @@ import view.LeesDatabaseGui;
 public class OpstartController
 {
 	private static DatabaseHandler db;
-	private static LoadProperties properties;
+//	private static LoadProperties properties;
 	
 	public OpstartController() throws Exception
 	{
 		db  = new DatabaseHandler();
 		this.setDatabaseStrategy();
 		db.vulCatalogus();
+		
 		properties = new LoadProperties(new File(Constants.SETTINGS_PATH + 
 				Constants.SETTINGS_FILE));
 		

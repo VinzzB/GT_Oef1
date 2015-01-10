@@ -3,8 +3,8 @@ package model.Lijsten;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
-
 import model.Quiz;
 import model.QuizComparator_AantalOpdrachten_Onderwerp;
 import persistency.Catalogi;
@@ -20,7 +20,7 @@ import persistency.Catalogi;
  */
 public class QuizzenSorteerd implements ILijst
 {
-	ArrayList <Quiz> quizen = Catalogi.get().getQuizzen().getQuizzen();		
+	List <Quiz> quizen = Catalogi.getQuizzen().getQuizzen();		
 	
 	TreeSet<Quiz> quizenTree = new TreeSet<Quiz>(new QuizComparator_AantalOpdrachten_Onderwerp());
 

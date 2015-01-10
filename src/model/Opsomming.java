@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Arrays;
+import persistency.framework.DbOpdrachtOpsomming;
 
 /**
  * @author      Nathalie   
@@ -26,10 +27,10 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 		//this.arrayAntwoord = juisteAntwoord.split(";");
 	}	
 	
-	public Opsomming(String[] vanTXTBestand) throws NumberFormatException, Exception
+	public Opsomming(DbOpdrachtOpsomming dbRow) throws NumberFormatException, Exception
 	{
-		super(vanTXTBestand);
-		this.inJuisteVolgorde = Boolean.parseBoolean(vanTXTBestand[10]);
+		super(dbRow);
+		this.inJuisteVolgorde = dbRow.getInJuisteVolgorde();// Boolean.parseBoolean(vanTXTBestand[10]);
 	}
 	
 	/** Override */

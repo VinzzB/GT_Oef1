@@ -2,6 +2,7 @@ package model;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import persistency.framework.DbOpdrachtReproductie;
 
 
 /**
@@ -20,10 +21,19 @@ public class Reproductie extends Opdracht {
 		return OpdrachtTypen.REPRODUCTIE;
 	}
 
-private String juistAntwoord;
-private HashSet<String> trefwoorden;
-private int minAantalJuisteTrefwoorden = 0;
-	
+	private String juistAntwoord;
+	private HashSet<String> trefwoorden;
+	private int minAantalJuisteTrefwoorden = 0;
+		
+		/**
+	 * @return the minAantalJuisteTrefwoorden
+	 */
+	public int getMinAantalJuisteTrefwoorden()
+	{
+		return minAantalJuisteTrefwoorden;
+	}
+
+
 	public Reproductie (String vraag, String juisteAntwoord, int maxAantalPogingen, String antwoordHints, 
 			int maxAntwoordTijdinSec, OpdrachtCategorie categorie, int minAantalJuisteTrefwoorden) throws Exception
 	{
@@ -32,10 +42,10 @@ private int minAantalJuisteTrefwoorden = 0;
 		this.minAantalJuisteTrefwoorden = minAantalJuisteTrefwoorden;
 	}
 	
-	public Reproductie(String[] vanTXTBestand) throws NumberFormatException, Exception
+	public Reproductie(DbOpdrachtReproductie vanTXTBestand) throws NumberFormatException, Exception
 	{
 		super(vanTXTBestand);
-		this.minAantalJuisteTrefwoorden = Integer.parseInt(vanTXTBestand[10]);
+		this.minAantalJuisteTrefwoorden = vanTXTBestand.getMinAantalJuisteTrefwoorden(); // Integer.parseInt(vanTXTBestand[10]);
 	}
 	
 	public void setTrefwoorden()

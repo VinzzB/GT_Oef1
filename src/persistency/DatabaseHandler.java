@@ -1,13 +1,5 @@
 package persistency;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
-
-import view.LeesDatabaseGui;
-
 /**
  * Facade klasse. Gebruik om manieren 
  * van opslagen en lezen van objecten te kiesen.
@@ -17,36 +9,20 @@ import view.LeesDatabaseGui;
  * @author Natalia Dyubankova <fornnd@gmail.com>
  * @version     1.0                 
  * @since       2014-11-11 
+ * @Revisioned Vincent on 10/01/2015
  */
 public class DatabaseHandler
 {
-	private IDatabaseStrategy db; 
-		
-	public DatabaseHandler(){}
-
-/**
- * Leest objecten van de files en voelt database in.
- * @throws Exception 
- * @throws NumberFormatException 
- */
-	public void vulCatalogus() throws NumberFormatException, Exception
+	private static IDatabaseStrategy db;
+			
+	private DatabaseHandler(){}
+	
+	public static IDatabaseStrategy instance()
 	{
-		db.leesOpdrachten();
-		db.leesQuzen();
-		db.kopelQuizOpdrachten();
-	}
-/**
- * Schrijft huidige objecten weg in de files	
- * @throws SQLException 
- * @throws IOException 
- * @throws FileNotFoundException 
- */
-	public void safeCatalogus() throws SQLException, FileNotFoundException, IOException
-	{
-		db.safeOpdrachten();
-		db.safeQuizen();
-		db.safeQuizOpdrachten();
-	}
+		if (db == null)
+			db = MogelijkeDatabasen.TXTbestand.getDbStrategy();
+		return db;
+	}	
 	
 	/**
 	 * @return the db
@@ -55,8 +31,8 @@ public class DatabaseHandler
 	{
 		return db;
 	}
-	public void setDatabaseStrategy(IDatabaseStrategy db)
+	public static void setDatabaseStrategy(IDatabaseStrategy newDb)
 	{
-		this.db =db;
+		db =newDb;
 	}
 }

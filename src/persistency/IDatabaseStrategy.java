@@ -19,17 +19,17 @@ import model.QuizOpdracht;
 public interface IDatabaseStrategy
 {
 
-	void setCatalogus(OpdrachtCatalogus opdrachtCatalogus, QuizCatalogus quizCatalogus );
+//	void setCatalogus(OpdrachtCatalogus opdrachtCatalogus, QuizCatalogus quizCatalogus );
 	
-	void leesOpdrachten() throws FileNotFoundException, IOException, NumberFormatException, Exception;
-	void leesQuzen() throws FileNotFoundException, IOException, NumberFormatException, Exception;
-	void kopelQuizOpdrachten() throws FileNotFoundException, IOException, SQLException;
+	void leesOpdrachten() throws Exception;
+	void leesQuizen() throws Exception;
+//	void koppelQuizOpdrachten() throws FileNotFoundException, IOException, SQLException;
 	
 //	QuizCatalogus getQuizCatalogus();
 //	OpdrachtCatalogus getOpdrachtCatalogus();
 //	ArrayList<QuizOpdracht> getQuizOpdrachten();
 	
-	void safeOpdrachten() throws SQLException, FileNotFoundException, IOException;
-	void safeQuizen() throws SQLException, FileNotFoundException, IOException;
-	void safeQuizOpdrachten() throws SQLException, FileNotFoundException, IOException;
+	void safeOpdrachten() throws Exception;
+	void safeQuizen() throws Exception;
+//	void safeQuizOpdrachten() throws SQLException, FileNotFoundException, IOException;
 }

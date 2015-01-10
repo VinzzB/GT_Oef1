@@ -2,9 +2,8 @@ package model.Lijsten;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
-
-import controller.OpstartController;
 import model.Opdracht;
 import model.OpdrachtCatalogus;
 import persistency.Catalogi;
@@ -20,20 +19,20 @@ import persistency.Catalogi;
  */
 public class OpdrachtenPerCategorie implements ILijst
 {
-	OpdrachtCatalogus opdrachten = Catalogi.get().getOpdrachten();
+	OpdrachtCatalogus opdrachten = Catalogi.getOpdrachten();
 	HashMap <String,Integer> map = new HashMap<String,Integer>();
 	String output = "";
 	
 	public OpdrachtenPerCategorie()
 	{
-		for(Opdracht opdracht : opdrachten)
+		for(Entry<Integer,Opdracht> opdracht : opdrachten)
 		{
 			int aantal = 1;
-			if (map.containsKey(opdracht.getCategorie()))
+			if (map.containsKey(opdracht.getValue().getCategorie()))
 			{
-				aantal = map.get(opdracht.getCategorie())+1;
+				aantal = map.get(opdracht.getValue().getCategorie())+1;
 			}
-			map.put(opdracht.getCategorie().toString(), aantal);
+			map.put(opdracht.getValue().getCategorie().toString(), aantal);
 		}
 		
 		Set <Map.Entry<String, Integer>> set = map.entrySet();

@@ -1,5 +1,7 @@
 package model;
 
+import persistency.framework.*;
+
 public class OpdrachtFactory 
 {
 	
@@ -12,7 +14,7 @@ public class OpdrachtFactory
 	 * @throws NumberFormatException
 	 * @throws Exception
 	 */
-	public static Opdracht getOpdracht(OpdrachtTypen opdrachtType, String[] TXTbestand) 
+	public static Opdracht getOpdracht(OpdrachtTypen opdrachtType, DbOpdrachtBase TXTbestand) 
 			throws NumberFormatException, Exception
 	{		
 		switch (opdrachtType) 
@@ -20,11 +22,11 @@ public class OpdrachtFactory
 		case VRAAG: // "OpdrachtVraag":
 			return new OpdrachtVraag(TXTbestand);		
 		case MEERKEUZE: // "OpdrachtMeerkeuze":
-			return new Meerkeuze(TXTbestand);
+			return new Meerkeuze((DbOpdrachtMeerkeuze)TXTbestand);
 		case OPSOMMING: // "OpdrachtOpsomming":
-			return new Opsomming(TXTbestand);
+			return new Opsomming((DbOpdrachtOpsomming)TXTbestand);
 		case REPRODUCTIE:
-			return new Reproductie(TXTbestand);
+			return new Reproductie((DbOpdrachtReproductie)TXTbestand);
 		default:
 			return null;
 		}		

@@ -1,5 +1,6 @@
 package model;
 
+import persistency.framework.DbOpdrachtBase;
 import model.Leraar;
 import model.Opdracht;
 
@@ -34,7 +35,7 @@ public class OpdrachtVraag extends Opdracht
 	 * @throws Exception 
 	 * @throws NumberFormatException 
 	 */
-	public OpdrachtVraag(String[] vanTXTBestand) 
+	public OpdrachtVraag(DbOpdrachtBase vanTXTBestand) 
 			throws NumberFormatException, Exception 
 	{
 		super(vanTXTBestand);		

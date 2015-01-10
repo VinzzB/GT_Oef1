@@ -1,6 +1,8 @@
 package model;
 
 import java.util.Arrays;
+import persistency.framework.DbOpdrachtBase;
+import persistency.framework.DbOpdrachtMeerkeuze;
 
 /**
  * @author      Nathalie   
@@ -29,10 +31,10 @@ public class Meerkeuze extends Opdracht implements Valideerbaar{
 		this.keuzen = keuzen; 
 	}
 	
-	public Meerkeuze(String[] vanTXTBestand) throws NumberFormatException, Exception
+	public Meerkeuze(DbOpdrachtMeerkeuze dbRow) throws NumberFormatException, Exception
 	{
-		super(vanTXTBestand);
-		this.keuzen = vanTXTBestand[10].split(";");
+		super(dbRow);
+		this.keuzen = dbRow.getKeuzen(); // vanTXTBestand[10].split(";");
 	}
 	
 	/* getters and setters*/
