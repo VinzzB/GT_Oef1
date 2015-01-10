@@ -1,5 +1,6 @@
 package persistency.framework;
 
+import persistency.DbSqlHandler;
 import model.Opdracht;
 import model.OpdrachtTypen;
 import model.Reproductie;
@@ -48,9 +49,18 @@ public class DbOpdrachtReproductie extends DbOpdrachtBase
 	}
 
 	@Override
-	public Opdracht CreateOpdracht() throws Exception
+	public Opdracht CreateOpdracht()
 	{
-		return new Reproductie(this);
+		try
+		{ return new Reproductie(this); }
+		catch (Exception e)
+		{ return null; }
+	}
+
+	@Override
+	public void SaveData(DbSqlHandler sqlHandler)
+	{
+		//TODO: not implemented yet...
 	}
 
 }

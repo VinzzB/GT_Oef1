@@ -1,8 +1,6 @@
 package persistency;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.io.FileNotFoundException;
@@ -12,7 +10,7 @@ import utils.Properties;
 import model.*;
 import persistency.framework.*;
 /**
- * Maakt mogelijk txt-bestant lesen en schrijven om QUIZ programma laten runnen
+ * Maakt het mogelijk om een txt-bestand in te lesen en weg te schrijven.
  * 
  * @author Natalia
  * @version     1.0                 

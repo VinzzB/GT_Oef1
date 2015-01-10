@@ -1,5 +1,8 @@
 package persistency.framework;
-	import model.Leraar;
+	import java.sql.SQLException;
+import javax.sql.RowSet;
+import persistency.DbSqlHandler;
+import model.Leraar;
 import model.Opdracht;
 import model.OpdrachtCategorie;
 import model.OpdrachtTypen;
@@ -18,7 +21,8 @@ public abstract class DbOpdrachtBase {
 		private String hint; 
 		public abstract OpdrachtTypen getType();
 		public abstract String[] asStringArray();	
-		public abstract Opdracht CreateOpdracht() throws Exception;
+		public abstract Opdracht CreateOpdracht();
+		public abstract void SaveData(DbSqlHandler sqlHandler) throws SQLException;
 		
 		/**
 		* Returns String to save in TXTdatabase
@@ -49,6 +53,19 @@ public abstract class DbOpdrachtBase {
 				data[7] = getDatumRegistratie().getEuropeanFormat();
 				data[8] = getAuteur().name();
 			}
+		}
+		
+		DbOpdrachtBase(RowSet row) throws SQLException
+		{
+			this.id = row.getInt("OpdrachtID");
+			this.vraag = row.getString("Vraag");
+			this.juisteAntwoord = row.getString("JuisteAntwoord");
+			this.categorie = OpdrachtCategorie.valueOf(row.getString("Categorie"));
+			this.hint = row.getString("Hints");
+			this.maxAantalPogingen = row.getInt("maxAantalpogingen");
+			this.maxAntwoordTijd = row.getInt("maxAntwoordTijd");				
+			this.datumRegistratie = new Datum(row.getDate("datumRegistratie"));
+			this.auteur = Leraar.valueOf(row.getString("auteur"));	
 		}
 		
 		DbOpdrachtBase(String[] dataRow)

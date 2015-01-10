@@ -1,5 +1,7 @@
 package persistency.framework;
 
+import java.sql.SQLException;
+import javax.sql.RowSet;
 import model.*;
 
 public class DbOpdrachtFactory {
@@ -17,7 +19,21 @@ public class DbOpdrachtFactory {
 			return null;
 		}		
 	}
-	
+	public static DbOpdrachtBase getDbOpdracht(OpdrachtTypen typeOpdracht, RowSet sqlData)
+	{	
+		try
+		{
+			switch (typeOpdracht) {
+			case VRAAG: 		return new DbOpdrachtVraag(sqlData);
+			case MEERKEUZE: 	return new DbOpdrachtMeerkeuze(sqlData);
+			case OPSOMMING:  	return new DbOpdrachtOpsomming(sqlData);
+			default:  			return null;
+			}	
+		}
+		catch (SQLException e)
+		{ }		
+		return null;
+	}
 	public static DbOpdrachtBase getDbOpdracht(String typeOpdracht, String[] dataRow)
 	{
 		return getDbOpdracht(OpdrachtTypen.valueOf(typeOpdracht), dataRow);

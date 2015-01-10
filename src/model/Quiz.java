@@ -140,7 +140,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	 * @throws Exception 
 	 * @throws NumberFormatException 
 	 */
-	public Quiz(DbQuiz vanTXTbestand) throws NumberFormatException, Exception
+	public Quiz(DbQuiz vanTXTbestand) //throws NumberFormatException, Exception
 	{
 		quizID = vanTXTbestand.getId();
 		onderwerp = vanTXTbestand.getOnderwerp();
@@ -171,12 +171,13 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		setLeerjaren(quiz.getLeerjaren());
 		setIsTest(quiz.isTest());
 		setIsUniek(quiz.isUniek());
-		setStatus(quiz.getStatus());
 
 		for (QuizOpdracht quizOpdracht : quiz.getQuizOpdrachten())
 		{
-			this.quizOpdrachten.add(quizOpdracht);
+			QuizOpdracht.koppelOpdrachtAanQuiz(this, quizOpdracht.getOpdracht(), quizOpdracht.getMaxScore());
+			//this.quizOpdrachten.add(quizOpdracht);
 		}
+		setStatus(quiz.getStatus());
 	}
 
 	// getters en setters

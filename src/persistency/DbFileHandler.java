@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 import utils.Arrays;
 /**
- * Abstracte klasse om objecten te lezen en weg te schrijven
+ * Abstracte klasse om objecten naar bestanden te lezen en weg te schrijven
  * 
  * @author Natalia Dyubankova <fornnd@gmail.com>
  * @version     1.0                 

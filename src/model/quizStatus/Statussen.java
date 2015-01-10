@@ -1,6 +1,5 @@
 package model.quizStatus;
 
-import model.Quiz;
 /***
  * 
  * Bevat alle mogelijke statussen voor een Quiz. Een statusobject kan niet aangemaakt worden vanuit een ander package!

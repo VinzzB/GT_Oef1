@@ -1,5 +1,8 @@
 package persistency.framework;
 
+import java.sql.SQLException;
+import javax.sql.RowSet;
+import persistency.DbSqlHandler;
 import model.Opdracht;
 import model.Opsomming;
 import model.OpdrachtTypen;
@@ -11,6 +14,11 @@ public class DbOpdrachtOpsomming extends DbOpdrachtBase {
 	DbOpdrachtOpsomming(String[] dataRow) {
 		super(dataRow);
 		inJuisteVolgorde = Boolean.getBoolean(dataRow[10]);
+	}
+	
+	DbOpdrachtOpsomming(RowSet dataRow) throws SQLException {
+		super(dataRow);
+		inJuisteVolgorde = dataRow.getBoolean("inJuisteVolgorde");
 	}
 
 	public DbOpdrachtOpsomming(Opsomming opdracht) {
@@ -36,9 +44,18 @@ public class DbOpdrachtOpsomming extends DbOpdrachtBase {
 	}
 
 	@Override
-	public Opdracht CreateOpdracht() throws Exception
+	public Opdracht CreateOpdracht()
 	{
-		return new Opsomming(this);
+		try
+		{ return new Opsomming(this); }
+		catch (Exception e)
+		{ return null;}
+	}
+
+	@Override
+	public void SaveData(DbSqlHandler sqlHandler) throws SQLException
+	{
+		sqlHandler.SaveOpsomming(this);		
 	}
 }
 

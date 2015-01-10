@@ -1,6 +1,9 @@
 package persistency.framework;
 
 
+import java.sql.SQLException;
+import javax.sql.RowSet;
+import persistency.DbSqlHandler;
 import utils.Arrays;
 import model.Meerkeuze;
 import model.Opdracht;
@@ -14,6 +17,13 @@ public class DbOpdrachtMeerkeuze extends DbOpdrachtBase {
 		super(dataRow);
 		keuzen = dataRow[10].split(Delimiter);
 	}
+	
+	DbOpdrachtMeerkeuze(RowSet row) throws SQLException
+	{
+		super(row);
+		keuzen = row.getString("keuzen").split(";");
+	}
+	
 	public DbOpdrachtMeerkeuze(Meerkeuze opdracht) {
 		super(opdracht);
 		keuzen = opdracht.getKeuzen();
@@ -33,9 +43,18 @@ public class DbOpdrachtMeerkeuze extends DbOpdrachtBase {
 		return dataRow;
 	}
 	@Override
-	public Opdracht CreateOpdracht() throws Exception
+	public Opdracht CreateOpdracht() 
 	{
-		return new Meerkeuze(this);
+		try
+		{ return new Meerkeuze(this); }
+		catch (Exception e)
+		{ return null; }
+	}
+
+	@Override
+	public void SaveData(DbSqlHandler sqlHandler) throws SQLException
+	{
+		sqlHandler.SaveMeerkeuzeOpdracht(this);		
 	}
 
 }

@@ -1,9 +1,6 @@
 package persistency;
 
-import java.util.ArrayList;
-
 import model.QuizCatalogus;
-import model.QuizOpdracht;
 import model.OpdrachtCatalogus;
 
 /**

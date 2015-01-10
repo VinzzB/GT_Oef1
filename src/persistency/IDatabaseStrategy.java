@@ -1,12 +1,5 @@
 package persistency;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
-
-import model.OpdrachtCatalogus;
-import model.QuizCatalogus;
-import model.QuizOpdracht;
 /**
  * Root interface van persistentie package. 
  * Mogelijk objecten op te slaan op verschillende manieren

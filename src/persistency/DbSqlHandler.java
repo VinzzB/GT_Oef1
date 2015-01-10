@@ -1,90 +1,151 @@
 package persistency;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.sql.rowset.CachedRowSet;
-import persistency.framework.DbOpdrachtBase;
-import persistency.framework.DbOpdrachtMeerkeuze;
-import persistency.framework.DbOpdrachtOpsomming;
-import persistency.framework.DbOpdrachtReproductie;
-import persistency.framework.DbQuiz;
-import model.Opdracht;
+import persistency.framework.*;
+import model.OpdrachtTypen;
 import utils.Arrays;
 import utils.Constants;
-import utils.Properties;
 import com.sun.rowset.CachedRowSetImpl;
-
 /***
  * Deze Template klasse is enkel voor JDBC SQL statements!
+ *  
+ * @author Natalia Dyubankova <fornnd@gmail.com>
  * @author bloemevi
- *
+ * @version     1.1                 
+ * @since       2014-11-11 - 10/01/2015 
+ * 
  */
 public abstract class DbSqlHandler implements IDatabaseStrategy
 {
 	
 	private CachedRowSet rowSet;
 	
-	void SaveOpdracht(String query, DbOpdrachtBase o) throws Exception 
+	//Changeable datamembers.
+	protected String sqlSelectQuizzen = "SELECT * FROM tblQuiz";
+	protected String sqlSelectQuizopdrachten = "SELECT * FROM tblQuizOpdrachten";
+	protected String sqlSelectOpdrachten = "SELECT * FROM tblOpdrachten";
+	protected String sqlInsertQuiz = "INSERT into tblQuiz VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	protected String sqlInsertQuizOpdracht = "INSERT into tblQuizOpdrachten VALUES (?, ?, ?)";
+	protected String sqlInsertOpdracht = "INSERT into tblOpdrachten VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	protected String sqlInsertOpdMeerkeuze = "INSERT into tblopdrachtMeerkeuze VALUES (?, ?)";
+	protected String sqlInsertOpdOpsomming = "INSERT into tblopdrachtOpsomming VALUES (?, ?)";
+	protected String sqlInsertReproductie = "INSERT into tblopdrachtReproductie VALUES (?, ?)";
+	//OVERRIDABLE METHODS
+	void SaveOpdrachten(List<DbOpdrachtBase> dbOpdrachten) throws Exception 
 	{
-	//	InitRowSet();
-		rowSet.setCommand(query);
+		rowSet.setCommand(sqlInsertOpdracht);
+		for (DbOpdrachtBase dbO : dbOpdrachten)
+		{
+			rowSet.setInt(1, dbO.getId());
+			rowSet.setString(2, dbO.getVraag());
+			rowSet.setString(3, dbO.getJuisteAntwoord());
+			rowSet.setString(4, dbO.getHint());
+			rowSet.setInt(5, dbO.getMaxAantalPogingen());
+			rowSet.setInt(6, dbO.getMaxAntwoordTijd());
+			rowSet.setString(7, dbO.getCategorie().toString());
+			rowSet.setDate(8, new java.sql.Date(dbO.getDatumRegistratie().getCalendar().getTimeInMillis()));
+			rowSet.setString(9, dbO.getAuteur().name());
+			rowSet.setString(10, dbO.getType().name());
+			rowSet.execute();	
+			dbO.SaveData(this); //bewaar gegevens gerelateerd aan opsomming, meerkeuze, reproductie,... 
+		}		
+	}
+	
+	public void SaveMeerkeuzeOpdracht(DbOpdrachtMeerkeuze o) throws SQLException
+	{
+		rowSet.setCommand(sqlInsertOpdMeerkeuze);
 		rowSet.setInt(1, o.getId());
-		rowSet.setString(2, o.getVraag());
-		rowSet.setString(3, o.getJuisteAntwoord());
-		rowSet.setString(4, o.getHint());
-		rowSet.setInt(5, o.getMaxAantalPogingen());
-		rowSet.setInt(6, o.getMaxAntwoordTijd());
-		rowSet.setString(7, o.getCategorie().toString());
-		rowSet.setDate(8, new java.sql.Date(o.getDatumRegistratie().getCalendar().getTimeInMillis()));
-		rowSet.setString(9, o.getAuteur().name());
-		rowSet.setString(10, o.getType().name());
-		rowSet.execute();			
+		rowSet.setString(2, Arrays.Join(";", o.getKeuzen()));
+		rowSet.execute();
 	}
 	
-	void SaveMeerkeuzeOpdracht(String query, DbOpdrachtMeerkeuze o) throws SQLException
+	public void SaveOpsomming(DbOpdrachtOpsomming o) throws SQLException
 	{
-		{
-			rowSet.setCommand(query);
-			rowSet.setInt(1, o.getId());
-			rowSet.setString(2, Arrays.Join(";", o.getKeuzen()));
-			rowSet.execute();
-		}
-	}
-	
-	void SaveOpsomming(String query, DbOpdrachtOpsomming o) throws SQLException
-	{
-		{
-			rowSet.setCommand(query);
-			rowSet.setInt(1, o.getId());
-			rowSet.setBoolean(2, o.getInJuisteVolgorde());
-			rowSet.execute();
-		}
+		rowSet.setCommand(sqlInsertOpdOpsomming);
+		rowSet.setInt(1, o.getId());
+		rowSet.setBoolean(2, o.getInJuisteVolgorde());
+		rowSet.execute();
 	}	
 	
-	void SaveReproductie(String query, DbOpdrachtReproductie o) throws SQLException
+	public void SaveReproductie( DbOpdrachtReproductie o) throws SQLException
 	{
-		{
-			rowSet.setCommand(query);
-			rowSet.setInt(1, o.getId());
-			rowSet.setInt(2, o.getMinAantalJuisteTrefwoorden());
-			rowSet.execute();
-		}
+		rowSet.setCommand(sqlInsertReproductie);
+		rowSet.setInt(1, o.getId());
+		rowSet.setInt(2, o.getMinAantalJuisteTrefwoorden());
+		rowSet.execute();
 	}		
 	
-	void SaveQuiz(String query, DbQuiz q) throws SQLException
+	void SaveQuizzen(List<DbQuiz> dbQuizzen) throws SQLException
 	{
-		{
-			rowSet.setCommand(query);
-			rowSet.setInt(1, q.getId());
-			rowSet.setString(2, q.getOnderwerp());
-			rowSet.setString(3, Arrays.Join(";",q.getLeerjaren()));
-			rowSet.setString(4, q.getAuteur().name());
-			rowSet.setBoolean(5, q.isTest());
-			rowSet.setBoolean(6, q.isUniekeDeelname());
-			rowSet.setString(7, q.getStatus() == null ? null : q.getStatus().toString());
-			rowSet.setDate(8, new java.sql.Date(q.getDatumRegistratie().getCalendar().getTimeInMillis()));
-			rowSet.execute();
+		rowSet.setCommand(sqlInsertQuiz);
+		for (DbQuiz dbQ : dbQuizzen)
+		{			
+		rowSet.setInt(1, dbQ.getId());
+		rowSet.setString(2, dbQ.getOnderwerp());
+		rowSet.setString(3, Arrays.Join(";",dbQ.getLeerjaren()));
+		rowSet.setString(4, dbQ.getAuteur().name());
+		rowSet.setBoolean(5, dbQ.isTest());
+		rowSet.setBoolean(6, dbQ.isUniekeDeelname());
+		rowSet.setString(7, dbQ.getStatus() == null ? null : dbQ.getStatus().toString());
+		rowSet.setDate(8, new java.sql.Date(dbQ.getDatumRegistratie().getCalendar().getTimeInMillis()));
+		rowSet.execute();		
 		}
-	}		
+		
+
+	}	
+	
+	void SaveQuizOpdrachten(List<DbQuizOpdracht> dbQuizOpdrachten) throws SQLException
+	{
+		rowSet.setCommand(sqlInsertQuizOpdracht);
+		for (DbQuizOpdracht dbQo : dbQuizOpdrachten)
+		{
+			rowSet.setInt(1, dbQo.getQuizIndex());
+			rowSet.setInt(2, dbQo.getOpdrachtIndex());
+			rowSet.setInt(3, dbQo.getMaxScore());
+			rowSet.execute();	
+		}
+		
+	}
+	
+	List<DbQuiz> GetQuizen() throws SQLException
+	{
+		List<DbQuiz> items = new ArrayList<DbQuiz>();
+		rowSet.setCommand(sqlSelectQuizzen);
+		rowSet.execute();
+		while(rowSet.next())
+		{
+			items.add(new DbQuiz(rowSet));
+		}
+		rowSet.close();
+		return items;
+	}
+	
+	List<DbOpdrachtBase> GetOpdrachten() throws SQLException
+	{
+		List<DbOpdrachtBase> items = new ArrayList<>();
+		rowSet.setCommand(sqlSelectOpdrachten);
+		rowSet.execute();
+		while(rowSet.next())
+		{
+			items.add(DbOpdrachtFactory.getDbOpdracht(OpdrachtTypen.valueOf(rowSet.getString("ClassType")), rowSet));
+		}		
+		return items;
+	}
+	
+	List<DbQuizOpdracht> getQuizOpdrachten() throws SQLException
+	{
+		List<DbQuizOpdracht> items = new ArrayList<>();
+		rowSet.setCommand(sqlSelectQuizopdrachten);
+		rowSet.execute();
+		while(rowSet.next())
+		{
+			items.add(new DbQuizOpdracht(rowSet));
+		}
+		return items;
+	}
 	
 	
 	/**

@@ -1,6 +1,9 @@
 package persistency.framework;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
+import javax.sql.RowSet;
 import model.Leraar;
 import model.Quiz;
 import model.quizStatus.*;
@@ -19,6 +22,13 @@ public class DbQuiz {
 	List<DbQuizOpdracht> quizOpdrachten;
 	
 	/**
+	 * @param quizOpdrachten the quizOpdrachten to set
+	 */
+	public void setQuizOpdrachten(List<DbQuizOpdracht> quizOpdrachten)
+	{
+		this.quizOpdrachten = quizOpdrachten;
+	}
+	/**
 	 * Maakt een dbQuizData object van gegevens afkomstig uit een Text database
 	 * @param dataRow Een String array als waarden voor de velden in één quiz.
 	 */
@@ -32,7 +42,25 @@ public class DbQuiz {
 		this.datumRegistratie = new Datum(dataRow[6]);
 		this.auteur = Leraar.valueOf(dataRow[7]);			
 		this.status = Statussen.valueOf(dataRow[5]);
+		
+	}
+	public DbQuiz(RowSet dataRow, List<DbQuizOpdracht> opdrachten) throws SQLException
+	{
+		this(dataRow);
 		this.quizOpdrachten = opdrachten;
+	}
+	
+	public DbQuiz(RowSet dataRow) throws SQLException
+	{
+		this.id = dataRow.getInt("QuizID"); // Integer.parseInt(dataRow[0]);		
+		this.onderwerp = dataRow.getString("Onderwerp"); // dataRow[1];		
+		setLeerjaren(dataRow.getString("Leerjaren"));// dataRow[2]);		
+		this.isTest = dataRow.getBoolean("isTest"); // Boolean.parseBoolean(dataRow[3]);
+		this.isUniekeDeelname = dataRow.getBoolean("isuniekeDeelname");// Boolean.parseBoolean(dataRow[4]);
+		this.datumRegistratie = new Datum(dataRow.getDate("datumVanCreatie"));
+		this.auteur = Leraar.valueOf(dataRow.getString("Auteur"));			
+		this.status = Statussen.valueOf(dataRow.getString("Status"));
+		//this.quizOpdrachten = opdrachten;
 	}
 	
 	/**
@@ -69,6 +97,7 @@ public class DbQuiz {
 		this.status = q.getStatus().getEnumType();
 		this.datumRegistratie = q.getDatumVanCreatie();
 		this.auteur = q.getAuteur();
+		this.quizOpdrachten = q.getQuizOpdrachten().stream().map(p -> new DbQuizOpdracht(p)).collect(Collectors.toList());
 	}
 		
 	/**
