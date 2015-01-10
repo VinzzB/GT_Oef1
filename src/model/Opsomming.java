@@ -36,7 +36,7 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 	/** Override */
 	
 	@Override
-	protected boolean isJuisteAntwoord(String antwoord)
+	public boolean isJuisteAntwoord(String antwoord)
 	{
 		//split de antwoorden
 		String[] antwArray = antwoord.split(";");

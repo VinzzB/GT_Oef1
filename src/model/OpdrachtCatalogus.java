@@ -66,6 +66,9 @@ public class OpdrachtCatalogus implements /*Comparable<OpdrachtCatalogus>*/ Iter
 		}
 		return value;
 	}
+	
+	public int Count()
+	{ return opdrachten.size(); }
 	 
 	public Opdracht getOpdracht(int opdrachtID)
 	{

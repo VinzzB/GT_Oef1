@@ -19,7 +19,7 @@ import utils.date.normal.*;
 public class QuizDeelname implements Cloneable, Comparable<QuizDeelname>
 {
 	private Leerling ownerLeerling;
-	private Set<OpdrachtAntwoord> opdrachtAntwoorden;
+	private Set<OpdrachtAntwoord> opdrachtAntwoorden = new HashSet<>();
 	private Datum datumDeelname;
 	private Quiz ownerQuiz;
 	private IScoreStrategy scoreStrategy;
@@ -122,6 +122,12 @@ public class QuizDeelname implements Cloneable, Comparable<QuizDeelname>
 		this.opdrachtAntwoorden = opdrachtAntwoord;
 		this.datumDeelname = datumDeelname;
 		this.ownerQuiz = newOwnerQuiz;
+	}
+
+	public QuizDeelname(Quiz selectedQuiz, Leerling leerling)
+	{
+		this.ownerQuiz = selectedQuiz;
+		this.ownerLeerling = leerling;
 	}
 
 	/**

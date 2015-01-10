@@ -29,7 +29,7 @@ public class DbPlainText extends DbFileHandler
 		List<String[]> rows = readFileLines(filepath,Constants.DELIMITER);	
 		for (String[] row : rows) {		
 			//Factory for DbData Object			
-			DbOpdrachtBase Dbo = DbOpdrachtFactory.getDbOpdracht(row[1], row);
+			DbOpdrachtBase Dbo = DbOpdrachtFactory.getDbOpdracht(row[9], row);
 			//Factory for Opdracht object
 			Catalogi.getOpdrachten().voegOpdrachtToe(Dbo.getId(), Dbo.CreateOpdracht());
 		}

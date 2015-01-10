@@ -53,6 +53,8 @@ public class DbMySql extends DbSqlHandler
 		//Fill temp db List
 		for(Entry<Integer, Opdracht> opdracht : Catalogi.getOpdrachten()) 
 		{ dbO.add(DbOpdrachtFactory.getDbOpdracht(opdracht.getValue())); }
+		//Wis voorgaande gegevens
+		super.deleteOpdrachten();
 		//Bewaar alle Opdrachten (& Meerkeuze of Opsomming data)
 		super.SaveOpdrachten(dbO);
 		
@@ -64,6 +66,8 @@ public class DbMySql extends DbSqlHandler
 		List<DbQuiz> dbQ = new ArrayList<>();
 		for(Entry<Integer, Quiz> quiz : Catalogi.getQuizzen())
 		{ dbQ.add(new DbQuiz(quiz.getValue(), quiz.getKey())); }
+		super.deleteQuizzen();
+		super.deleteQuizOpdrachten(); //in principe niet nodig. Foreign Key zou zijn werk moeten doen bij verwijderen van Quizen.
 		super.SaveQuizzen(dbQ);
 	}
 

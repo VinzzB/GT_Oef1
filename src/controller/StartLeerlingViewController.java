@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import model.Leerling;
 import view.StartLeerlingView;
 
-public class StartLeerlingViewController extends Controller
+public class StartLeerlingViewController //extends Controller
 {
 	private Leerling leerling;
 	private StartLeerlingView startLeerlingView;

@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
-
+import java.util.Map.Entry;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
-
+import persistency.Catalogi;
 import model.Opdracht;
 
 @SuppressWarnings("serial")
@@ -60,11 +60,15 @@ public class OpdrachtenView extends View
 	}
 	private void SetOpdrachten()
 	{
-		Object[][] values = new Object[opdrachtCatalogus.getOpdrachten().size()][];
+		Object[][] values = new Object[Catalogi.getOpdrachten().Count()][];
 		int i = 0;
-		for (Opdracht opdracht : opdrachtCatalogus.getOpdrachten().values())
+		for (Entry<Integer, Opdracht> opdracht : Catalogi.getOpdrachten())
 		{
-			values[i] = new Object[]{opdracht.getOpdrachtID(), opdracht.getCategorie(), opdracht.getVraag(), opdracht.getMaxAantalPogingen(), opdracht.getMaxAntwoordTijdInSec()};
+			values[i] = new Object[] { opdracht.getValue().getOpdrachtID(), 
+									   opdracht.getValue().getCategorie(), 
+									   opdracht.getValue().getVraag(), 
+									   opdracht.getValue().getMaxAantalPogingen(), 
+									   opdracht.getValue().getMaxAntwoordTijdInSec()};
 			i++;
 		}
 		modelTableOpdrachten = new DefaultTableModel(values, new String[]{"ID", "Categorie", "Vraag", "Pogingen", "Max antwoord tijd"})
@@ -85,7 +89,7 @@ public class OpdrachtenView extends View
 			return null;
 		else
 		{
-			return opdrachtCatalogus.getOpdracht(tblOpdrachten.getValueAt(tblOpdrachten.getSelectedRow(), 1).toString());
+			return Catalogi.getOpdrachten().getOpdracht( (int) tblOpdrachten.getValueAt(tblOpdrachten.getSelectedRow(), 1));
 		}
 	}
 	

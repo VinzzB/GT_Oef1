@@ -147,6 +147,12 @@ public class OpdrachtAntwoord implements Comparable<OpdrachtAntwoord>, Cloneable
 		this.aantalPogingen = aantalPogingen;
 	}
 
+	public OpdrachtAntwoord(QuizDeelname quizDeelname, QuizOpdracht quizOpdracht)
+	{
+		this.quizDeelname = quizDeelname;
+		this.quizOpdracht = quizOpdracht;
+	}
+
 	@Override
 	public int compareTo(OpdrachtAntwoord o)
 	{

@@ -32,4 +32,17 @@ public class Catalogi
 			instanceQuizzen = new QuizCatalogus();
 		return instanceQuizzen;
 	}	
+	
+	public static void LoadData() throws Exception
+	{
+		DatabaseHandler.instance().leesOpdrachten();
+		DatabaseHandler.instance().leesQuizen();
+	}
+	
+	public static void SaveData() throws Exception
+	{
+		DatabaseHandler.instance().safeOpdrachten();
+		DatabaseHandler.instance().safeQuizen();
+	}
+	
 }

@@ -49,7 +49,7 @@ public class Meerkeuze extends Opdracht implements Valideerbaar{
 	/* override methods*/
 	
 	@Override
-	protected boolean isJuisteAntwoord(String antwoord)
+	public boolean isJuisteAntwoord(String antwoord)
 	{
 		return getJuisteAntwoord().equals(antwoord);
 	}

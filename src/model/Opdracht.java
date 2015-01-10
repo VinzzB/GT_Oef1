@@ -23,7 +23,7 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 									+ "	worden, want ze is reeds gelinkt aan "
 									+ "een Quiz";
 	private OpdrachtCategorie categorie;
-	private List <QuizOpdracht> quizOpdrachten;
+	private List <QuizOpdracht> quizOpdrachten = new ArrayList<QuizOpdracht>();
 	private String antwoordHint; 
 	private Leraar auteur;
 	private Datum registratie;
@@ -226,7 +226,7 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 		this.quizOpdrachten.remove(quizopdracht);
 	}
 
-	protected boolean isJuisteAntwoord(String antwoord)
+	public boolean isJuisteAntwoord(String antwoord)
 	{
 		if (this.juisteAntwoord == antwoord)
 		{

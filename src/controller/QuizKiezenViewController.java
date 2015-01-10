@@ -10,7 +10,7 @@ import model.Leerling;
 import model.QuizDeelname;
 import view.QuizKiezenView;
 
-public class QuizKiezenViewController extends Controller
+public class QuizKiezenViewController //extends Controller
 {
 	private Leerling leerling;
 	private QuizKiezenView quizKiezenView;

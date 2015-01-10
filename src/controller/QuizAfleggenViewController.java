@@ -9,7 +9,7 @@ import model.*;
 import utils.tijdObservation.*;
 import view.QuizAfleggenView;
 
-public class QuizAfleggenViewController extends Controller implements ITijdObserver
+public class QuizAfleggenViewController implements ITijdObserver
 {
 	private QuizDeelname quizDeelname;
 	private OpdrachtAntwoord opdrachtAntwoord;

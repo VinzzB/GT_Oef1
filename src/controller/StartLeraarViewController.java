@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import view.StartLeraarView;
 
-public class StartLeraarViewController extends Controller
+public class StartLeraarViewController //extends Controller
 {
 	private StartLeraarView startLeraarView;
 	

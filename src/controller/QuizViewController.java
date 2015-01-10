@@ -7,15 +7,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.TreeMap;
-
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
+import persistency.Catalogi;
 import model.*;
 import view.QuizView;
 
-public class QuizViewController extends Controller
+public class QuizViewController //extends Controller
 {
 	private QuizView quizView;
 	
@@ -157,7 +156,7 @@ public class QuizViewController extends Controller
 				int quizID = -1;
 				if (quiz == null)
 				{
-					quiz = new Quiz(quizCatalogus.setQuizID(), quizView.getOnderwerp(), quizView.getKlas(), false, false, quizView.getQuizStatus(), quizView.getAuteur());
+					quiz = new Quiz(Catalogi.getQuizzen().getLastQuizID(), quizView.getOnderwerp(), quizView.getKlas(), false, false, quizView.getQuizStatus(), quizView.getAuteur());
 					for(Opdracht opdracht : selectedOpdrachten.values())
 					{
 						QuizOpdracht.koppelOpdrachtAanQuiz(quiz, opdracht, 
@@ -168,7 +167,7 @@ public class QuizViewController extends Controller
 				{
 					quizID = quiz.getQuizID();
 				              
-					quizCatalogus.verwijderQuiz(quiz);
+					Catalogi.getQuizzen().verwijderQuiz(quiz);
 					quiz = new Quiz(quizID, quizView.getOnderwerp(), quizView.getKlas(), false, false, quizView.getQuizStatus(), quizView.getAuteur());
 					for(Opdracht opdracht : selectedOpdrachten.values())
 					{
@@ -176,8 +175,9 @@ public class QuizViewController extends Controller
 								quizView.getMaxScorePerQuizOpdracht(opdracht));
 					}
 				}
-				quizCatalogus.voegQuizToe(quizID, quiz);
-				Collections.sort(quizCatalogus.getQuizzen());
+				Catalogi.getQuizzen().voegQuizToe(quizID, quiz);
+				//TODO
+				//Collections.sort(quizCatalogus.getQuizzen());
 				qvc.updateQuizzenView();
 				
 			} catch (Exception e1)

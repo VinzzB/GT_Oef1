@@ -6,14 +6,13 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.sql.SQLException;
-
 import javax.swing.JOptionPane;
-
+import persistency.Catalogi;
 import model.Leerling;
 import view.StartView;
 
 
-public class StartViewController extends Controller
+public class StartViewController //extends Controller
 {
 	private StartView startView;
 	
@@ -37,9 +36,9 @@ public class StartViewController extends Controller
 		{
 			try
 			{
-				db.safeCatalogus();
-				System.exit(0);
-			} catch (SQLException | IOException e1)
+				Catalogi.SaveData();				
+				System.exit(0); 
+			} catch (Exception e1)
 			{
 				e1.printStackTrace();
 			}

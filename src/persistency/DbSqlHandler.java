@@ -33,6 +33,10 @@ public abstract class DbSqlHandler implements IDatabaseStrategy
 	protected String sqlInsertOpdMeerkeuze = "INSERT into tblopdrachtMeerkeuze VALUES (?, ?)";
 	protected String sqlInsertOpdOpsomming = "INSERT into tblopdrachtOpsomming VALUES (?, ?)";
 	protected String sqlInsertReproductie = "INSERT into tblopdrachtReproductie VALUES (?, ?)";
+	protected String sqlDeleteQuizzen = "DELETE * FROM tblQuiz";
+	protected String sqlDeleteOpdrachten = "DELETE * FROM tblOpdrachten";
+	protected String sqlDeleteQuizOpdrachten = "DELETE * FROM tblQuizOpdrachten"; //zou al leeg moeten zijn via foreign key...
+	
 	//OVERRIDABLE METHODS
 	void SaveOpdrachten(List<DbOpdrachtBase> dbOpdrachten) throws Exception 
 	{
@@ -52,6 +56,24 @@ public abstract class DbSqlHandler implements IDatabaseStrategy
 			rowSet.execute();	
 			dbO.SaveData(this); //bewaar gegevens gerelateerd aan opsomming, meerkeuze, reproductie,... 
 		}		
+	}
+	
+	void deleteQuizzen() throws SQLException
+	{
+		rowSet.setCommand("DELETE FROM tblQuiz");
+		rowSet.execute();
+	}
+
+	void deleteOpdrachten() throws SQLException
+	{
+		rowSet.setCommand("DELETE FROM tblOpdrachten");
+		rowSet.execute();
+	}
+	
+	void deleteQuizOpdrachten() throws SQLException
+	{
+		rowSet.setCommand("DELETE FROM tblQuizOpdrachten");
+		rowSet.execute();
 	}
 	
 	public void SaveMeerkeuzeOpdracht(DbOpdrachtMeerkeuze o) throws SQLException

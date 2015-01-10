@@ -11,29 +11,18 @@ package controller;
  *
  *@author Natalia Dyubankova
  */
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-
 import persistency.*;
-import utils.Constants;
-import utils.LoadProperties;
 import view.LeesDatabaseGui;
 
 public class OpstartController
 {
-	private static DatabaseHandler db;
-//	private static LoadProperties properties;
-	
+
 	public OpstartController() throws Exception
 	{
-		db  = new DatabaseHandler();
-		this.setDatabaseStrategy();
-		db.vulCatalogus();
-		
-		properties = new LoadProperties(new File(Constants.SETTINGS_PATH + 
-				Constants.SETTINGS_FILE));
-		
+		getDatabaseStrategy(); //MogelijkeDatabasen.TXTbestand);
+		Catalogi.LoadData();				
 		StartViewController start = new StartViewController();
 	}
 	
@@ -49,25 +38,16 @@ public class OpstartController
 	 * @throws SecurityException
 	 * @throws ClassNotFoundException
 	 */
-	private void setDatabaseStrategy() throws InstantiationException, IllegalAccessException, 
+	private void getDatabaseStrategy() throws InstantiationException, IllegalAccessException, 
 											  IllegalArgumentException, InvocationTargetException, 
 											  ClassNotFoundException, NoSuchMethodException, SecurityException
 	{
 		LeesDatabaseGui ldb = new LeesDatabaseGui();
-		Class<?> dataBase = Class.forName(ldb.kiesDatabaseStrategy());
-		Constructor<?> ctor = dataBase.getConstructor();
-		db.setDatabaseStrategy((IDatabaseStrategy)ctor.newInstance());
-	}
-	
-	public static DatabaseHandler getDatabaseStrategy()
-	{
-		return db;
-	}
-	
-	public static LoadProperties getProperties()
-	{
-		return properties;
-	}
+	//	Class<?> dataBase = Class.forName(ldb.kiesDatabaseStrategy());
+	//	Constructor<?> ctor = dataBase.getConstructor();
+		DatabaseHandler.setDatabaseStrategy(ldb.kiesDatabaseStrategy());
+		
+	}	
 
 	public static void main(String[] args) throws Exception
 	{

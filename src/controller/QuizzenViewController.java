@@ -4,23 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.TreeMap;
-
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import model.*;
-import persistency.Database;
-import persistency.DatabaseHandler;
+import persistency.Catalogi;
 import view.QuizzenView;
 
 
-public class QuizzenViewController extends Controller
+public class QuizzenViewController //extends Controller
 {	
 	private QuizzenView quizzenView;
 	
@@ -115,7 +108,7 @@ public class QuizzenViewController extends Controller
 		public void actionPerformed(ActionEvent e)
 		{
 			int i = quizzenView.getSelectedIndex();
-			quizCatalogus.verwijderQuiz(quizzenView.getSelectedQuiz());
+			Catalogi.getQuizzen().verwijderQuiz(quizzenView.getSelectedQuiz());
 			quizzenView.removeQuiz(i);
 
 		}}

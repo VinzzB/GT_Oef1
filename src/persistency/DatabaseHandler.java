@@ -31,8 +31,19 @@ public class DatabaseHandler
 	{
 		return db;
 	}
-	public static void setDatabaseStrategy(IDatabaseStrategy newDb)
+	
+//	public static void setDatabaseStrategy(IDatabaseStrategy newDb)
+//	{
+//		db = newDb;
+//	}
+	public static void setDatabaseStrategy(MogelijkeDatabasen newDb)
 	{
-		db =newDb;
+		db = newDb.getDbStrategy();
 	}
+	public static void setDatabaseStrategy(String newDb)
+	{
+		db = MogelijkeDatabasen.valueOf(newDb).getDbStrategy();
+	}
+	
+	
 }

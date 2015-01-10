@@ -15,8 +15,8 @@ package persistency;
  */
 public enum MogelijkeDatabasen
 {	
-	TXTbestand ("TXT-bestand", DatabaseTXT.class),
-	MySQLbestand ("MySQL-bestand", DatabaseMySQL.class);
+	TXTbestand ("TXT-bestand", DbPlainText.class),
+	MySQLbestand ("MySQL-bestand", DbMySql.class);
 	
 	private final String name;
 	private final IDatabaseStrategy dbStrategy;

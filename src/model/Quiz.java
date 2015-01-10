@@ -142,6 +142,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	 */
 	public Quiz(DbQuiz vanTXTbestand) //throws NumberFormatException, Exception
 	{
+		this();
 		quizID = vanTXTbestand.getId();
 		onderwerp = vanTXTbestand.getOnderwerp();
 		isTest = vanTXTbestand.isTest();

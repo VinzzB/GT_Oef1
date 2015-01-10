@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -13,7 +12,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionListener;
-
+import persistency.Catalogi;
 import model.Leerling;
 import model.Leraar;
 import model.Quiz;
@@ -75,7 +74,7 @@ public class QuizKiezenView extends View
 	{
 		model = new DefaultListModel<Quiz>();
 		listQuizzen = new JList<Quiz>(model);
-		for(Quiz quiz : quizCatalogus.getQuizzenPerLeerjaar(leerling.getLeerjaar()))
+		for(Quiz quiz : Catalogi.getQuizzen().getQuizzenPerLeerjaar(leerling.getLeerjaar()))
 		{
 			model.addElement(quiz);
 		}

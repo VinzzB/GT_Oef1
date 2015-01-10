@@ -39,10 +39,11 @@ public class DbQuiz {
 		setLeerjaren(dataRow[2]);		
 		this.isTest = Boolean.parseBoolean(dataRow[3]);
 		this.isUniekeDeelname = Boolean.parseBoolean(dataRow[4]);
-		this.datumRegistratie = new Datum(dataRow[6]);
-		this.auteur = Leraar.valueOf(dataRow[7]);			
 		this.status = Statussen.valueOf(dataRow[5]);
-		
+		this.auteur = Leraar.valueOf(dataRow[6]);
+		this.datumRegistratie = new Datum(dataRow[7]);		
+		this.quizOpdrachten = opdrachten;
+	
 	}
 	public DbQuiz(RowSet dataRow, List<DbQuizOpdracht> opdrachten) throws SQLException
 	{
@@ -139,8 +140,8 @@ public class DbQuiz {
 		data[3] = Boolean.toString(isTest());
 		data[4] = Boolean.toString(isUniekeDeelname());
 		data[5] = getStatus().name();
-		data[6] = getDatumRegistratie().getEuropeanFormat();
-		data[7] = getAuteur().name();
+		data[6] = getAuteur().name();
+		data[7] = getDatumRegistratie().getEuropeanFormat();		
 		return data;
 				
 	}

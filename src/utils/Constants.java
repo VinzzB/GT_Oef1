@@ -8,7 +8,7 @@ import java.io.File;
 
 public interface Constants
 {
-	public String DELIMITER = "\\W";
+	public String DELIMITER = "\t";
 	public String DRIVER = "driver";
 	public String EMPTY = "";
 	public String BESTAND_PATH = "bestanden" + File.separator;
