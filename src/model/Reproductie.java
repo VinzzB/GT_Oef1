@@ -48,6 +48,12 @@ public class Reproductie extends Opdracht {
 		this.minAantalJuisteTrefwoorden = vanTXTBestand.getMinAantalJuisteTrefwoorden(); // Integer.parseInt(vanTXTBestand[10]);
 	}
 	
+	public Reproductie(Reproductie fromObj) throws Exception
+	{
+		super(fromObj);
+		minAantalJuisteTrefwoorden = fromObj.getMinAantalJuisteTrefwoorden();
+	}
+	
 	public void setTrefwoorden()
 	{
 		this.juistAntwoord.replace(".", " ");
@@ -123,8 +129,13 @@ public class Reproductie extends Opdracht {
 		return true;
 	}
 
-	
 
-	
-
+	@Override
+	public Opdracht clone() throws CloneNotSupportedException
+	{
+		try
+		{ return new Reproductie(this); }
+		catch (Exception e)
+		{ return null; }
+	}
 }

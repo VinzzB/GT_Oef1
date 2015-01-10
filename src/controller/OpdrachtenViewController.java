@@ -6,7 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.sql.SQLException;
-
+import java.util.Map.Entry;
 import javax.swing.JOptionPane;
 
 
@@ -84,7 +84,7 @@ public class OpdrachtenViewController extends View
 		{
 			try
 			{
-				opdrachtCatalogus.verwijderOpdracht(opdrachtenView.getSelectedOpdracht());
+				Catalogi.getOpdrachten().verwijderOpdracht(opdrachtenView.getSelectedOpdracht());
 			} catch (Exception e1)
 			{
 				e1.printStackTrace();
@@ -96,18 +96,21 @@ public class OpdrachtenViewController extends View
 		@Override
 		public void windowClosing(WindowEvent e)
 		{
-			for(Opdracht opdracht: Catalogi.get().getOpdrachten())
+			for(Entry<Integer, Opdracht> opdracht: Catalogi.getOpdrachten())
 			{
 				for(int i = 0; i < opdrachtenView.getTableModel().getRowCount(); i++)
 				{
-					if(opdracht.getOpdrachtID() == Integer.parseInt(opdrachtenView.getTableModel().getValueAt(i, 0).toString()))	
+					if(opdracht.getValue().getOpdrachtID() == Integer.parseInt(opdrachtenView.getTableModel().getValueAt(i, 0).toString()))	
 					{
 						try
-						{	Opdracht gewijzigd = opdracht.clone();
+						{	Opdracht gewijzigd = opdracht.getValue().clone();
 							gewijzigd.setVraag(opdrachtenView.getTableModel().getValueAt(i, 2).toString());
 							gewijzigd.setMaxAantalPogingen(Integer.parseInt(opdrachtenView.getTableModel().getValueAt(i, 3).toString()));
-							gewijzigd.setMaxAntwoordTijdInSec(Integer.parseInt(opdrachtenView.getTableModel().getValueAt(i, 4).toString()));
-							Catalogi.get().getOpdrachten().wijzigOpdracht(gewijzigd);
+							gewijzigd.setMaxAntwoordTijdinSec(Integer.parseInt(opdrachtenView.getTableModel().getValueAt(i, 4).toString()));
+							//TODO
+							//Catalogi.getOpdrachten().wijzigOpdracht(gewijzigd);
+							Catalogi.getOpdrachten().verwijderOpdracht(opdracht.getValue());
+							Catalogi.getOpdrachten().voegOpdrachtToe(gewijzigd);
 						} catch (Exception e1)
 						{
 							e1.printStackTrace();

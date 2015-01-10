@@ -71,7 +71,7 @@ public class QuizzenViewController //extends Controller
 		{
 			try
 			{
-				QuizViewController qvc = new QuizViewController("Maak nieuwe Quiz", QuizzenViewController.this);
+				 new QuizViewController("Maak nieuwe Quiz", QuizzenViewController.this);
 			} catch (Exception e1)
 			{
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "alert", JOptionPane.ERROR_MESSAGE);
@@ -88,7 +88,7 @@ public class QuizzenViewController //extends Controller
 			{
 				if(quizzenView.getSelectedQuiz() != null)
 				{
-					QuizViewController qvc = new QuizViewController(quizzenView.getSelectedQuiz(), QuizzenViewController.this);
+					new QuizViewController(quizzenView.getSelectedQuiz(), QuizzenViewController.this);
 				}
 				else
 				{
@@ -125,7 +125,7 @@ public class QuizzenViewController //extends Controller
 	{
 		try
 		{
-			QuizzenViewController qvc = new QuizzenViewController("test");
+			new QuizzenViewController("test");
 		} catch (Exception e)
 		{
 			JOptionPane.showMessageDialog(null, e.getMessage(), "alert", JOptionPane.ERROR_MESSAGE);

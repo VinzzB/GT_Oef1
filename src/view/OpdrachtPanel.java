@@ -4,12 +4,12 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import model.Opdracht;
+
 import model.OpdrachtCategorie;
 import model.Leraar;
 
@@ -17,6 +17,10 @@ import model.Leraar;
 
 public class OpdrachtPanel extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3076576153554349798L;
 	private JLabel lbl_id;
 	private JLabel lbl_vraag;
 	private JLabel lbl_antwoord;

@@ -41,6 +41,11 @@ public class OpdrachtVraag extends Opdracht
 		super(vanTXTBestand);		
 	}
 	
+	public OpdrachtVraag(OpdrachtVraag fromObj) throws Exception
+	{
+		super(fromObj);		
+	}
+	
 	@Override
 	public boolean isJuisteAntwoord(String antwoord) 
 	{
@@ -58,5 +63,14 @@ public class OpdrachtVraag extends Opdracht
 	public OpdrachtTypen getType() 
 	{
 		return OpdrachtTypen.VRAAG;
+	}
+
+	@Override
+	public Opdracht clone() throws CloneNotSupportedException
+	{
+		try
+		{ return new OpdrachtVraag(); }
+		catch (Exception e)
+		{ return null; }
 	}
 }

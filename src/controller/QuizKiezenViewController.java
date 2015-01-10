@@ -44,7 +44,7 @@ public class QuizKiezenViewController //extends Controller
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			QuizAfleggenViewController qavc = new QuizAfleggenViewController(new QuizDeelname(quizKiezenView.getSelectedQuiz(), leerling));
+			new QuizAfleggenViewController(new QuizDeelname(quizKiezenView.getSelectedQuiz(), leerling));
 		}}
 	class BtnQuitListeer implements ActionListener{
 

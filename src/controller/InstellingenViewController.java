@@ -2,7 +2,7 @@ package controller;
 
 import view.InstellingenView;
 
-public class InstellingenViewController extends Controller
+public class InstellingenViewController // extends Controller
 {
 	private InstellingenView iv;
 	

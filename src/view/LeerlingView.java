@@ -14,7 +14,11 @@ import javax.swing.JTextField;
  */
 public class LeerlingView extends JFrame
 {
-    private JLabel lNaamLeerling = new JLabel("naam leerling: ");
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4668990948226875258L;
+	private JLabel lNaamLeerling = new JLabel("naam leerling: ");
     private JTextField tNaamLeerling = new JTextField(25);
     private JLabel lLeerjaar = new JLabel("leerjaar: ");
     private JTextField tLeerjaar = new JTextField(1);

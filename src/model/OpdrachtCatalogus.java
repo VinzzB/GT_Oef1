@@ -1,11 +1,8 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import persistency.DatabaseHandler;
-import com.sun.javafx.collections.MappingChange.Map;
 
 /**
  * @author      Nathalie Mathieu

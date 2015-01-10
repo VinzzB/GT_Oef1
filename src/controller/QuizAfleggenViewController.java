@@ -73,7 +73,7 @@ public class QuizAfleggenViewController implements ITijdObserver
 	
 	private void nextOprachtAntwoord()
 	{
-		QuizAfleggenViewController qavc = new QuizAfleggenViewController(quizDeelname, ++opdrachtNr);
+		new QuizAfleggenViewController(quizDeelname, ++opdrachtNr);
 	}
 
 	@Override

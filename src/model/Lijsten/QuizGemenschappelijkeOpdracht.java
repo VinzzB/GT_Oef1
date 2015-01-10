@@ -1,10 +1,9 @@
 package model.Lijsten;
 
-import java.util.ArrayList;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map.Entry;
-import controller.OpstartController;
 import model.Quiz;
 import model.QuizCatalogus;
 import model.Opdracht;
@@ -18,6 +17,7 @@ public class QuizGemenschappelijkeOpdracht implements ILijst
 	
 	public QuizGemenschappelijkeOpdracht(){	}
 	
+	@SuppressWarnings("unchecked")
 	public QuizGemenschappelijkeOpdracht(Quiz quiz)
 	{
 		this.quiz = quiz;

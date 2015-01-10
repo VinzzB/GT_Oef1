@@ -5,8 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
-import java.util.ArrayList;
-
+import java.util.Map.Entry;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -17,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionListener;
-
+import persistency.Catalogi;
 import model.*;
 
 @SuppressWarnings("serial")
@@ -29,9 +28,9 @@ public class QuizzenView extends View
 	private JLabel lbAuteur, lbCreatieDatum;
 	private JButton btnNieuwe, btnUpdate, btnVerwijder;
 	private JScrollPane paneQuizzen, paneOpdrachten;
-	private JList viewQuizzen;
+	private JList<Quiz> viewQuizzen;
 	private JTextArea viewOpdrachten;
-	private DefaultListModel model;
+	private DefaultListModel<Quiz> model;
 	
 	/**
 	 * Sole constructor
@@ -109,11 +108,11 @@ public class QuizzenView extends View
 	
 	private JScrollPane setQuizzenView()
 	{
-		model = new DefaultListModel();
-		viewQuizzen = new JList(model);
-		for(Quiz quiz : quizCatalogus)
+		model = new DefaultListModel<Quiz>();
+		viewQuizzen = new JList<>(model);
+		for(Entry<Integer, Quiz> quiz : Catalogi.getQuizzen())
 		{
-			model.addElement(quiz);
+			model.addElement(quiz.getValue());
 		}
 	
 		return new JScrollPane(viewQuizzen);
@@ -130,9 +129,9 @@ public class QuizzenView extends View
 	public void updateViewQuizzen()
 	{
 		model.removeAllElements();
-		for(Quiz quiz : quizCatalogus)
+		for(Entry<Integer, Quiz> quiz : Catalogi.getQuizzen())
 		{
-			model.addElement(quiz);
+			model.addElement(quiz.getValue());
 		}
 	}
 	

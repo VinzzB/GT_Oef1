@@ -11,7 +11,7 @@ package controller;
  *
  *@author Natalia Dyubankova
  */
-import java.lang.reflect.Constructor;
+
 import java.lang.reflect.InvocationTargetException;
 import persistency.*;
 import view.LeesDatabaseGui;
@@ -23,7 +23,7 @@ public class OpstartController
 	{
 		getDatabaseStrategy(); //MogelijkeDatabasen.TXTbestand);
 		Catalogi.LoadData();				
-		StartViewController start = new StartViewController();
+		new StartViewController();
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class OpstartController
 
 	public static void main(String[] args) throws Exception
 	{
-		OpstartController d = new OpstartController();
+		new OpstartController();
 	}
 
 }

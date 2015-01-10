@@ -48,7 +48,7 @@ public class StartLeraarViewController //extends Controller
 		{
 			try
 			{
-				QuizzenViewController qvc = new QuizzenViewController("Overzicht Quizzen");
+				 new QuizzenViewController("Overzicht Quizzen");
 			} catch (Exception e1)
 			{
 				e1.printStackTrace();
@@ -59,7 +59,7 @@ public class StartLeraarViewController //extends Controller
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			QuizLijstenViewController rc = new QuizLijstenViewController();
+			new QuizLijstenViewController();
 			
 		}}
 	class BtnInstellingenListener implements ActionListener{
@@ -67,7 +67,7 @@ public class StartLeraarViewController //extends Controller
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			InstellingenViewController ivc = new InstellingenViewController();
+			 new InstellingenViewController();
 		}}
 	class BtnQuitListener implements ActionListener{
 

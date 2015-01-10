@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import model.Opdracht;
 import model.OpdrachtCategorie;
 import utils.date.gregorian.Datum;
-import view.OpdrachtPanel;
 import view.OpdrachtView;
 
 /** @author      Nathalie Mathieu*/

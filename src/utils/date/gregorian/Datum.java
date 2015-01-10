@@ -27,6 +27,7 @@ public class Datum implements Comparable<Datum>
 		calendar = new GregorianCalendar();
 	}
 	
+	@SuppressWarnings("deprecation")
 	public Datum(Date date)
 	{
 		this();

@@ -43,7 +43,7 @@ public class StartLeerlingViewController //extends Controller
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			QuizKiezenViewController qlvc =  new QuizKiezenViewController(leerling);			
+			 new QuizKiezenViewController(leerling);			
 		}}
 	
 	class BtnQuizRapportListeener implements ActionListener{
@@ -58,7 +58,7 @@ public class StartLeerlingViewController //extends Controller
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			InstellingenViewController ivc = new InstellingenViewController();
+			 new InstellingenViewController();
 		}}
 	
 	class BtnQuizListener implements ActionListener{
@@ -71,6 +71,6 @@ public class StartLeerlingViewController //extends Controller
 	
 	public static void main(String[] args) throws Exception
 	{
-		StartLeerlingViewController d = new StartLeerlingViewController();
+		 new StartLeerlingViewController();
 	}
 }

@@ -7,7 +7,6 @@ import javax.sql.RowSet;
 import model.Leraar;
 import model.Quiz;
 import model.quizStatus.*;
-import utils.Arrays;
 import utils.date.gregorian.Datum;
 
 public class DbQuiz {

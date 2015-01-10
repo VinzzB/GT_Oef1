@@ -4,8 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import persistency.Catalogi;
 import model.Leerling;
@@ -51,7 +49,7 @@ public class StartViewController //extends Controller
 		public void actionPerformed(ActionEvent e)
 		{
 			JOptionPane.showMessageDialog(startView, "Hier moet nog inloggen logica an bod komen. Nog te bewerken");
-			StartLeraarViewController slc = new StartLeraarViewController();
+			new StartLeraarViewController();
 			
 		}}
 	class BtnLeerlingListener implements ActionListener {
@@ -61,6 +59,6 @@ public class StartViewController //extends Controller
 		{
 			JOptionPane.showMessageDialog(startView, "Hier moet nog inloggen logica an bod komen. Nog te bewerken");
 			//LeerlingCatalogus is niet afgewerkt. Om te testen leerling ler naam Leerling vn 1ste leerjaar is gemakt
-			StartLeerlingViewController slc = new StartLeerlingViewController(new Leerling("Leerling", 1));
+			new StartLeerlingViewController(new Leerling("Leerling", 1));
 		}}
 }

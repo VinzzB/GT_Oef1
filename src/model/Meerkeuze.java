@@ -1,7 +1,6 @@
 package model;
 
 import java.util.Arrays;
-import persistency.framework.DbOpdrachtBase;
 import persistency.framework.DbOpdrachtMeerkeuze;
 
 /**
@@ -35,6 +34,12 @@ public class Meerkeuze extends Opdracht implements Valideerbaar{
 	{
 		super(dbRow);
 		this.keuzen = dbRow.getKeuzen(); // vanTXTBestand[10].split(";");
+	}
+	
+	public Meerkeuze(Meerkeuze fromObj) throws Exception
+	{
+		super(fromObj);
+		this.keuzen = fromObj.getKeuzen().clone();		
 	}
 	
 	/* getters and setters*/
@@ -112,6 +117,19 @@ public class Meerkeuze extends Opdracht implements Valideerbaar{
 		if (!Arrays.equals(keuzen, other.keuzen))
 			return false;
 		return true;
+	}
+
+	/***
+	 * Returns null wanneer het clonen faalt.
+	 */
+	@Override
+	public Opdracht clone()
+	{
+		// TODO Auto-generated method stub
+		try
+		{ return new Meerkeuze(this); }
+		catch (Exception e)
+		{ return null; }
 	}
 
 

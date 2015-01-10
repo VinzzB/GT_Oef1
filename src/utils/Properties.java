@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 
-
+@SuppressWarnings("rawtypes")
 public class Properties 
 {
 	private java.util.Properties properties = null;
@@ -66,6 +66,7 @@ public class Properties
 	{
 		properties.list(s);
 	}
+
 
 	public Enumeration elements() 
 	{

@@ -1,6 +1,5 @@
 package utils;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.event.TableModelEvent;

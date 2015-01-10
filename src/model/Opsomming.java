@@ -33,6 +33,12 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 		this.inJuisteVolgorde = dbRow.getInJuisteVolgorde();// Boolean.parseBoolean(vanTXTBestand[10]);
 	}
 	
+	public Opsomming(Opsomming fromObj) throws Exception
+	{
+		super(fromObj);
+		inJuisteVolgorde = fromObj.getInJuisteVolgorde();
+	}
+	
 	/** Override */
 	
 	@Override
@@ -107,6 +113,15 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 	public boolean getInJuisteVolgorde()
 	{
 		return inJuisteVolgorde;
+	}
+
+	@Override
+	public Opdracht clone() throws CloneNotSupportedException
+	{ 
+		try
+		{ return new Opsomming(this); }
+		catch (Exception ex)
+		{ return null;}
 	}
 	
 

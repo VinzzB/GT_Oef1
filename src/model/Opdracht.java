@@ -19,9 +19,9 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 	private String juisteAntwoord;
 	private int maxAantalPogingen = 1;
 	private int maxAntwoordTijdInSec = 0;
-	private final String editErrorMessage = "De opdracht kan niet meer gewijzigd "
-									+ "	worden, want ze is reeds gelinkt aan "
-									+ "een Quiz";
+//	private final String editErrorMessage = "De opdracht kan niet meer gewijzigd "
+//									+ "	worden, want ze is reeds gelinkt aan "
+//									+ "een Quiz";
 	private OpdrachtCategorie categorie;
 	private List <QuizOpdracht> quizOpdrachten = new ArrayList<QuizOpdracht>();
 	private String antwoordHint; 
@@ -60,7 +60,7 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 		setMaxAntwoordTijdinSec(opdracht.getMaxAntwoordTijdInSec());		
 		for(QuizOpdracht quizOpdracht : opdracht.getQuizOpdrachten())
 		{
-			this.quizOpdrachten.add(quizOpdracht);
+			this.quizOpdrachten.add(quizOpdracht.clone());
 		}
 		setAntwoordHint(opdracht.getAntwoordHint());
 	}
@@ -138,7 +138,7 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 		return this.vraag;
 	}
 			
-	private void setVraag(String vraag) 
+	public void setVraag(String vraag) 
 	{
 			this.vraag = vraag;
 	}
@@ -168,7 +168,7 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 		return maxAantalPogingen;
 	}
 
-	private void setMaxAantalPogingen(int maxAantalPogingen) throws Exception
+	public void setMaxAantalPogingen(int maxAantalPogingen) throws Exception
 	{
 			this.maxAantalPogingen = maxAantalPogingen;
 	}
@@ -188,7 +188,7 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 		return this.maxAntwoordTijdInSec;
 	}
 
-	private void setMaxAntwoordTijdinSec(int maxAntwoordTijdinSec) throws Exception
+	public void setMaxAntwoordTijdinSec(int maxAntwoordTijdinSec) throws Exception
 	{
 		this.maxAntwoordTijdInSec = maxAntwoordTijdinSec;
 	}
@@ -322,7 +322,11 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 		}
 		return true;
 	}
-	//temp disabled -> Class is abstract
+	
+	@Override
+	public abstract Opdracht clone() throws CloneNotSupportedException;	
+	
+	//temp disabled -> Class is now abstract
 //	@Override
 //	public Opdracht clone() throws CloneNotSupportedException
 //	{
@@ -339,23 +343,17 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 //		}
 //	}
 
-	@Override
 	public int compareTo(Opdracht opdracht)
 	{
-		int o1 = this.opdrachtID;
-		int o2 = opdracht.opdrachtID;
-		if (o1 < o2) 
-		{
-			return -1;
-		}
-		else if (o1 > o2)
-		{
-			return 1;
-		}
-		else
-		{
-			return this.vraag.compareTo(opdracht.vraag);
-		}
+		return this.opdrachtID - opdracht.getOpdrachtID();
+	}
+	public int compareVraag(Opdracht opdracht)
+	{
+		return this.vraag.compareTo(opdracht.getVraag());
+	}
+	public int compareCategorie(Opdracht opdracht)
+	{
+		return this.categorie.compareTo(opdracht.getCategorie());
 	}
 
 	public String getAntwoord()

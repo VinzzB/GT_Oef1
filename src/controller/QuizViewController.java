@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
@@ -208,11 +209,11 @@ public class QuizViewController //extends Controller
 		{
 			quizView.getAllOpdrachtenTable().setRowSelectionAllowed(false);
 			TreeMap<Integer, Opdracht> opdrachten = new TreeMap<Integer, Opdracht>();
-			for(Opdracht opdracht : opdrachtCatalogus)
+			for(Entry<Integer,Opdracht> opdracht : Catalogi.getOpdrachten())
 			{
-				if(opdracht.getCategorie() == quizView.getSelectedOpdrachCategorie() || quizView.getSelectedOpdrachCategorie() == null)
+				if(opdracht.getValue().getCategorie() == quizView.getSelectedOpdrachCategorie() || quizView.getSelectedOpdrachCategorie() == null)
 				{
-					opdrachten.put(opdrachten.size(), opdracht);
+					opdrachten.put(opdrachten.size(), opdracht.getValue());
 				}
 			}
 			quizView.setGesoorteerdeOpdrachten(opdrachten);
@@ -263,7 +264,7 @@ public class QuizViewController //extends Controller
 	{
 		try
 		{
-			QuizViewController qvc = new QuizViewController("test");
+			 new QuizViewController("test");
 		} 
 		catch 
 		(InstantiationException | IllegalAccessException

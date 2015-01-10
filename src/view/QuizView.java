@@ -2,12 +2,10 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.awt.peer.PanelPeer;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -22,11 +20,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import controller.OpstartController;
 import model.*;
 import model.quizStatus.*;
 import persistency.Catalogi;
-import utils.Arrays;
 
 @SuppressWarnings("serial")
 public class QuizView extends View
