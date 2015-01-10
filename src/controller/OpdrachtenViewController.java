@@ -84,7 +84,7 @@ public class OpdrachtenViewController extends View
 		{
 			try
 			{
-				opdrachtCatalogus.verwijderOpdracht(opdrachtenView.getSelectedOpdracht());
+				opdrachtCatalogus.removeOpdracht(opdrachtenView.getSelectedOpdracht());
 			} catch (Exception e1)
 			{
 				e1.printStackTrace();

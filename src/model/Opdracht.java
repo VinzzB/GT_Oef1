@@ -117,6 +117,11 @@ public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 		this.auteur = auteur;
 	}
 	
+	public void setAuteur(String auteur)
+	{ 
+		this.auteur = Leraar.valueOf(auteur);
+	}	
+	
 	public Datum getRegistratie()
 	{
 		return this.registratie;

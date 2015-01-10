@@ -102,6 +102,11 @@ public class Opsomming extends Opdracht implements Valideerbaar {
 			return false;
 		return true;
 	}
+
+	public boolean getInJuisteVolgorde()
+	{
+		return inJuisteVolgorde;
+	}
 	
 
 }

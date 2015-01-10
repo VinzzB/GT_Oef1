@@ -1,12 +1,14 @@
 package model.quizStatus;
-
+/***
+ * 
+ * @Revisioned bloemevi on 10/01/2015
+ *
+ */
 public class Afgesloten extends QuizStatus
 {
+    Afgesloten() { /* Singleton via Enumeration! */ }
     
-  private static final Afgesloten statusAfgesloten = new Afgesloten();
-  
-  public static QuizStatus instance()
-  {
-      return statusAfgesloten;
-  }
+    @Override
+    public Statussen getType()
+    { return Statussen.Afgesloten; }
 }

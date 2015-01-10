@@ -141,7 +141,7 @@ public class DatabaseMySQL extends Database
 			if(opdracht.getType() == OpdrachtTypen.OPSOMMING)
 			{
 				rowSet.setInt(1, opdracht.getOpdrachtID());
-				rowSet.setBoolean(2, ((Opsomming)opdracht).isInJuisteVolgorde());
+				rowSet.setBoolean(2, ((Opsomming)opdracht).getInJuisteVolgorde());
 				rowSet.execute();
 			}
 		}

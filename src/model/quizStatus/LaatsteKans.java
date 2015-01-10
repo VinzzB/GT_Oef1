@@ -1,20 +1,23 @@
 package model.quizStatus;
 
 import model.Quiz;
-
+/***
+ * 
+ * @Revisioned bloemevi on 10/01/2015
+ *
+ */
 public class LaatsteKans extends QuizStatus
 {
-    private static LaatsteKans statusLaatsteKans = new LaatsteKans();
-    private LaatsteKans(){}
-    public static LaatsteKans instance()
-    {
-        return statusLaatsteKans;
-    }
+    LaatsteKans(){/* Singleton via Enumeration! */ }
 
+    @Override
+    public Statussen getType()
+    { return Statussen.LaatsteKans; }
+    
     @Override
     public void sluitQuizAf(Quiz q)
     {
-            q.setStatus(Afgesloten.instance());
+        q.setStatus(Statussen.Afgesloten.Instance());
     }
 
     @Override

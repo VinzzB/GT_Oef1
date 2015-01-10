@@ -1,26 +1,29 @@
 package model.quizStatus;
 
 import model.Quiz;
-
+/***
+ * 
+ * @Revisioned bloemevi on 10/01/2015
+ *
+ */
 public class Afgewerkt extends QuizStatus
 {
-    private static final Afgewerkt statusAfgewerkt = new Afgewerkt();
-    private Afgewerkt(){}
-    public static QuizStatus instance()
-    {
-        return statusAfgewerkt;
-    }
+    Afgewerkt(){ /* Singleton via Enumeration! */ }
+    
+    @Override
+    public Statussen getType()
+    { return Statussen.Afgewerkt; }
     
     @Override
     public void geefLaatsteKans(Quiz q)
     {
-        q.setStatus(LaatsteKans.instance());
+        q.setStatus(Statussen.LaatsteKans.Instance());
     }
         
     @Override
     public void sluitQuizAf(Quiz q)
     {
-            q.setStatus(Afgesloten.instance());
+        q.setStatus(Statussen.Afgesloten.Instance());
     }
 
     @Override

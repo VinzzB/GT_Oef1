@@ -1,26 +1,29 @@
 package model.quizStatus;
 
 import model.Quiz;
-
+/***
+ * 
+ * @Revisioned bloemevi on 10/01/2015
+ *
+ */
 public class Opengesteld extends QuizStatus
 {
-    private static Opengesteld statusOpengesteld = new Opengesteld();
-    private Opengesteld(){}
-    public static Opengesteld instance()
-    {
-        return statusOpengesteld;
-    }
+    Opengesteld(){ /* Singleton via enumeration */ }
+    
+    @Override
+    public Statussen getType()
+    { return Statussen.Opengesteld; }
     
     @Override
     public void geefLaatsteKans(Quiz q)
     {
-        q.setStatus(LaatsteKans.instance());
+        q.setStatus(Statussen.LaatsteKans.Instance());
     }
 
     @Override
     public void sluitQuizAf(Quiz q)
     {
-        q.setStatus(Afgesloten.instance());
+        q.setStatus(Statussen.Afgesloten.Instance());
     }
 
     @Override

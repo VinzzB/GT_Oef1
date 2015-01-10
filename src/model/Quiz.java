@@ -39,8 +39,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		quizOpdrachten = new ArrayList<QuizOpdracht>();
 		
 		// create state instances
-		status = Inconstructie.instance();
-		
+		status = Statussen.InConstructie.Instance(); //  Inconstructie.instance();
 		setDatumVanCreatie(new Datum());
 	}
 
@@ -142,8 +141,8 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	public Quiz(String[] vanTXTbestand) throws NumberFormatException, Exception
 	{
 		this(Integer.parseInt(vanTXTbestand[0]), vanTXTbestand[1], Integer.parseInt(vanTXTbestand[2]), 
-		Boolean.parseBoolean(vanTXTbestand[3]), Boolean.parseBoolean(vanTXTbestand[4]),	
-		vanStringNaarQuizStatus(vanTXTbestand[5]), Leraar.valueOf(vanTXTbestand[6]),
+		Boolean.parseBoolean(vanTXTbestand[3]), Boolean.parseBoolean(vanTXTbestand[4]), 
+		Statussen.valueOf(vanTXTbestand[5]).Instance(), Leraar.valueOf(vanTXTbestand[6]),
 		new Datum(vanTXTbestand[7]));
 	}
 	
@@ -291,7 +290,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	public void setDatumVanCreatie(Datum datumVanCreatie)
 	{
 		this.datumVanCreatie = datumVanCreatie;
-	}
+	}	
 
 	/*
 	 * (non-Javadoc)
@@ -439,24 +438,24 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 		quizOpdrachten.remove(quizOpdracht);
 	}
 	
-	public static QuizStatus vanStringNaarQuizStatus(String quizStatusInString)
-	{
-		switch(quizStatusInString)
-		{
-		case "Afgesloten":
-			return Afgesloten.instance();
-		case "Afgewerkt":
-			return Afgewerkt.instance();
-		case "In constructie":
-			return Inconstructie.instance();
-		case "Laatste Kans":
-			return LaatsteKans.instance();
-		case "Opengesteld":
-			return Opengesteld.instance();
-		default:
-			return null;
-		}	
-	}
+//	public static QuizStatus vanStringNaarQuizStatus(String quizStatusInString)
+//	{
+//		switch(quizStatusInString)
+//		{
+//		case "Afgesloten":
+//			return Afgesloten.instance();
+//		case "Afgewerkt":
+//			return Afgewerkt.instance();
+//		case "In constructie":
+//			return Inconstructie.instance();
+//		case "Laatste Kans":
+//			return LaatsteKans.instance();
+//		case "Opengesteld":
+//			return Opengesteld.instance();
+//		default:
+//			return null;
+//		}	
+//	}
 
 	/**
 	 * Methode om String samen te stellen om instantie naar TXT bestand weg te schrijven
@@ -475,7 +474,7 @@ public class Quiz implements Comparable<Quiz>, Cloneable
 	public String toBestand()
 	{
 		return this.quizID + "\t" + this.onderwerp + "\t" + this.leerjaar + "\t" + 
-				this.isTest + "\t" + this.isUniek + "\t" + this.status + "\t" + 
+				this.isTest + "\t" + this.isUniek + "\t" + this.status.getType() + "\t" + 
 				this.auteur.name() + "\t" + datumVanCreatie.getEuropeanFormat();
 	}
 

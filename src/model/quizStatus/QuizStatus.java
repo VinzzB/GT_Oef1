@@ -11,7 +11,17 @@ import model.QuizOpdracht;
  */
 public abstract class QuizStatus
 {
+//	public void inConstructie(Quiz q)
+//	{ System.out.println("Quiz kan niet naar omgezet worden naar de status 'In Constructie'"); }
+//	public void afgewerkt(Quiz q) 
+//	{System.out.println("Quiz kan niet naar omgezet worden naar de status 'afgewerkt'");  }
+//	public void opengesteld(Quiz q) 
+//	{ System.out.println("Quiz kan niet naar omgezet worden naar de status 'opengesteld'"); }
+//	public void laatsteKans(Quiz q) 
+//	{ System.out.println("Quiz kan niet naar omgezet worden naar de status 'laatsteKans'"); }			
 
+	public abstract Statussen getType();
+	
 	public void voegQuizToe(Quiz q)
 	{
 		System.out.println("Quiz toevoegen is niet mogelijk");

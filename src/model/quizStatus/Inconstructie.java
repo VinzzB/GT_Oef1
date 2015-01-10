@@ -2,21 +2,24 @@ package model.quizStatus;
 
 import model.Quiz;
 import model.QuizOpdracht;
-
+/***
+ * 
+ * @Revisioned bloemevi on 10/01/2015
+ *
+ */
 public class Inconstructie extends QuizStatus
 {
-    private static final Inconstructie statusInconstructie = new Inconstructie();
-    private Inconstructie(){}
-    public static Inconstructie instance()
-    {
-        return statusInconstructie;
-    }
+    Inconstructie(){ /* Singleton via Enumeration! */ }
+    
+    @Override
+    public Statussen getType()
+    { return Statussen.InConstructie; }
             
     @Override
     public void voegQuizOpdrachtToe(QuizOpdracht q)
     {
         q.getQuiz().getQuizOpdrachten().add(q);
-        q.getQuiz().setStatus(Inconstructie.instance());
+        q.getQuiz().setStatus(Statussen.InConstructie.Instance());
 
     }
 
@@ -24,13 +27,13 @@ public class Inconstructie extends QuizStatus
     public void verwijderQuizOpdracht(QuizOpdracht q)
     {
         q.getQuiz().getQuizOpdrachten().remove(q);
-        q.getQuiz().setStatus(Inconstructie.instance());
+        q.getQuiz().setStatus(Statussen.InConstructie.Instance());
     }
 
     @Override
     public void stelQuizOpen(Quiz q)
     {
-        q.setStatus(Opengesteld.instance());
+        q.setStatus(Statussen.Opengesteld.Instance());
     }
 
     @Override
