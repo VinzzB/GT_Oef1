@@ -1,5 +1,6 @@
-package model;
+package model.opdrachten;
 
+import model.Opdracht;
 import persistency.framework.*;
 
 public class OpdrachtFactory 
@@ -20,7 +21,7 @@ public class OpdrachtFactory
 		switch (opdrachtType) 
 		{
 		case VRAAG: // "OpdrachtVraag":
-			return new OpdrachtVraag(TXTbestand);		
+			return new Vraag(TXTbestand);		
 		case MEERKEUZE: // "OpdrachtMeerkeuze":
 			return new Meerkeuze((DbOpdrachtMeerkeuze)TXTbestand);
 		case OPSOMMING: // "OpdrachtOpsomming":

@@ -1,7 +1,8 @@
-package persistency;
+package model;
 
-import model.QuizCatalogus;
-import model.OpdrachtCatalogus;
+import model.catalogi.OpdrachtCatalogus;
+import model.catalogi.QuizCatalogus;
+import persistency.DatabaseHandler;
 
 /**
  * Singleton pattern implementeerd om een instantie van elke catalog te hebben

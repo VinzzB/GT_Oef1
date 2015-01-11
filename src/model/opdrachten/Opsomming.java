@@ -1,6 +1,8 @@
-package model;
+package model.opdrachten;
 
 import java.util.Arrays;
+import model.Opdracht;
+import model.Valideerbaar;
 import persistency.framework.DbOpdrachtOpsomming;
 
 /**

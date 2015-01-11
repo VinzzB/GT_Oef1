@@ -1,10 +1,9 @@
-package controller;
+package controller.opdracht;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import model.Opdracht;
-import model.OpdrachtCategorie;
+import model.opdrachten.OpdrachtCategorie;
 import utils.date.gregorian.Datum;
 import view.OpdrachtView;
 

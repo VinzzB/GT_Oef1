@@ -1,4 +1,4 @@
-package model;
+package model.opdrachten;
 
 /**
  * Een enumeration voor de opdracht categoriëen

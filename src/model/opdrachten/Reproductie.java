@@ -1,7 +1,8 @@
-package model;
+package model.opdrachten;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import model.Opdracht;
 import persistency.framework.DbOpdrachtReproductie;
 
 

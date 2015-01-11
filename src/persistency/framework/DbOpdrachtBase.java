@@ -4,8 +4,8 @@ import javax.sql.RowSet;
 import persistency.DbSqlHandler;
 import model.Leraar;
 import model.Opdracht;
-import model.OpdrachtCategorie;
-import model.OpdrachtTypen;
+import model.opdrachten.OpdrachtCategorie;
+import model.opdrachten.OpdrachtTypen;
 import utils.date.gregorian.Datum;
 public abstract class DbOpdrachtBase {
 

@@ -4,10 +4,10 @@ package model.Lijsten;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map.Entry;
+import model.Catalogi;
 import model.Quiz;
-import model.QuizCatalogus;
 import model.Opdracht;
-import persistency.Catalogi;
+import model.catalogi.QuizCatalogus;
 
 public class QuizGemenschappelijkeOpdracht implements ILijst
 {

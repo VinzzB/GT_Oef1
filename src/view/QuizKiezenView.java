@@ -12,7 +12,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionListener;
-import persistency.Catalogi;
+import model.Catalogi;
 import model.Leerling;
 import model.Leraar;
 import model.Quiz;

@@ -20,7 +20,7 @@ public class DatabaseHandler
 	public static IDatabaseStrategy instance()
 	{
 		if (db == null)
-			db = MogelijkeDatabasen.TXTbestand.getDbStrategy();
+			db = DbStores.TXTbestand.getDbStrategy();
 		return db;
 	}	
 	
@@ -36,13 +36,13 @@ public class DatabaseHandler
 //	{
 //		db = newDb;
 //	}
-	public static void setDatabaseStrategy(MogelijkeDatabasen newDb)
+	public static void setDatabaseStrategy(DbStores newDb)
 	{
 		db = newDb.getDbStrategy();
 	}
 	public static void setDatabaseStrategy(String newDb)
 	{
-		db = MogelijkeDatabasen.valueOf(newDb).getDbStrategy();
+		db = DbStores.valueOf(newDb).getDbStrategy();
 	}
 	
 	

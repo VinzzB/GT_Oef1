@@ -1,10 +1,11 @@
-package model;
+package model.catalogi;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import model.Leerling;
 
 /**
  * Klasse die alle leerlingen bevat. De LeerlingContainer kan enkel geraadpleegd worden door andere klassen. De

@@ -1,4 +1,4 @@
-package model;
+package model.catalogi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.CopyOnWriteArrayList;
 import model.Quiz;
+import model.QuizOpdracht;
 
 /**
  * @author      Natalia Dyubankova <fornnd@gmail.com>

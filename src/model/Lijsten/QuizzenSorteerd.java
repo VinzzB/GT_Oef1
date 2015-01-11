@@ -3,9 +3,9 @@ package model.Lijsten;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
+import model.Catalogi;
 import model.Quiz;
 import model.QuizComparator_AantalOpdrachten_Onderwerp;
-import persistency.Catalogi;
 
 /**
  * Maak een klasse die alle quizen uit de quizdatabase leest en op de console 

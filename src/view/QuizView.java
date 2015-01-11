@@ -21,8 +21,9 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import model.*;
+import model.catalogi.OpdrachtCatalogus;
+import model.opdrachten.OpdrachtCategorie;
 import model.quizStatus.*;
-import persistency.Catalogi;
 
 @SuppressWarnings("serial")
 public class QuizView extends View

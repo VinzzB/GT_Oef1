@@ -1,4 +1,4 @@
-package controller;
+package controller.quiz;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,8 +11,9 @@ import java.util.TreeMap;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import persistency.Catalogi;
+import controller.opdracht.OpdrachtController;
 import model.*;
+import controller.opdracht.*;
 import view.QuizView;
 
 public class QuizViewController //extends Controller

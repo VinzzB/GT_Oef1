@@ -1,4 +1,4 @@
-package controller;
+package controller.quiz;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import model.*;
-import persistency.Catalogi;
 import view.QuizzenView;
 
 

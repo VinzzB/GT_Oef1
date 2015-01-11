@@ -2,8 +2,8 @@ package persistency.framework;
 
 import persistency.DbSqlHandler;
 import model.Opdracht;
-import model.OpdrachtTypen;
-import model.Reproductie;
+import model.opdrachten.OpdrachtTypen;
+import model.opdrachten.Reproductie;
 
 public class DbOpdrachtReproductie extends DbOpdrachtBase
 {

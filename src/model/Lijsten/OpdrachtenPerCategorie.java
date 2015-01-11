@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import model.Catalogi;
 import model.Opdracht;
-import model.OpdrachtCatalogus;
-import persistency.Catalogi;
+import model.catalogi.OpdrachtCatalogus;
 
 /**
  * Maak een klasse die alle opdrachten uit de opdrachtendatabase leest 

@@ -1,13 +1,13 @@
-package model;
+package model.opdrachten;
 
 import persistency.framework.DbOpdrachtBase;
 import model.Leraar;
 import model.Opdracht;
 
-public class OpdrachtVraag extends Opdracht 
+public class Vraag extends Opdracht 
 {
 
-	public OpdrachtVraag() 
+	public Vraag() 
 	{
 		super();
 	}
@@ -20,7 +20,7 @@ public class OpdrachtVraag extends Opdracht
 	 * @param juisteAntwoord
 	 * @throws Exception 
 	 */
-	public OpdrachtVraag(Leraar auteur, OpdrachtCategorie categorie,
+	public Vraag(Leraar auteur, OpdrachtCategorie categorie,
 			String vraag, String antwoord)  
 					throws Exception  
 	{
@@ -35,13 +35,13 @@ public class OpdrachtVraag extends Opdracht
 	 * @throws Exception 
 	 * @throws NumberFormatException 
 	 */
-	public OpdrachtVraag(DbOpdrachtBase vanTXTBestand) 
+	public Vraag(DbOpdrachtBase vanTXTBestand) 
 			throws NumberFormatException, Exception 
 	{
 		super(vanTXTBestand);		
 	}
 	
-	public OpdrachtVraag(OpdrachtVraag fromObj) throws Exception
+	public Vraag(Vraag fromObj) throws Exception
 	{
 		super(fromObj);		
 	}
@@ -69,7 +69,7 @@ public class OpdrachtVraag extends Opdracht
 	public Opdracht clone() throws CloneNotSupportedException
 	{
 		try
-		{ return new OpdrachtVraag(); }
+		{ return new Vraag(); }
 		catch (Exception e)
 		{ return null; }
 	}

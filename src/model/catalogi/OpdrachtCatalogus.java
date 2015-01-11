@@ -1,8 +1,9 @@
-package model;
+package model.catalogi;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import model.Opdracht;
 
 /**
  * @author      Nathalie Mathieu

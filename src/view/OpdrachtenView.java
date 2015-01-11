@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import persistency.Catalogi;
+import model.Catalogi;
 import model.Opdracht;
 
 @SuppressWarnings("serial")

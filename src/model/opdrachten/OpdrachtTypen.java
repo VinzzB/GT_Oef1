@@ -1,4 +1,4 @@
-package model;
+package model.opdrachten;
 
 public enum OpdrachtTypen {
 	VRAAG("Vraag / antwoord"), 

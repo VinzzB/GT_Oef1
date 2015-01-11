@@ -1,4 +1,4 @@
-package controller;
+package controller.opdracht;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,8 +10,8 @@ import java.util.Map.Entry;
 import javax.swing.JOptionPane;
 
 
+import model.Catalogi;
 import model.Opdracht;
-import persistency.Catalogi;
 import view.OpdrachtenView;
 import view.View;
 

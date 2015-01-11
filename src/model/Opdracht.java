@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import model.opdrachten.OpdrachtCategorie;
+import model.opdrachten.OpdrachtTypen;
 import persistency.framework.DbOpdrachtBase;
 import utils.date.gregorian.Datum;
 

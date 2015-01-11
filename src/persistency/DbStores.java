@@ -13,7 +13,7 @@ package persistency;
  * @since       2014-11-11 
  * @revisioned Vincent on 10/01/2015
  */
-public enum MogelijkeDatabasen
+public enum DbStores
 {	
 	TXTbestand ("TXT-bestand", DbPlainText.class),
 	MySQLbestand ("MySQL-bestand", DbMySql.class);
@@ -21,7 +21,7 @@ public enum MogelijkeDatabasen
 	private final String name;
 	private final IDatabaseStrategy dbStrategy;
 	
-	MogelijkeDatabasen(String name, Class<? extends IDatabaseStrategy> dbStrategy)  
+	DbStores(String name, Class<? extends IDatabaseStrategy> dbStrategy)  
 	{ 
 		this.name = name;
 		this.dbStrategy = CreateStrategyClass(dbStrategy);
@@ -48,7 +48,7 @@ public enum MogelijkeDatabasen
 	@Override
 	public String toString()
 	{
-		return MogelijkeDatabasen.this.name();
+		return DbStores.this.name();
 	}
 }
 

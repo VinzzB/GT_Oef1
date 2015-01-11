@@ -3,6 +3,9 @@ package persistency.framework;
 import java.sql.SQLException;
 import javax.sql.RowSet;
 import model.*;
+import model.opdrachten.Meerkeuze;
+import model.opdrachten.OpdrachtTypen;
+import model.opdrachten.Opsomming;
 
 public class DbOpdrachtFactory {
 

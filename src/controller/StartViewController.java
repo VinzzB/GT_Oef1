@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
-import persistency.Catalogi;
+import model.Catalogi;
 import model.Leerling;
 import view.StartView;
 

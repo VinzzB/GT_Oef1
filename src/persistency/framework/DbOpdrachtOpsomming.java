@@ -4,8 +4,8 @@ import java.sql.SQLException;
 import javax.sql.RowSet;
 import persistency.DbSqlHandler;
 import model.Opdracht;
-import model.Opsomming;
-import model.OpdrachtTypen;
+import model.opdrachten.OpdrachtTypen;
+import model.opdrachten.Opsomming;
 
 public class DbOpdrachtOpsomming extends DbOpdrachtBase {
 

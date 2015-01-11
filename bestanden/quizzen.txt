@@ -1,7 +1,7 @@
 2	test675	0	false	false	LaatsteKans	LERAAR1	08/01/2015
 4	quiz8	0	false	false	Opengesteld	LERAAR2	29/11/2014
 5	poiu	0	false	false	LaatsteKans	LERAAR3	29/11/2014
-6	test 89	0	false	false	LaatsteKans	LERAAR4	29/11/2014
+6	test 89	1	false	false	LaatsteKans	LERAAR4	10/01/2015
 7	hg	0	false	false	LaatsteKans	LERAAR1	29/11/2014
 10	Voeg onderwerp toe	0	false	false	InConstructie	LERAAR1	17/12/2014
 11	Voeg onderwerp toe	0	false	false	InConstructie	LERAAR1	17/12/2014

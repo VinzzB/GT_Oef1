@@ -2,7 +2,8 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import controller.quiz.QuizLijstenViewController;
+import controller.quiz.QuizzenViewController;
 import view.StartLeraarView;
 
 public class StartLeraarViewController //extends Controller

@@ -4,8 +4,8 @@ import java.sql.SQLException;
 import javax.sql.RowSet;
 import persistency.DbSqlHandler;
 import model.Opdracht;
-import model.OpdrachtTypen;
-import model.OpdrachtVraag;
+import model.opdrachten.OpdrachtTypen;
+import model.opdrachten.Vraag;
 
 public class DbOpdrachtVraag extends DbOpdrachtBase {
 
@@ -38,7 +38,7 @@ public class DbOpdrachtVraag extends DbOpdrachtBase {
 	public Opdracht CreateOpdracht() 
 	{		
 		try
-		{ return new OpdrachtVraag(this); }
+		{ return new Vraag(this); }
 		catch (Exception e)
 		{ return null; }
 	}

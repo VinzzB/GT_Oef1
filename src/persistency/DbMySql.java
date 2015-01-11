@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import model.Catalogi;
 import model.Opdracht;
 import model.Quiz;
 import persistency.framework.DbOpdrachtBase;
@@ -63,6 +64,7 @@ public class DbMySql extends DbSqlHandler
 	@Override
 	public void safeQuizen() throws Exception
 	{
+		InitRowSet();
 		List<DbQuiz> dbQ = new ArrayList<>();
 		for(Entry<Integer, Quiz> quiz : Catalogi.getQuizzen())
 		{ dbQ.add(new DbQuiz(quiz.getValue(), quiz.getKey())); }

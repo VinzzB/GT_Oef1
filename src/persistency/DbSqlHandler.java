@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.sql.rowset.CachedRowSet;
 import persistency.framework.*;
-import model.OpdrachtTypen;
+import model.opdrachten.OpdrachtTypen;
 import utils.Arrays;
 import utils.Constants;
 import com.sun.rowset.CachedRowSetImpl;

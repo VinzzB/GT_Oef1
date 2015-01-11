@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import javax.sql.RowSet;
 import persistency.DbSqlHandler;
 import utils.Arrays;
-import model.Meerkeuze;
 import model.Opdracht;
-import model.OpdrachtTypen;
+import model.opdrachten.Meerkeuze;
+import model.opdrachten.OpdrachtTypen;
 
 public class DbOpdrachtMeerkeuze extends DbOpdrachtBase {
 	

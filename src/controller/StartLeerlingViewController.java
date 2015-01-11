@@ -2,7 +2,7 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import controller.quiz.QuizKiezenViewController;
 import model.Leerling;
 import view.StartLeerlingView;
 
