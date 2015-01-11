@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionListener;
 import model.*;
+import model.catalogi.Catalogi;
 
 @SuppressWarnings("serial")
 public class QuizzenView extends View

@@ -21,7 +21,7 @@ public class QuizCatalogus implements Iterable<Entry<Integer, Quiz>>
 	/**
 	 * Sole constructor. 
 	 */
-	public QuizCatalogus()
+	QuizCatalogus()
 	{
 		quizCatalogus = new HashMap<Integer, Quiz>();
 	}

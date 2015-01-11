@@ -1,7 +1,5 @@
-package model;
+package model.catalogi;
 
-import model.catalogi.OpdrachtCatalogus;
-import model.catalogi.QuizCatalogus;
 import persistency.DatabaseHandler;
 
 /**

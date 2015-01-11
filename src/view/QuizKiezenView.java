@@ -12,10 +12,10 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionListener;
-import model.Catalogi;
 import model.Leerling;
 import model.Leraar;
 import model.Quiz;
+import model.catalogi.Catalogi;
 
 @SuppressWarnings("serial")
 public class QuizKiezenView extends View

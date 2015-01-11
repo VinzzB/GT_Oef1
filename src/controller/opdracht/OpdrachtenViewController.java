@@ -10,8 +10,8 @@ import java.util.Map.Entry;
 import javax.swing.JOptionPane;
 
 
-import model.Catalogi;
 import model.Opdracht;
+import model.catalogi.Catalogi;
 import view.OpdrachtenView;
 import view.View;
 

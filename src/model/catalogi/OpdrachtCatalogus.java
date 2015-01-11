@@ -17,7 +17,7 @@ public class OpdrachtCatalogus implements /*Comparable<OpdrachtCatalogus>*/ Iter
 	
 	//constructor
 	
-	public OpdrachtCatalogus()
+	OpdrachtCatalogus()
 	{
 		opdrachten = new HashMap<Integer,Opdracht>();
 	}

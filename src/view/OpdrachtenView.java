@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import model.Catalogi;
 import model.Opdracht;
+import model.catalogi.Catalogi;
 
 @SuppressWarnings("serial")
 public class OpdrachtenView extends View

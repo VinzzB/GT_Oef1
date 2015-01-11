@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import persistency.framework.DbQuiz;
 import persistency.framework.DbQuizOpdracht;
 import model.Opdracht;
+import model.catalogi.Catalogi;
 import model.quizStatus.*;
 import utils.date.gregorian.*;
 

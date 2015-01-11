@@ -17,7 +17,7 @@ public class LeerlingContainer implements Iterable<Leerling>
 {
 	private Map<Integer, Leerling> leerlingContainer;
 
-	public LeerlingContainer()
+	LeerlingContainer()
         {
             leerlingContainer = new HashMap<>();
         }

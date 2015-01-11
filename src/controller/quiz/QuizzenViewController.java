@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import model.*;
+import model.catalogi.Catalogi;
 import view.QuizzenView;
 
 

@@ -4,9 +4,9 @@ package model.Lijsten;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map.Entry;
-import model.Catalogi;
 import model.Quiz;
 import model.Opdracht;
+import model.catalogi.Catalogi;
 import model.catalogi.QuizCatalogus;
 
 public class QuizGemenschappelijkeOpdracht implements ILijst

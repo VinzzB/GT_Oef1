@@ -13,7 +13,7 @@ package controller;
  */
 
 import java.lang.reflect.InvocationTargetException;
-import model.Catalogi;
+import model.catalogi.Catalogi;
 import persistency.*;
 import view.LeesDatabaseGui;
 

@@ -8,6 +8,7 @@ import java.io.IOException;
 import utils.Constants;
 import utils.Properties;
 import model.*;
+import model.catalogi.Catalogi;
 import persistency.framework.*;
 /**
  * Maakt het mogelijk om een txt-bestand in te lesen en weg te schrijven.

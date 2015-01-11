@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import model.Catalogi;
 import model.Opdracht;
+import model.catalogi.Catalogi;
 import model.catalogi.OpdrachtCatalogus;
 
 /**

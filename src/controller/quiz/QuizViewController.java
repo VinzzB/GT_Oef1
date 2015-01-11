@@ -13,6 +13,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import controller.opdracht.OpdrachtController;
 import model.*;
+import model.catalogi.Catalogi;
 import controller.opdracht.*;
 import view.QuizView;
 
