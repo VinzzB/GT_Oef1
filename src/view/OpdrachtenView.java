@@ -88,7 +88,7 @@ public class OpdrachtenView extends View
 			return null;
 		else
 		{
-			return Catalogi.getOpdrachten().getOpdracht( (int) tblOpdrachten.getValueAt(tblOpdrachten.getSelectedRow(), 1));
+			return Catalogi.getOpdrachten().getOpdracht( (int) tblOpdrachten.getValueAt(tblOpdrachten.getSelectedRow(), 0));
 		}
 	}
 	

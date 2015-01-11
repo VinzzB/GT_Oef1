@@ -16,7 +16,7 @@ import utils.date.gregorian.Datum;
  */
 public abstract class Opdracht implements Comparable<Opdracht>, Cloneable
 {
-	private int opdrachtID = 0; //is in principe niet nodig om dit op te slaan in opdracht class... Zou uit Catalogi gehaald kunnen worden.
+	private int opdrachtID = 0; //is niet nodig ... Zou uit Catalogi gehaald kunnen worden. ( getIndex() method)
 	private String vraag;
 	private String juisteAntwoord;
 	private int maxAantalPogingen = 1;

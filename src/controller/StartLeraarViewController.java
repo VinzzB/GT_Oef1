@@ -2,8 +2,11 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import controller.opdracht.OpdrachtController;
+import controller.opdracht.OpdrachtenViewController;
 import controller.quiz.QuizLijstenViewController;
 import controller.quiz.QuizzenViewController;
+import view.OpdrachtView;
 import view.StartLeraarView;
 
 public class StartLeraarViewController //extends Controller
@@ -29,8 +32,8 @@ public class StartLeraarViewController //extends Controller
 
 		@Override
 		public void actionPerformed(ActionEvent e)
-		{
-			OpdrachtenController ovc = new OpdrachtenController();			
+		{			
+			new OpdrachtenViewController();// OpdrachtController();			
 		}}
 	
 	class BtnScoresListener implements ActionListener{

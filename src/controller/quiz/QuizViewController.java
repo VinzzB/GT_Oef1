@@ -197,7 +197,8 @@ public class QuizViewController //extends Controller
 		{
 			try
 			{
-				OpdrachtController ovc = new OpdrachtController("nieuwe opdracht", QuizViewController.this);
+				//TODO: wat moet dat hier doen? Een nieuwe opdracht als leraar aanmaken???
+				//OpdrachtController ovc = new OpdrachtController(null , QuizViewController.this);
 			} catch (Exception e1)
 			{
 				e1.printStackTrace();

@@ -18,7 +18,7 @@ import utils.date.gregorian.*;
  */
 public class Quiz implements Comparable<Quiz>, Cloneable
 {
-	private int quizID;
+	private int quizID;  //Comment Vinzz: Is hier niet nodig, zou in catalogus kunnen blijven staan...
 	private String onderwerp;
 	private int leerjaar;
 	private boolean isTest;

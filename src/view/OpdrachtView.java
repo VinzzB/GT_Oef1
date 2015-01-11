@@ -20,9 +20,10 @@ public class OpdrachtView extends JFrame {
 	private JScrollPane scrollPane;
 		
 	public OpdrachtView()
-	{	
+	{
+		setTitle("Opdrachten");	
 		//set layout manager
-		setLayout(new BorderLayout());
+		getContentPane().setLayout(new BorderLayout());
 		
 		//create swing component
 		 JTable tabel = new JTable(data,columnNames);

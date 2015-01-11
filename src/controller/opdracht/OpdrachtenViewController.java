@@ -12,12 +12,17 @@ import javax.swing.JOptionPane;
 
 import model.Opdracht;
 import model.catalogi.Catalogi;
+import view.OpdrachtView;
 import view.OpdrachtenView;
 import view.View;
 
-@SuppressWarnings("serial")
+
 public class OpdrachtenViewController extends View
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6803408196520072554L;
 	private OpdrachtenView opdrachtenView;
 	
 	public OpdrachtenViewController()
@@ -36,7 +41,8 @@ public class OpdrachtenViewController extends View
 	
 	public void updateOpdrachtenView()
 	{
-		this.opdrachtenView.updateOpdrachtenView();
+		//TODO
+	//	this.opdrachtenView.updateOpdrachtenView();
 	}
 	
 	class BtnNieuweListener implements ActionListener{
@@ -46,7 +52,8 @@ public class OpdrachtenViewController extends View
 		{
 			try
 			{
-				OpdrachtViewController opdrachtViewController = new OpdrachtViewController("Maak nieuwe Opdracht", OpdrachtenViewController.this);
+				OpdrachtView view = new OpdrachtView();
+				new OpdrachtController(null, view); // OpdrachtViewController("Maak nieuwe Opdracht", OpdrachtenViewController.this);
 			} catch (Exception e1)
 			{
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "alert", JOptionPane.ERROR_MESSAGE);
@@ -61,9 +68,12 @@ public class OpdrachtenViewController extends View
 		{
 			try
 			{
-				if(opdrachtenView.getSelectedOpdracht() != null)
+				Opdracht o = opdrachtenView.getSelectedOpdracht(); //TODO: Opdracht reference niet correct in view...
+				if(o != null)
 				{
-					OpdrachtViewController opdrachtViewController = new OpdrachtViewController(opdrachtenView.getSelectedOpdracht());
+					OpdrachtView view = new OpdrachtView();
+					new OpdrachtController(o, view);
+					//OpdrachtViewController(opdrachtenView.getSelectedOpdracht());
 				}
 				else
 				{
